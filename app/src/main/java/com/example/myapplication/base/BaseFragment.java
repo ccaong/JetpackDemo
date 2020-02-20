@@ -5,6 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.Observable;
+import androidx.databinding.ViewDataBinding;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+
 import com.example.myapplication.R;
 import com.example.myapplication.databinding.FragmentBaseBinding;
 import com.example.myapplication.databinding.ViewLoadErrorBinding;
@@ -12,13 +20,6 @@ import com.example.myapplication.databinding.ViewLoadingBinding;
 import com.example.myapplication.databinding.ViewNoDataBinding;
 import com.example.myapplication.databinding.ViewNoNetworkBinding;
 import com.example.myapplication.enums.LoadState;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
-import androidx.databinding.Observable;
-import androidx.databinding.ViewDataBinding;
-import androidx.fragment.app.Fragment;
 
 
 /**
@@ -72,39 +73,29 @@ public abstract class BaseFragment<DB extends ViewDataBinding, VM extends BaseVi
         bindViewModel();
 
         initLoadState();
+
         init();
 
         return mFragmentBaseBinding.getRoot();
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (mViewModel != null && isSupportLoad()) {
-            mViewModel.loadState.removeOnPropertyChangedCallback(mLoadStateCallback);
-        }
-    }
-
     private void initLoadState() {
         if (mViewModel != null && isSupportLoad()) {
-            mLoadStateCallback = new Observable.OnPropertyChangedCallback() {
-
+            mViewModel.loadState.observe(this, new Observer<LoadState>() {
                 @Override
-                public void onPropertyChanged(Observable sender, int propertyId) {
-                    switchLoadView(mViewModel.getLoadState());
+                public void onChanged(LoadState loadState) {
+                    switchLoadView(loadState);
                 }
-            };
-            mViewModel.loadState.addOnPropertyChangedCallback(mLoadStateCallback);
+            });
         }
     }
 
-    private void removeLoadView() {
-        int childCount = mFragmentBaseBinding.flContentContainer.getChildCount();
-        if (childCount > 1) {
-            mFragmentBaseBinding.flContentContainer.removeViews(1, childCount - 1);
-        }
-    }
 
+    /**
+     * 根据加载状态 ， 切换不同的View
+     *
+     * @param loadState
+     */
     private void switchLoadView(LoadState loadState) {
         removeLoadView();
 
@@ -146,6 +137,20 @@ public abstract class BaseFragment<DB extends ViewDataBinding, VM extends BaseVi
                 break;
         }
     }
+
+
+    private void removeLoadView() {
+        int childCount = mFragmentBaseBinding.flContentContainer.getChildCount();
+        if (childCount > 1) {
+            mFragmentBaseBinding.flContentContainer.removeViews(1, childCount - 1);
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
 
     /**
      * 处理参数

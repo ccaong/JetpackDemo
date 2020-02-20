@@ -27,32 +27,32 @@ public class BindingAdapterUtil {
     }
 
 
-//    /**
-//     * 设置RefreshLayout的刷新状态
-//     *
-//     * @param refreshLayout RefreshLayout
-//     * @param refreshState  刷新状态
-//     */
-//    @BindingAdapter("refreshState")
-//    public static void setRefreshState(MaterialRefreshLayout refreshLayout, RefreshState refreshState) {
-//        if (refreshState == null) {
-//            return;
-//        }
-//
-//        switch (refreshState) {
-//            case REFRESH_END:
-//                refreshLayout.finishRefresh();
-//                break;
-//
-//            case LOAD_MORE_END:
-//                refreshLayout.finishRefreshLoadMore();
+    /**
+     * 设置RefreshLayout的刷新状态
+     *
+     * @param refreshLayout RefreshLayout
+     * @param refreshState  刷新状态
+     */
+    @BindingAdapter("refreshState")
+    public static void setRefreshState(MaterialRefreshLayout refreshLayout, RefreshState refreshState) {
+        if (refreshState == null) {
+            return;
+        }
+
+        switch (refreshState) {
+            case REFRESH_END:
+                refreshLayout.finishRefresh();
+                break;
+
+            case LOAD_MORE_END:
+                refreshLayout.finishRefreshLoadMore();
 //                scrollToNextPosition(refreshLayout);
-//                break;
-//
-//            default:
-//                break;
-//        }
-//    }
+                break;
+
+            default:
+                break;
+        }
+    }
 //
 //    /**
 //     * 滚动到指定的下一页的第一条数据

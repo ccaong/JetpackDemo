@@ -44,6 +44,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     }
 
     @Override
+    protected boolean isSupportLoad() {
+        return true;
+    }
+
+    @Override
     protected void init() {
         mViewModel.loadHomeData();
         initRecycle();
@@ -69,11 +74,13 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
             @Override
             public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
+                mViewModel.mRefresh = true;
                 mViewModel.refreshData();
             }
 
             @Override
             public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
+                mViewModel.mRefresh = true;
                 mViewModel.loadMoreData();
             }
         });

@@ -1,5 +1,8 @@
 package com.example.myapplication.ui.home;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import com.example.myapplication.base.BaseViewModel;
 import com.example.myapplication.entity.ArticleBean;
 import com.example.myapplication.entity.ArticleListBean;
@@ -14,8 +17,6 @@ import com.example.myapplication.util.NetworkUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -26,9 +27,11 @@ public class HomeViewModel extends BaseViewModel {
     private MutableLiveData<HomeBannerEntity> mBanner;
     private MutableLiveData<ArticleListBean> mArticleList;
 
+    public MutableLiveData<RefreshState> mRefreshState;
+
     private List<ArticleBean> mList;
 
-    private boolean mRefresh;
+    public boolean mRefresh;
 
     /**
      * 请求页码
@@ -38,6 +41,7 @@ public class HomeViewModel extends BaseViewModel {
     public HomeViewModel() {
         mBanner = new MutableLiveData<>();
         mArticleList = new MutableLiveData<>();
+        mRefreshState = new MutableLiveData<>();
         mList = new ArrayList<>();
     }
 
@@ -49,21 +53,34 @@ public class HomeViewModel extends BaseViewModel {
         return mArticleList;
     }
 
+    public LiveData<RefreshState> getRefreshState() {
+        return mRefreshState;
+    }
 
     /**
      * 重新加载
      */
     @Override
     public void reloadData() {
-        mRefresh = false;
         loadHomeData();
+    }
+
+    /**
+     * 获取首页数据
+     */
+    public void loadHomeData() {
+        if (!mRefresh) {
+            loadState.setValue(LoadState.LOADING);
+        }
+        mPageNum = 0;
+        loadBanner();
+        loadArticleList(0);
     }
 
     /**
      * 刷新
      */
     public void refreshData() {
-        mRefresh = true;
         loadHomeData();
     }
 
@@ -77,18 +94,10 @@ public class HomeViewModel extends BaseViewModel {
 
 
     /**
-     * 获取首页数据
-     */
-    public void loadHomeData() {
-        loadBanner();
-        loadArticleList(0);
-
-    }
-
-    /**
      * 获取首页轮播图
      */
     private void loadBanner() {
+
         if (NetworkUtils.isConnected() && NetworkUtils.getWifiEnabled()) {
             loadBannerByNet();
         } else {
@@ -147,17 +156,22 @@ public class HomeViewModel extends BaseViewModel {
                                 mList.addAll(mArticleListBean.data.getDatas());
                                 mArticleListBean.data.setDatas(mList);
                                 mArticleList.postValue(mArticleListBean.data);
+
                             }
 
                             if (!mRefresh) {
-                                loadState.set(LoadState.SUCCESS);
+                                loadState.postValue(LoadState.SUCCESS);
                             }
                         } else {
                             if (!mRefresh) {
-                                loadState.set(LoadState.NO_DATA);
+                                loadState.postValue(LoadState.NO_DATA);
                             }
                         }
+                    }
 
+                    @Override
+                    public void onError(Throwable e) {
+                        loadState.postValue(LoadState.ERROR);
                     }
                 });
     }

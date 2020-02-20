@@ -37,38 +37,12 @@ public class GalleryFragment extends Fragment {
         galleryViewModel =
                 ViewModelProviders.of(this).get(GalleryViewModel.class);
 
-        final View root = inflater.inflate(R.layout.fragment_list, container, false);
+        final View root = inflater.inflate(R.layout.fragment_share, container, false);
         mRecycleView = root.findViewById(R.id.recycle);
 
         galleryViewModel.loadWeChatList();
-        galleryViewModel.getWeChatList().observe(this, new Observer<WeChatListEntity>() {
-            @Override
-            public void onChanged(WeChatListEntity wechatListEntity) {
-                mAdapter.onItemDatasChanged(wechatListEntity.getData());
-            }
-        });
-
-        initRecycleView();
 
         return root;
     }
 
-    private void initRecycleView() {
-        list = new ArrayList<>();
-        mAdapter = new CommonAdapter<WeChatBean>(
-                list, R.layout.item_wechat_list, com.example.myapplication.BR.wechat) {
-            @Override
-            public void addListener(View root, WeChatBean itemData, int position) {
-                super.addListener(root, itemData, position);
-                root.findViewById(R.id.ll_wechat).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                });
-            }
-        };
-        mRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecycleView.setAdapter(mAdapter);
-    }
 }

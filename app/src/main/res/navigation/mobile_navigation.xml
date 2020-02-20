@@ -44,9 +44,9 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.myapplication.ui.dashboard.DashboardFragment"
+        android:name="com.example.myapplication.ui.wechat.WeChatFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_view_pager" />
 
     <fragment
         android:id="@+id/navigation_notifications"

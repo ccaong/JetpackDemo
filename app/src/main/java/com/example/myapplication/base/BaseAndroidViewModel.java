@@ -1,32 +1,24 @@
 package com.example.myapplication.base;
 
+import android.app.Application;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.DefaultLifecycleObserver;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.example.myapplication.enums.LoadState;
 
-/**
- * ViewModel的基类
- */
-public abstract class BaseViewModel extends ViewModel implements DefaultLifecycleObserver {
+public abstract class BaseAndroidViewModel extends AndroidViewModel implements DefaultLifecycleObserver {
 
     /**
      * 加载状态
      */
     public MutableLiveData<LoadState> loadState = new MutableLiveData<>();
 
-    @Override
-    public void onCreate(@NonNull LifecycleOwner owner) {
 
-    }
-
-    @Override
-    public void onDestroy(@NonNull LifecycleOwner owner) {
-
+    public BaseAndroidViewModel(@NonNull Application application) {
+        super(application);
     }
 
     /**

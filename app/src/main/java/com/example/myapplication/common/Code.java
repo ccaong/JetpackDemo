@@ -13,4 +13,10 @@ public final class Code {
         public static final int REQUESK_ERROR = 200;
 
     }
+
+    public static final class ParamCode {
+        public static final String PARAM1 = "param";
+        public static final String PARAM2 = "param";
+        public static final String PARAM3 = "param";
+    }
 }
