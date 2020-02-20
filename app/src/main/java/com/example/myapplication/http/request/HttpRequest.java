@@ -1,7 +1,5 @@
-package com.example.myapplication.http;
+package com.example.myapplication.http.request;
 
-
-import com.example.myapplication.http.request.RequestAddress;
 
 /**
  * @author devel

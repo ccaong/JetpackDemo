@@ -1,31 +1,31 @@
 package com.example.myapplication.ui.gallery;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.Nullable;
+import com.example.myapplication.R;
+import com.example.myapplication.entity.WeChatBean;
+import com.example.myapplication.entity.WeChatListEntity;
+import com.example.myapplication.ui.adapter.CommonAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.Navigation;
-
-import com.example.myapplication.R;
-import com.example.myapplication.databinding.FragmentGalleryBinding;
-import com.example.myapplication.requestbean.Data;
-import com.example.myapplication.requestbean.ImageBean;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class GalleryFragment extends Fragment {
 
+    private RecyclerView mRecycleView;
+    private CommonAdapter<WeChatBean> mAdapter;
+    private List<WeChatBean> list;
     private GalleryViewModel galleryViewModel;
-    private FragmentGalleryBinding mBinding;
-    private ProgressDialog mProgressDialog;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -34,61 +34,38 @@ public class GalleryFragment extends Fragment {
         galleryViewModel =
                 ViewModelProviders.of(this).get(GalleryViewModel.class);
 
-        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_gallery, container, false);
-        init();
-        return mBinding.getRoot();
+        final View root = inflater.inflate(R.layout.fragment_list, container, false);
+        mRecycleView = root.findViewById(R.id.recycle);
 
-
-//        textView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Navigation.findNavController(root).navigate(R.id.nav_slideshow);
-//            }
-//        });
-    }
-
-    private void init() {
-        mProgressDialog = new ProgressDialog(getActivity());
-        mProgressDialog.setMessage("加载中");
-
-        galleryViewModel.getImage().observe(this, new Observer<Data<ImageBean.ImagesBean>>() {
+        galleryViewModel.loadWeChatList();
+        galleryViewModel.getWechatList().observe(this, new Observer<WeChatListEntity>() {
             @Override
-            public void onChanged(@Nullable Data<ImageBean.ImagesBean> imagesBeanData) {
-                if (imagesBeanData.getErrorMsg() != null) {
-                    Toast.makeText(getActivity(), imagesBeanData.getErrorMsg(), Toast.LENGTH_SHORT).show();
-                    mProgressDialog.dismiss();
-                    return;
-                }
-                mBinding.setImageBean(imagesBeanData.getData());
-                mProgressDialog.dismiss();
+            public void onChanged(WeChatListEntity wechatListEntity) {
+                mAdapter.onItemDatasChanged(wechatListEntity.getData());
             }
         });
 
-        mBinding.setPresenter(new Presenter());
+        initRecycleView();
 
-        mProgressDialog.show();
-        galleryViewModel.loadImage();
+        return root;
     }
 
-    public class Presenter {
+    private void initRecycleView() {
+        list = new ArrayList<>();
+        mAdapter = new CommonAdapter<WeChatBean>(
+                list, R.layout.item_wechat_list, com.example.myapplication.BR.wechat) {
+            @Override
+            public void addListener(View root, WeChatBean itemData, int position) {
+                super.addListener(root, itemData, position);
+                root.findViewById(R.id.ll_wechat).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-        public void onClick(View view) {
-            mProgressDialog.show();
-            switch (view.getId()) {
-                case R.id.btn_load:
-                    galleryViewModel.loadImage();
-                    break;
-                case R.id.btn_previous:
-                    galleryViewModel.previousImage();
-                    break;
-                case R.id.btn_next:
-                    galleryViewModel.nextImage();
-                    break;
-                default:
-                    break;
+                    }
+                });
             }
-        }
-
+        };
+        mRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecycleView.setAdapter(mAdapter);
     }
-
 }
