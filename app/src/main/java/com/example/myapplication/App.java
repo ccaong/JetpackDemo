@@ -2,8 +2,8 @@ package com.example.myapplication;
 
 import android.content.Context;
 
-import com.example.myapplication.http.HttpFactory;
-import com.example.myapplication.http.HttpResponseInterface;
+import com.example.myapplication.http.data.HttpResponseInterface;
+import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.ServerAddress;
 import com.google.gson.Gson;
 

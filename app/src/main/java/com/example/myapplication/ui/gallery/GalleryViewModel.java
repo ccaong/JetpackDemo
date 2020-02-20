@@ -4,8 +4,8 @@ import android.app.Application;
 
 import com.example.myapplication.ThreadManager;
 import com.example.myapplication.entity.WeChatListEntity;
-import com.example.myapplication.http.HttpDisposable;
-import com.example.myapplication.http.HttpRequest;
+import com.example.myapplication.http.data.HttpDisposable;
+import com.example.myapplication.http.request.HttpRequest;
 import com.example.myapplication.room.AppDataBase;
 import com.example.myapplication.room.dao.WeChatDao;
 import com.example.myapplication.util.NetworkUtils;
@@ -33,7 +33,7 @@ public class GalleryViewModel extends AndroidViewModel {
         weChatDao = AppDataBase.getInstance(application).getWeChatDao();
     }
 
-    public LiveData<WeChatListEntity> getWechatList() {
+    public LiveData<WeChatListEntity> getWeChatList() {
         return mWeChatList;
     }
 
@@ -60,13 +60,9 @@ public class GalleryViewModel extends AndroidViewModel {
                     @Override
                     public void success(WeChatListEntity wechatListEntity) {
 
-                        threadPool.execute(new Runnable() {
-                            @Override
-                            public void run() {
-                                weChatDao.deleteAll();
-                                weChatDao.insertList(wechatListEntity.getData());
-                            }
-                        });
+                        threadPool.execute(() -> weChatDao.deleteAll());
+                        threadPool.execute(() -> weChatDao.insertList(wechatListEntity.getData()));
+
                         mWeChatList.postValue(wechatListEntity);
                     }
 

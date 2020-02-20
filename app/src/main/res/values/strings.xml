@@ -17,4 +17,24 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
 
+
+    <!--加载-->
+    <string name="loading">加载中&#8230;</string>
+    <string name="load_error">加载出错</string>
+    <string name="no_network">没有网络，点击重试</string>
+    <string name="no_data">没有数据</string>
+
+    <!--错误-->
+    <string name="error_unknown">未知错误</string>
+    <string name="error_http">HTTP错误</string>
+    <string name="error_network">当前网络不可用，请检查您的网络连接</string>
+    <string name="error_parse">解析错误</string>
+    <string name="error_ssl">SSL错误</string>
+
+    <string name="fresh">新</string>
+    <string name="top">置顶</string>
+
+
+
+
 </resources>

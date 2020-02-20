@@ -29,6 +29,12 @@ public class CommonAdapter<T> extends RecyclerView.Adapter<CommonViewHolder> {
      */
     private int brId;
 
+
+    public CommonAdapter( int defaultLayout, int brId) {
+        this.defaultLayout = defaultLayout;
+        this.brId = brId;
+    }
+
     public CommonAdapter(List<T> list, int defaultLayout, int brId) {
         this.mList = list;
         this.defaultLayout = defaultLayout;

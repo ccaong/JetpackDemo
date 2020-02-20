@@ -6,21 +6,21 @@ package com.example.myapplication.http.request;
  */
 public class HttpRequest {
 
-    private static RequestAddress Instance;
+    private static ApiAddress Instance;
 
-    public static RequestAddress getInstance() {
+    public static ApiAddress getInstance() {
         if (Instance == null) {
             synchronized (HttpRequest.class) {
                 if (Instance == null) {
-                    Instance = HttpFactory.getInstance(RequestAddress.class);
+                    Instance = HttpFactory.getInstance(ApiAddress.class);
                 }
             }
         }
         return Instance;
     }
 
-    public static RequestAddress getInstance(String url) {
-        return HttpFactory.getChangeUrlInstance(url, RequestAddress.class);
+    public static ApiAddress getInstance(String url) {
+        return HttpFactory.getChangeUrlInstance(url, ApiAddress.class);
     }
 
 }

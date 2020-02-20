@@ -20,6 +20,9 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * @author devel
+ */
 public class GalleryFragment extends Fragment {
 
     private RecyclerView mRecycleView;
@@ -38,7 +41,7 @@ public class GalleryFragment extends Fragment {
         mRecycleView = root.findViewById(R.id.recycle);
 
         galleryViewModel.loadWeChatList();
-        galleryViewModel.getWechatList().observe(this, new Observer<WeChatListEntity>() {
+        galleryViewModel.getWeChatList().observe(this, new Observer<WeChatListEntity>() {
             @Override
             public void onChanged(WeChatListEntity wechatListEntity) {
                 mAdapter.onItemDatasChanged(wechatListEntity.getData());
