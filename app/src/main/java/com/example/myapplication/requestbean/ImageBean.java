@@ -110,7 +110,7 @@ public class ImageBean implements Serializable {
          * hs : []
          */
 
-        private String baseUrl ="https://www.bing.com/";
+        private String baseUrl = "https://www.bing.com/";
         private String startdate;
         private String fullstartdate;
         private String enddate;

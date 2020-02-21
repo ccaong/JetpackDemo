@@ -3,14 +3,19 @@ package com.example.myapplication.base;
 
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.cjj.MaterialRefreshLayout;
+import com.example.myapplication.base.adapter.BasePagerAdapter;
+import com.example.myapplication.entity.ArticleBean;
 import com.example.myapplication.enums.RefreshState;
 
+import java.util.List;
+
 import androidx.databinding.BindingAdapter;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 /**
  * @author : devel
@@ -19,13 +24,23 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 public class BindingAdapterUtil {
 
-    @BindingAdapter("url")
-    public static void setImageUrl(ImageView imageView, String url) {
-        Glide.with(imageView.getContext())
-                .load(url)
-                .into(imageView);
-    }
 
+    /**
+     * 设置ViewPager的数据列表
+     *
+     * @param viewPager ViewPager
+     * @param dataList  数据列表
+     * @param <T>       数据类型
+     */
+    @SuppressWarnings("unchecked")
+    @BindingAdapter("app:dataList")
+    public static <T> void setDataList(ViewPager viewPager, List<T> dataList) {
+        PagerAdapter adapter = viewPager.getAdapter();
+        if (adapter instanceof BasePagerAdapter) {
+            BasePagerAdapter basePagerAdapter = (BasePagerAdapter) adapter;
+            basePagerAdapter.setDataList(dataList);
+        }
+    }
 
     /**
      * 设置RefreshLayout的刷新状态
@@ -38,7 +53,6 @@ public class BindingAdapterUtil {
         if (refreshState == null) {
             return;
         }
-
         switch (refreshState) {
             case REFRESH_END:
                 refreshLayout.finishRefresh();
@@ -46,46 +60,51 @@ public class BindingAdapterUtil {
 
             case LOAD_MORE_END:
                 refreshLayout.finishRefreshLoadMore();
-//                scrollToNextPosition(refreshLayout);
                 break;
 
             default:
                 break;
         }
     }
-//
-//    /**
-//     * 滚动到指定的下一页的第一条数据
-//     *
-//     * @param refreshLayout
-//     */
-//    private static void scrollToNextPosition(MaterialRefreshLayout refreshLayout) {
-//        View child = refreshLayout.getChildAt(0);
-//        if (child instanceof RecyclerView) {
-//            RecyclerView recyclerView = (RecyclerView) child;
-//            RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-//            if (layoutManager instanceof LinearLayoutManager) {
-//                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) layoutManager;
-//                recyclerView.smoothScrollToPosition(linearLayoutManager.findLastVisibleItemPosition() + 1);
-//            }
-//        }
-//    }
-//
-//    /**
-//     * 设置RefreshLayout的加载更多
-//     *
-//     * @param refreshLayout RefreshLayout
-//     * @param hasMore       true表示还有更多，false表示没有更多了
-//     */
-//    @BindingAdapter("hasMore")
-//    public static void setHasMore(MaterialRefreshLayout refreshLayout, Boolean hasMore) {
-//        if (hasMore != null) {
-//            refreshLayout.setLoadMore(hasMore);
-//        }
-//    }
+
+    /**
+     * 设置RefreshLayout的加载更多
+     *
+     * @param refreshLayout RefreshLayout
+     * @param hasMore       true表示还有更多，false表示没有更多了
+     */
+    @BindingAdapter("hasMore")
+    public static void setHasMore(MaterialRefreshLayout refreshLayout, Boolean hasMore) {
+        if (hasMore != null) {
+            refreshLayout.setLoadMore(hasMore);
+        }
+    }
+
+
+    @BindingAdapter("url")
+    public static void setImageUrl(ImageView imageView, String url) {
+        Glide.with(imageView.getContext())
+                .load(url)
+                .into(imageView);
+    }
+
 
     @BindingAdapter("visibility")
     public static void setViewVisibility(View view, Boolean visibility) {
         view.setVisibility(visibility ? View.VISIBLE : View.GONE);
+    }
+
+    @BindingAdapter("articleTag")
+    public static void setArticleTag(TextView view, ArticleBean articleBean) {
+        if (articleBean != null && articleBean.getTags() != null) {
+            if (articleBean.getTags().size() == 1) {
+                view.setText(articleBean.getTags().get(0).getName());
+            } else if (articleBean.getTags().size() >= 2) {
+                String str = articleBean.getTags().get(0).getName() + articleBean.getTags().get(1).getName();
+                view.setText(str);
+            } else {
+                view.setText("其他");
+            }
+        }
     }
 }

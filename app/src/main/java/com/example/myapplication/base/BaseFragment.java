@@ -8,12 +8,12 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
-import androidx.databinding.Observable;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 
 import com.example.myapplication.R;
+import com.example.myapplication.base.viewmodel.BaseViewModel;
 import com.example.myapplication.databinding.FragmentBaseBinding;
 import com.example.myapplication.databinding.ViewLoadErrorBinding;
 import com.example.myapplication.databinding.ViewLoadingBinding;
@@ -25,6 +25,7 @@ import com.example.myapplication.enums.LoadState;
 /**
  * Fragment的基类
  *
+ * @author devel
  * @param <DB> data binding
  * @param <VM> view model
  */
@@ -45,7 +46,6 @@ public abstract class BaseFragment<DB extends ViewDataBinding, VM extends BaseVi
 
     private ViewNoDataBinding mViewNoDataBinding;
 
-    private Observable.OnPropertyChangedCallback mLoadStateCallback;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

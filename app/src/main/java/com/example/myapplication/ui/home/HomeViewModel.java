@@ -3,7 +3,7 @@ package com.example.myapplication.ui.home;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.myapplication.base.BaseViewModel;
+import com.example.myapplication.base.viewmodel.BaseViewModel;
 import com.example.myapplication.entity.ArticleBean;
 import com.example.myapplication.entity.ArticleListBean;
 import com.example.myapplication.entity.HomeBannerEntity;
@@ -31,8 +31,6 @@ public class HomeViewModel extends BaseViewModel {
 
     private List<ArticleBean> mList;
 
-    public boolean mRefresh;
-
     /**
      * 请求页码
      */
@@ -53,9 +51,6 @@ public class HomeViewModel extends BaseViewModel {
         return mArticleList;
     }
 
-    public LiveData<RefreshState> getRefreshState() {
-        return mRefreshState;
-    }
 
     /**
      * 重新加载
@@ -74,7 +69,7 @@ public class HomeViewModel extends BaseViewModel {
         }
         mPageNum = 0;
         loadBanner();
-        loadArticleList(0);
+        loadTopArticleList();
     }
 
     /**
@@ -134,11 +129,50 @@ public class HomeViewModel extends BaseViewModel {
     }
 
     /**
+     * 获取置顶文章
+     */
+    private void loadTopArticleList() {
+        HttpRequest.getInstance()
+                .getTopArticleList()
+                .subscribeOn(Schedulers.io())
+                .subscribe(new HttpDisposable<HttpBaseResponse<List<ArticleBean>>>() {
+                    @Override
+                    public void success(HttpBaseResponse<List<ArticleBean>> mArticleListBean) {
+
+                        if (mArticleListBean.data != null && mArticleListBean.data.size() != 0) {
+
+                            mList.clear();
+                            mList.addAll(mArticleListBean.data);
+
+                            for (ArticleBean bean :mList){
+                                bean.setTop(true);
+                            }
+
+                            //获取首页文章
+                            loadArticleList(0);
+                            if (!mRefresh) {
+                                loadState.postValue(LoadState.SUCCESS);
+                            }
+                        } else {
+                            if (!mRefresh) {
+                                loadState.postValue(LoadState.NO_DATA);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        loadArticleList(0);
+                    }
+                });
+    }
+
+    /**
      * 获取首页文章列表
      *
      * @param page
      */
-    public void loadArticleList(int page) {
+    private void loadArticleList(int page) {
         HttpRequest.getInstance()
                 .getArticleList(page)
                 .subscribeOn(Schedulers.io())
@@ -148,24 +182,9 @@ public class HomeViewModel extends BaseViewModel {
 
                         if (mArticleListBean.data.getDatas() != null && mArticleListBean.data.getDatas().size() != 0) {
 
-                            if (page == 0) {
-                                mList.clear();
-                                mList.addAll(mArticleListBean.data.getDatas());
-                                mArticleList.postValue(mArticleListBean.data);
-                            } else {
-                                mList.addAll(mArticleListBean.data.getDatas());
-                                mArticleListBean.data.setDatas(mList);
-                                mArticleList.postValue(mArticleListBean.data);
-
-                            }
-
-                            if (!mRefresh) {
-                                loadState.postValue(LoadState.SUCCESS);
-                            }
-                        } else {
-                            if (!mRefresh) {
-                                loadState.postValue(LoadState.NO_DATA);
-                            }
+                            mList.addAll(mArticleListBean.data.getDatas());
+                            mArticleListBean.data.setDatas(mList);
+                            mArticleList.postValue(mArticleListBean.data);
                         }
                     }
 

@@ -1,9 +1,12 @@
 package com.example.myapplication.http.request;
 
+import com.example.myapplication.entity.ArticleBean;
 import com.example.myapplication.entity.ArticleListBean;
 import com.example.myapplication.entity.HomeBannerEntity;
-import com.example.myapplication.entity.WeChatListEntity;
+import com.example.myapplication.entity.WeChatBean;
 import com.example.myapplication.http.data.HttpBaseResponse;
+
+import java.util.List;
 
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
@@ -30,9 +33,9 @@ public interface ApiAddress {
     @GET("HPImageArchive.aspx")
     Observable<Object> getImage(@Query("format") String format, @Query("idx") int idx, @Query("n") int n);
 
-
     /**
      * 获取首页banner
+     *
      * @return
      */
     @GET("banner/json")
@@ -40,9 +43,19 @@ public interface ApiAddress {
 
 
     /**
+     * 获取置顶文章
+     *
+     * @return
+     */
+    @GET("article/top/json")
+    Observable<HttpBaseResponse<List<ArticleBean>>> getTopArticleList();
+
+    /**
      * 首页文章列表
      * 方法：GET
-     * 参数：页码，拼接在连接中，从0开始。
+     *
+     * @param page 页码
+     * @return
      */
     @GET("article/list/{page}/json")
     Observable<HttpBaseResponse<ArticleListBean>> getArticleList(@Path("page") int page);
@@ -50,8 +63,17 @@ public interface ApiAddress {
 
     /**
      * 获取微信公众号列表
+     *
      * @return
      */
     @GET("wxarticle/chapters/json")
-    Observable<WeChatListEntity> getWechatList();
+    Observable<HttpBaseResponse<List<WeChatBean>>> getWechatList();
+
+    /**
+     * 获取微信公众号文章列表
+     *
+     * @return
+     */
+    @GET("wxarticle/list/{id}/{page}/json")
+    Observable<HttpBaseResponse<ArticleListBean>> getWechatArticleList(@Path("id") int id, @Path("page") int page);
 }

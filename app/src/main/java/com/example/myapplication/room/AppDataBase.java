@@ -15,7 +15,7 @@ import com.example.myapplication.room.dao.WeChatDao;
  * @desc :
  */
 
-@Database(entities = {WeChatBean.class}, version = 1, exportSchema = false)
+//@Database(entities = {WeChatBean.class}, version = 1, exportSchema = false)
 public abstract class AppDataBase extends RoomDatabase {
 
     /**

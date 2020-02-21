@@ -113,7 +113,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         mDataBinding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mDataBinding.recyclerView.setAdapter(commonAdapter);
 
-
         mViewModel.getArticleList().observe(this, new Observer<ArticleListBean>() {
             @Override
             public void onChanged(ArticleListBean articleListBean) {

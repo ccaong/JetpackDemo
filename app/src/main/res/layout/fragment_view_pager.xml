@@ -4,12 +4,14 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.example.myapplication.ui.wechat.WeChatViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
@@ -24,7 +26,9 @@
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            app:dataList="@{viewModel.dataList}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tab_layout" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

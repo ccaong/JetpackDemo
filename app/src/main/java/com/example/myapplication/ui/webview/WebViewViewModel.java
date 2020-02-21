@@ -1,8 +1,6 @@
 package com.example.myapplication.ui.webview;
 
-import com.example.myapplication.base.BaseViewModel;
-
-import androidx.lifecycle.ViewModel;
+import com.example.myapplication.base.viewmodel.BaseViewModel;
 
 /**
  * @author devel

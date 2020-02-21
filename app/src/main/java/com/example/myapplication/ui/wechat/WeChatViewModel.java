@@ -1,36 +1,28 @@
 package com.example.myapplication.ui.wechat;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
-import com.example.myapplication.App;
-import com.example.myapplication.ThreadManager;
-import com.example.myapplication.base.BaseViewModel;
-import com.example.myapplication.entity.WeChatListEntity;
+import com.example.myapplication.base.viewmodel.BaseViewModel;
+import com.example.myapplication.entity.WeChatBean;
+import com.example.myapplication.enums.LoadState;
+import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.http.data.HttpDisposable;
 import com.example.myapplication.http.request.HttpRequest;
-import com.example.myapplication.room.AppDataBase;
-import com.example.myapplication.room.dao.WeChatDao;
-import com.example.myapplication.util.NetworkUtils;
+import com.example.myapplication.util.CommonUtils;
 
+import java.util.List;
+
+import androidx.databinding.ObservableArrayList;
+import androidx.databinding.ObservableList;
 import io.reactivex.schedulers.Schedulers;
 
+/**
+ * @author devel
+ */
 public class WeChatViewModel extends BaseViewModel {
 
-    private MutableLiveData<WeChatListEntity> mWeChatList;
-    private ThreadManager.ThreadPool threadPool;
-    private WeChatDao weChatDao;
-
+    public ObservableList<WeChatBean> dataList;
 
     public WeChatViewModel() {
-        mWeChatList = new MutableLiveData<>();
-        threadPool = ThreadManager.getThreadPool();
-        weChatDao = AppDataBase.getInstance(App.getContext()).getWeChatDao();
-    }
-
-
-    public LiveData<WeChatListEntity> getWeChatList() {
-        return mWeChatList;
+        dataList = new ObservableArrayList<>();
     }
 
     /**
@@ -38,28 +30,19 @@ public class WeChatViewModel extends BaseViewModel {
      */
     public void loadWeChatList() {
 
-        if (NetworkUtils.getWifiEnabled()) {
-            loadDataByNetWork();
-        } else {
-            loadDataByDataBase();
-        }
-    }
-
-    /**
-     * 从网络接口获取数据
-     */
-    private void loadDataByNetWork() {
+        loadState.postValue(LoadState.LOADING);
         HttpRequest.getInstance()
                 .getWechatList()
                 .subscribeOn(Schedulers.io())
-                .subscribe(new HttpDisposable<WeChatListEntity>() {
+                .subscribe(new HttpDisposable<HttpBaseResponse<List<WeChatBean>>>() {
                     @Override
-                    public void success(WeChatListEntity wechatListEntity) {
-
-//                        threadPool.execute(() -> weChatDao.deleteAll());
-//                        threadPool.execute(() -> weChatDao.insertList(wechatListEntity.getData()));
-
-                        mWeChatList.postValue(wechatListEntity);
+                    public void success(HttpBaseResponse<List<WeChatBean>> listHttpBaseResponse) {
+                        if (!CommonUtils.isListEmpty(listHttpBaseResponse.data)) {
+                            dataList.addAll(listHttpBaseResponse.data);
+                            loadState.postValue(LoadState.SUCCESS);
+                        } else {
+                            loadState.postValue(LoadState.NO_DATA);
+                        }
                     }
 
                     @Override
@@ -68,21 +51,4 @@ public class WeChatViewModel extends BaseViewModel {
                     }
                 });
     }
-
-    WeChatListEntity wechatListEntity;
-
-    private void loadDataByDataBase() {
-        wechatListEntity = new WeChatListEntity();
-        wechatListEntity.setErrorMsg("");
-        wechatListEntity.setErrorCode(0);
-        threadPool.execute(new Runnable() {
-            @Override
-            public void run() {
-                wechatListEntity.setData(weChatDao.getAll());
-                mWeChatList.postValue(wechatListEntity);
-            }
-        });
-    }
-
-
 }

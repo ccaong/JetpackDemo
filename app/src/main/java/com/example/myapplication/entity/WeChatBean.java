@@ -1,12 +1,7 @@
 package com.example.myapplication.entity;
 
-import androidx.room.Entity;
-import androidx.room.Ignore;
-import androidx.room.PrimaryKey;
-
 import java.util.List;
 
-@Entity(tableName = "wechat")
 public class WeChatBean {
     /**
      * children : []
@@ -18,9 +13,6 @@ public class WeChatBean {
      * userControlSetTop : false
      * visible : 1
      */
-
-
-    @PrimaryKey
     private int id;
     private int courseId;
     private String name;
@@ -28,23 +20,8 @@ public class WeChatBean {
     private int parentChapterId;
     private boolean userControlSetTop;
     private int visible;
-//    private List<?> children;
+    private List<WeChatBean> children;
 
-    public WeChatBean() {
-
-    }
-
-    @Ignore
-    public WeChatBean(int id, int courseId, String name, int order, int parentChapterId, boolean userControlSetTop, int visible) {
-        this.id = id;
-        this.courseId = courseId;
-        this.name = name;
-        this.order = order;
-        this.parentChapterId = parentChapterId;
-        this.userControlSetTop = userControlSetTop;
-        this.visible = visible;
-//        this.children = children;
-    }
 
     public int getCourseId() {
         return courseId;
@@ -102,11 +79,11 @@ public class WeChatBean {
         this.visible = visible;
     }
 
-//    public List<?> getChildren() {
-//        return children;
-//    }
+    public List<WeChatBean> getChildren() {
+        return children;
+    }
 
-//    public void setChildren(List<?> children) {
-//        this.children = children;
-//    }
+    public void setChildren(List<WeChatBean> children) {
+        this.children = children;
+    }
 }

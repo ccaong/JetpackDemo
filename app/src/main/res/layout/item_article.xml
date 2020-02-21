@@ -5,6 +5,10 @@
 
     <data>
 
+        <import type="com.example.myapplication.util.CommonUtils" />
+
+        <import type="android.view.View" />
+
         <variable
             name="articleBean"
             type="com.example.myapplication.entity.ArticleBean" />
@@ -53,22 +57,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
+                    android:background="@drawable/shape_label_red"
                     android:text="@string/fresh"
                     android:textColor="@color/primary_red"
                     android:textSize="12sp"
                     app:visibility="@{articleBean.fresh}" />
 
-<!--                <TextView-->
-<!--                    android:id="@+id/tv_tag"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginRight="10dp"-->
-<!--                    android:background="@drawable/shape_label_green"-->
-<!--                    android:text="@{viewModel.tag}"-->
-<!--                    android:textColor="@color/primary_green"-->
-<!--                    android:textSize="12sp"-->
-<!--                    app:visibility="@{!TextUtils.isEmpty(articleBean.tags) ? View.VISIBLE : View.GONE}"-->
-<!--                    tools:text="标签" />-->
+                <TextView
+                    android:id="@+id/tv_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/shape_label_green"
+                    android:textColor="@color/primary_green"
+                    android:textSize="12sp"
+                    android:visibility="@{!CommonUtils.isListEmpty(articleBean.tags)? View.VISIBLE : View.GONE}"
+                    app:articleTag="@{articleBean}"
+                    tools:text="标签" />
 
                 <TextView
                     android:id="@+id/tv_author"

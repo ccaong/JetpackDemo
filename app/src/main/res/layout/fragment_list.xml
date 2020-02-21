@@ -4,6 +4,9 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.example.myapplication.ui.wechat.WeChatContentListViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -12,6 +15,7 @@
 
         <com.cjj.MaterialRefreshLayout
             android:id="@+id/mrl_refresh_layout"
+            app:isLoadMore="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
