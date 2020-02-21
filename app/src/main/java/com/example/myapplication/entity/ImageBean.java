@@ -1,4 +1,4 @@
-package com.example.myapplication.requestbean;
+package com.example.myapplication.entity;
 
 import java.io.Serializable;
 import java.util.List;

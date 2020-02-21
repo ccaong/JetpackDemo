@@ -5,6 +5,7 @@ import com.example.myapplication.entity.ArticleListBean;
 import com.example.myapplication.entity.HomeBannerEntity;
 import com.example.myapplication.entity.WeChatBean;
 import com.example.myapplication.http.data.HttpBaseResponse;
+import com.example.myapplication.entity.ImageBean;
 
 import java.util.List;
 
@@ -30,8 +31,9 @@ public interface ApiAddress {
     @POST("hd/uploadFile")
     Observable<Object> upload(@Part MultipartBody.Part file, @Part("type") RequestBody type);
 
+
     @GET("HPImageArchive.aspx")
-    Observable<Object> getImage(@Query("format") String format, @Query("idx") int idx, @Query("n") int n);
+    Observable<ImageBean> getImage(@Query("format") String format, @Query("idx") int idx, @Query("n") int n);
 
     /**
      * 获取首页banner

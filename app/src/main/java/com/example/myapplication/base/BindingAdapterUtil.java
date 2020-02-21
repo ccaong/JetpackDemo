@@ -81,7 +81,7 @@ public class BindingAdapterUtil {
     }
 
 
-    @BindingAdapter("url")
+    @BindingAdapter("loadImage")
     public static void setImageUrl(ImageView imageView, String url) {
         Glide.with(imageView.getContext())
                 .load(url)
