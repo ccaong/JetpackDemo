@@ -1,13 +1,18 @@
 package com.example.myapplication;
 
 import android.content.Context;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.http.data.HttpResponseInterface;
 import com.example.myapplication.http.httptool.HttpException;
 import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.ServerAddress;
 import com.google.gson.Gson;
+import com.guoxiaoxing.phoenix.core.listener.ImageLoader;
+import com.guoxiaoxing.phoenix.picker.Phoenix;
+import com.orhanobut.hawk.Hawk;
 
 import androidx.multidex.MultiDexApplication;
 
@@ -27,11 +32,28 @@ public class App extends MultiDexApplication {
         super.onCreate();
         context = this;
 
-        setHttpConfig();
+        init();
     }
 
     public static Context getContext() {
         return context;
+    }
+
+    private void init() {
+        Hawk.init(context).build();
+
+        setHttpConfig();
+
+        Phoenix.config()
+                .imageLoader(new ImageLoader() {
+                    @Override
+                    public void loadImage(Context mContext, ImageView imageView
+                            , String imagePath, int type) {
+                        Glide.with(mContext)
+                                .load(imagePath)
+                                .into(imageView);
+                    }
+                });
     }
 
     /**

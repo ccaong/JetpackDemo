@@ -1,7 +1,12 @@
 package com.example.myapplication.base;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.example.myapplication.R;
 import com.example.myapplication.base.viewmodel.BaseViewModel;
@@ -23,9 +28,9 @@ import androidx.lifecycle.Observer;
 /**
  * Activity的基类
  *
- * @author devel
  * @param <DB> data binding
  * @param <VM> view model
+ * @author devel
  */
 public abstract class BaseActivity<DB extends ViewDataBinding, VM extends BaseViewModel>
         extends AppCompatActivity {
@@ -51,12 +56,18 @@ public abstract class BaseActivity<DB extends ViewDataBinding, VM extends BaseVi
         super.onCreate(savedInstanceState);
         handleIntent(getIntent());
 
+        if (isNoActionBar()) {
+            setNoActionBar();
+        }
+
         mActivityBaseBinding = DataBindingUtil.setContentView(this, R.layout.activity_base);
         mDataBinding = DataBindingUtil.inflate(getLayoutInflater(), getLayoutResId(),
                 mActivityBaseBinding.flContentContainer, true);
 
         initViewModel();
         bindViewModel();
+
+        mDataBinding.setLifecycleOwner(this);
 
         initLoadState();
         init();
@@ -66,6 +77,21 @@ public abstract class BaseActivity<DB extends ViewDataBinding, VM extends BaseVi
             getLifecycle().addObserver(mViewModel);
         }
     }
+
+    /**
+     * 设置沉浸式状态栏
+     */
+    private void setNoActionBar() {
+        Window window = getWindow();
+        View decorView = window.getDecorView();
+        int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+        decorView.setSystemUiVisibility(option);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+        }
+    }
+
 
     private void initLoadState() {
         if (mViewModel != null && isSupportLoad()) {
@@ -135,6 +161,16 @@ public abstract class BaseActivity<DB extends ViewDataBinding, VM extends BaseVi
     protected void handleIntent(Intent intent) {
 
     }
+
+    /**
+     * 是否为沉浸模式
+     *
+     * @return true表示支持，false表示不支持
+     */
+    protected boolean isNoActionBar() {
+        return false;
+    }
+
 
     /**
      * 是否支持页面加载。默认不支持

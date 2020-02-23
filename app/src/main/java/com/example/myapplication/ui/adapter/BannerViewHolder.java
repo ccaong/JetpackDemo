@@ -7,7 +7,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
-import com.example.myapplication.entity.HomeBanner;
+import com.example.myapplication.http.bean.HomeBanner;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
 
 /**

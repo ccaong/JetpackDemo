@@ -17,6 +17,8 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
 
+    <!-- Splash   -->
+    <string name="str_copyright">Copyright \u00a9 2020-present CCAONG</string>
 
     <!--加载-->
     <string name="loading">加载中&#8230;</string>
@@ -35,6 +37,39 @@
     <string name="top">置顶</string>
 
 
+    <string name="skip">跳过：</string>
+    <string name="time_s">s</string>
+    <string name="time_5">5s</string>
+    <string name="time_4">4s</string>
+    <string name="time_3">3s</string>
+    <string name="time_2">2s</string>
+    <string name="time_1">1s</string>
+    <string name="time_0">0s</string>
 
+
+    <string name="no_login">未登录</string>
+    <string name="click_login">点击登陆</string>
+
+    <string name="login">登陆</string>
+    <string name="user_name">用户名</string>
+    <string name="user_pwd">密码</string>
+    <string name="re_user_pwd">确认密码</string>
+
+
+    <string name="register">我要注册</string>
+    <string name="btn_register">注册</string>
+    <string name="register_success">注册成功！</string>
+    <string name="register_error">两次输入的密码不一致，请检查后重新输入</string>
+
+    <string name="collect">收藏</string>
+
+    <string name="mine">我的</string>
+    <string name="integral">积分</string>
+    <string name="integral_details">积分详情</string>
+    <string name="integral_ranking">积分排行</string>
+    <string name="my_collect">我的收藏</string>
+    <string name="my_share">我的分享</string>
+    <string name="my_todo">我的待办</string>
+    <string name="logout">退出登陆</string>
 
 </resources>

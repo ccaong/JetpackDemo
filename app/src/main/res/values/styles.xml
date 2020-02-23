@@ -24,4 +24,20 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="ToolbarStyle" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="mine_text">
+        <item name="android:layout_marginTop">@dimen/dimen_24</item>
+        <item name="android:textSize">@dimen/text_18</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="QMUIRoundButton">
+        <item name="android:paddingTop">@dimen/btn_padding</item>
+        <item name="android:paddingBottom">@dimen/btn_padding</item>
+        <item name="android:paddingLeft">@dimen/dimen_16</item>
+        <item name="android:paddingRight">@dimen/dimen_16</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
 </resources>

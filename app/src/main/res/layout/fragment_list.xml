@@ -5,8 +5,16 @@
     <data>
 
         <variable
+            name="toDoViewModel"
+            type="com.example.myapplication.ui.nav.todo.ToDoViewModel" />
+
+        <variable
+            name="collectViewModel"
+            type="com.example.myapplication.ui.nav.collect.CollectViewModel" />
+
+        <variable
             name="viewModel"
-            type="com.example.myapplication.ui.wechat.WeChatContentListViewModel" />
+            type="com.example.myapplication.ui.wechat.wxcontent.WeChatContentListViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,9 +23,9 @@
 
         <com.cjj.MaterialRefreshLayout
             android:id="@+id/mrl_refresh_layout"
-            app:isLoadMore="true"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:isLoadMore="true">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycle"

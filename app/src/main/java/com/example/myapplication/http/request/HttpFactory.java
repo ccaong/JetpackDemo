@@ -2,6 +2,7 @@ package com.example.myapplication.http.request;
 
 
 import com.example.myapplication.http.data.HttpResponseInterface;
+import com.example.myapplication.http.httptool.AddCookiesInterceptor;
 import com.example.myapplication.http.httptool.HttpInterceptor;
 import com.example.myapplication.http.httptool.ResponseConverterFactory;
 
@@ -37,6 +38,7 @@ public class HttpFactory {
             new Builder()
                     //添加自定义拦截器
                     .addInterceptor(new HttpInterceptor())
+                    .addInterceptor(new AddCookiesInterceptor())
                     //设置超时时间
                     .connectTimeout(60, TimeUnit.SECONDS)
                     .readTimeout(60, TimeUnit.SECONDS)

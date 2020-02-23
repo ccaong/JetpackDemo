@@ -1,8 +1,8 @@
 package com.example.myapplication.ui.adapter;
 
 import com.example.myapplication.base.adapter.BasePagerAdapter;
-import com.example.myapplication.entity.WeChatBean;
-import com.example.myapplication.ui.wechat.WeChatContentListFragment;
+import com.example.myapplication.http.bean.WeChatBean;
+import com.example.myapplication.ui.wechat.wxcontent.WeChatContentListFragment;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;

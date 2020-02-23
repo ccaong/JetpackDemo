@@ -15,8 +15,22 @@ public final class Code {
     }
 
     public static final class ParamCode {
+        public static final String KEY_URL = "key_url";
         public static final String PARAM1 = "param";
         public static final String PARAM2 = "param";
         public static final String PARAM3 = "param";
     }
+
+    public static final class HawkCode {
+        public static final String LOGIN_DATA = "login_data";
+        public static final String COOKIE = "cookie";
+        public static final String HEADER_IMAGE = "header_image";
+
+    }
+
+    public static final class RequestCoode {
+        public static int SELECT_PICTURE = 10000;
+
+    }
+
 }

@@ -3,11 +3,15 @@ package com.example.myapplication.http.httptool;
 import android.util.Log;
 
 import com.example.myapplication.App;
+import com.example.myapplication.common.Code;
+import com.example.myapplication.http.bean.LoginBean;
 import com.example.myapplication.util.NetworkUtils;
+import com.orhanobut.hawk.Hawk;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
+import java.util.HashSet;
 
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
@@ -33,37 +37,46 @@ public class HttpInterceptor implements Interceptor {
         if (!NetworkUtils.isConnected()) {
             throw new HttpException("网络连接异常，请检查网络后重试");
         }
+
+        Response originalResponse = chain.proceed(chain.request());
+        if (!originalResponse.headers("Set-Cookie").isEmpty()) {
+            HashSet<String> cookies = new HashSet<>();
+
+            for (String header : originalResponse.headers("Set-Cookie")) {
+                cookies.add(header);
+            }
+            Hawk.put(Code.HawkCode.COOKIE,cookies);
+        }
+
+
         Request request = chain.request();
-//        request = getHeaderRequest(request);
+        request = getHeaderRequest(request);
         logRequest(request);
         Response response = chain.proceed(request);
         logResponse(response);
-        return response;
+        return originalResponse;
     }
 
     /**
      * 添加header
      */
     public Request getHeaderRequest(Request request) {
-//        LoginData loginData = new LoginData();
+        LoginBean loginData = Hawk.get(Code.HawkCode.LOGIN_DATA);
         Request headRequest;
-//        if (loginData != null) {
-//            headRequest = request
-//                    .newBuilder()
-//                    .addHeader("platform", "android")
-//                    .addHeader("version", "1.0")
-//                    .addHeader("token", loginData.getToken())
-//                    .addHeader("userId", loginData.getUserId())
-//                    .addHeader("MAC", App.Mac)
-//                    .build();
-//        } else {
+        if (loginData != null) {
+            headRequest = request
+                    .newBuilder()
+                    .addHeader("token", loginData.getToken())
+                    .addHeader("Cookie", "loginUserName="+loginData.getUsername())
+                    .addHeader("Cookie", "loginUserPassword="+loginData.getPassword())
+                    .build();
+        } else {
             headRequest = request
                     .newBuilder()
                     .addHeader("platform", "android")
                     .addHeader("version", "1.0")
-                    .addHeader("MAC", App.Mac)
                     .build();
-//        }
+        }
         return headRequest;
     }
 

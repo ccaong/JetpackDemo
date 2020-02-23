@@ -3,7 +3,7 @@
     <corners android:radius="2dp" />
 
     <stroke
-        android:color="@color/primary_green"
+        android:color="@color/color_green"
         android:width="0.5dp" />
 
     <padding

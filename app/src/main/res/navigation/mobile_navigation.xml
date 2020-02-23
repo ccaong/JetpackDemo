@@ -13,31 +13,31 @@
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.example.myapplication.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
+        android:name="com.example.myapplication.ui.nav.collect.CollectFragment"
+        android:label="@string/collect"
         tools:layout="@layout/fragment_list" />
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.example.myapplication.ui.slideshow.SlideshowFragment"
+        android:name="com.example.myapplication.ui.nav.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
 
     <fragment
         android:id="@+id/nav_tools"
-        android:name="com.example.myapplication.ui.tools.ToolsFragment"
+        android:name="com.example.myapplication.ui.nav.tools.ToolsFragment"
         android:label="@string/menu_tools"
         tools:layout="@layout/fragment_tools" />
 
     <fragment
         android:id="@+id/nav_share"
-        android:name="com.example.myapplication.ui.share.ShareFragment"
+        android:name="com.example.myapplication.ui.nav.share.ShareFragment"
         android:label="@string/menu_share"
         tools:layout="@layout/fragment_share" />
 
     <fragment
         android:id="@+id/nav_send"
-        android:name="com.example.myapplication.ui.send.SendFragment"
+        android:name="com.example.myapplication.ui.nav.send.SendFragment"
         android:label="@string/menu_send"
         tools:layout="@layout/fragment_send" />
 
@@ -53,6 +53,24 @@
         android:name="com.example.myapplication.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+
+    <!--    登陆页面-->
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.myapplication.ui.nav.login.LoginFragment"
+        android:label="LoginFragment" />
+
+    <!--    我的-->
+    <fragment
+        android:id="@+id/mineFragment"
+        android:name="com.example.myapplication.ui.nav.mine.MineFragment"
+        android:label="@string/mine" />
+
+    <!--    注册-->
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.myapplication.ui.nav.register.RegisterFragment"
+        android:label="RegisterFragment" />
 
 
 </navigation>

@@ -1,7 +1,7 @@
 package com.example.myapplication.ui.wechat;
 
 import com.example.myapplication.base.viewmodel.BaseViewModel;
-import com.example.myapplication.entity.WeChatBean;
+import com.example.myapplication.http.bean.WeChatBean;
 import com.example.myapplication.enums.LoadState;
 import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.http.data.HttpDisposable;

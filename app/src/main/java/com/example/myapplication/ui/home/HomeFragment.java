@@ -2,26 +2,25 @@ package com.example.myapplication.ui.home;
 
 import android.view.View;
 
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
 import com.example.myapplication.BR;
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
 import com.example.myapplication.databinding.FragmentHomeBinding;
-import com.example.myapplication.entity.ArticleBean;
-import com.example.myapplication.entity.ArticleListBean;
-import com.example.myapplication.entity.HomeBanner;
-import com.example.myapplication.entity.HomeBannerEntity;
+import com.example.myapplication.http.bean.ArticleBean;
+import com.example.myapplication.http.bean.ArticleListBean;
+import com.example.myapplication.http.bean.HomeBanner;
+import com.example.myapplication.http.bean.HomeBannerEntity;
 import com.example.myapplication.ui.adapter.BannerViewHolder;
 import com.example.myapplication.ui.adapter.CommonAdapter;
-import com.zhouwei.mzbanner.MZBannerView;
 import com.zhouwei.mzbanner.holder.MZHolderCreator;
 
 import java.util.List;
-
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 /**
  * @author devel
@@ -58,13 +57,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             @Override
             public void onChanged(HomeBannerEntity homeBannerEntity) {
                 setBanner(homeBannerEntity.getData());
-            }
-        });
-
-        mDataBinding.banner.setBannerPageClickListener(new MZBannerView.BannerPageClickListener() {
-            @Override
-            public void onPageClick(View view, int i) {
-                // TODO: 2020/2/20 点击事件
             }
         });
     }
@@ -108,6 +100,13 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             @Override
             public void addListener(View root, ArticleBean itemData, int position) {
                 super.addListener(root, itemData, position);
+                root.findViewById(R.id.card_view).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+
             }
         };
         mDataBinding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

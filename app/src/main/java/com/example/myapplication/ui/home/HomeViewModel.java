@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.myapplication.base.viewmodel.BaseViewModel;
-import com.example.myapplication.entity.ArticleBean;
-import com.example.myapplication.entity.ArticleListBean;
-import com.example.myapplication.entity.HomeBannerEntity;
+import com.example.myapplication.http.bean.ArticleBean;
+import com.example.myapplication.http.bean.ArticleListBean;
+import com.example.myapplication.http.bean.HomeBannerEntity;
 import com.example.myapplication.enums.LoadState;
 import com.example.myapplication.enums.RefreshState;
 import com.example.myapplication.http.data.HttpBaseResponse;
@@ -112,6 +112,9 @@ public class HomeViewModel extends BaseViewModel {
                     @Override
                     public void success(HomeBannerEntity homeBannerEntity) {
                         mBanner.postValue(homeBannerEntity);
+                        if (!mRefresh) {
+                            loadState.postValue(LoadState.SUCCESS);
+                        }
                     }
 
                     @Override
@@ -137,16 +140,21 @@ public class HomeViewModel extends BaseViewModel {
                 .subscribeOn(Schedulers.io())
                 .subscribe(new HttpDisposable<HttpBaseResponse<List<ArticleBean>>>() {
                     @Override
-                    public void success(HttpBaseResponse<List<ArticleBean>> mArticleListBean) {
+                    public void success(HttpBaseResponse<List<ArticleBean>> mArticleBean) {
 
-                        if (mArticleListBean.data != null && mArticleListBean.data.size() != 0) {
+                        if (mArticleBean.data != null && mArticleBean.data.size() != 0) {
 
                             mList.clear();
-                            mList.addAll(mArticleListBean.data);
+                            mList.addAll(mArticleBean.data);
 
                             for (ArticleBean bean :mList){
                                 bean.setTop(true);
                             }
+
+                            HttpBaseResponse<ArticleListBean> mArticleListBean = new HttpBaseResponse<>();
+                            mArticleListBean.errorCode = mArticleBean.errorCode;
+                            mArticleListBean.data.setDatas(mList);
+                            mArticleList.postValue(mArticleListBean.data);
 
                             //获取首页文章
                             loadArticleList(0);

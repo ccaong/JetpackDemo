@@ -20,4 +20,8 @@ public final class CommonUtils {
     public static boolean isListEmpty(List<?> list) {
         return list == null || list.size() == 0;
     }
+
+    public static boolean isStringEmpty(String string){
+        return string == null || "".equals(string);
+    }
 }

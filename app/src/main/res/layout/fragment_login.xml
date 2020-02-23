@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.myapplication.ui.activity.main.MainViewModel" />
+
+        <variable
+            name="presenter"
+            type="com.example.myapplication.ui.nav.login.LoginFragment" />
+    </data>
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="@dimen/dimen_16"
+        android:layout_marginVertical="@dimen/dimen_64">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <ImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_24"
+                android:src="@mipmap/ic_launcher_round"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/tv_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin"
+                android:text="@string/user_name"
+                app:layout_constraintBottom_toBottomOf="@+id/et_user_name"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/et_user_name" />
+
+            <EditText
+                android:id="@+id/et_user_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin"
+                android:layout_marginTop="@dimen/dimen_24"
+                android:layout_marginRight="@dimen/margin"
+                android:text="@={viewModel.userName}"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintLeft_toRightOf="@+id/tv_user_name"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_logo" />
+
+            <TextView
+                android:id="@+id/tv_user_pwd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin"
+                android:text="@string/user_pwd"
+                app:layout_constraintBottom_toBottomOf="@+id/et_pwd"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/et_pwd" />
+
+
+            <EditText
+                android:id="@+id/et_pwd"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin"
+                android:layout_marginTop="@dimen/margin"
+                android:layout_marginRight="@dimen/margin"
+                android:inputType="textPassword"
+                android:text="@={viewModel.userPwd}"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintLeft_toRightOf="@id/tv_user_name"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_user_name" />
+
+            <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+                android:id="@+id/btn_login"
+                style="@style/QMUIRoundButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin"
+                android:onClick="@{()->viewModel.login()}"
+                android:text="@string/login"
+                app:qmui_radius="@dimen/dimen_8"
+                app:layout_constraintTop_toBottomOf="@+id/et_pwd"
+                app:qmui_backgroundColor="@color/qmui_btn_bg" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_16"
+                android:onClick="@{()->presenter.register()}"
+                android:text="@string/register"
+                android:textColor="@color/color_blue"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_login" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>

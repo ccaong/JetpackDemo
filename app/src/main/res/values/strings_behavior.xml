@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bottom_navigation_behavior">com.example.myapplication.behavior.BottomNavigationBehavior</string>
+    <string name="floating_action_button_behavior">com.example.myapplication.behavior.FloatingActionButtonBehavior</string>
+</resources>

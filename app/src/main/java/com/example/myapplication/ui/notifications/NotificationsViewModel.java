@@ -1,11 +1,9 @@
 package com.example.myapplication.ui.notifications;
 
-import com.example.myapplication.ThreadManager;
+import com.example.myapplication.common.ThreadManager;
 import com.example.myapplication.entity.City;
 import com.example.myapplication.util.LocalJsonAnalyzeUtil;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import static com.example.myapplication.App.getContext;

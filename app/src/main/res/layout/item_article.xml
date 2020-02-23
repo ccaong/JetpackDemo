@@ -11,10 +11,11 @@
 
         <variable
             name="articleBean"
-            type="com.example.myapplication.entity.ArticleBean" />
+            type="com.example.myapplication.http.bean.ArticleBean" />
     </data>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
@@ -48,7 +49,7 @@
                     android:layout_marginRight="10dp"
                     android:background="@drawable/shape_label_red"
                     android:text="@string/top"
-                    android:textColor="@color/primary_red"
+                    android:textColor="@color/color_red"
                     android:textSize="12sp"
                     app:visibility="@{articleBean.top}" />
 
@@ -59,7 +60,7 @@
                     android:layout_marginRight="10dp"
                     android:background="@drawable/shape_label_red"
                     android:text="@string/fresh"
-                    android:textColor="@color/primary_red"
+                    android:textColor="@color/color_red"
                     android:textSize="12sp"
                     app:visibility="@{articleBean.fresh}" />
 
@@ -69,7 +70,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/shape_label_green"
-                    android:textColor="@color/primary_green"
+                    android:textColor="@color/color_green"
                     android:textSize="12sp"
                     android:visibility="@{!CommonUtils.isListEmpty(articleBean.tags)? View.VISIBLE : View.GONE}"
                     app:articleTag="@{articleBean}"

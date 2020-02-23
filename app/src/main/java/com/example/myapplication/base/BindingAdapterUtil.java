@@ -5,17 +5,20 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.cjj.MaterialRefreshLayout;
-import com.example.myapplication.base.adapter.BasePagerAdapter;
-import com.example.myapplication.entity.ArticleBean;
-import com.example.myapplication.enums.RefreshState;
-
-import java.util.List;
-
 import androidx.databinding.BindingAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.cjj.MaterialRefreshLayout;
+import com.example.myapplication.base.adapter.BasePagerAdapter;
+import com.example.myapplication.enums.RefreshState;
+import com.example.myapplication.http.bean.ArticleBean;
+
+import java.util.List;
+
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 /**
  * @author : devel
@@ -85,6 +88,15 @@ public class BindingAdapterUtil {
     public static void setImageUrl(ImageView imageView, String url) {
         Glide.with(imageView.getContext())
                 .load(url)
+                .into(imageView);
+    }
+
+
+    @BindingAdapter("loadImageGoss")
+    public static void setImageUrlWithGoss(ImageView imageView, String url) {
+        Glide.with(imageView.getContext())
+                .load(url)
+                .apply(RequestOptions.bitmapTransform(new BlurTransformation(25, 3)))
                 .into(imageView);
     }
 

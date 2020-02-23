@@ -2,12 +2,8 @@ package com.example.myapplication.room;
 
 import android.content.Context;
 
-import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-
-import com.example.myapplication.entity.WeChatBean;
-import com.example.myapplication.room.dao.WeChatDao;
 
 /**
  * @author : devel
@@ -19,11 +15,10 @@ import com.example.myapplication.room.dao.WeChatDao;
 public abstract class AppDataBase extends RoomDatabase {
 
     /**
-     * 获取公众号DAO
+     *
      *
      * @return
      */
-    public abstract WeChatDao getWeChatDao();
 
 
     private static final String DB_NAME = "room_test";
@@ -34,7 +29,7 @@ public abstract class AppDataBase extends RoomDatabase {
         if (appDataBase == null) {
             synchronized (AppDataBase.class) {
                 if (appDataBase == null) {
-                    appDataBase =  Room.databaseBuilder(context, AppDataBase.class, DB_NAME)
+                    appDataBase = Room.databaseBuilder(context, AppDataBase.class, DB_NAME)
                             .build();
                 }
             }

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.myapplication.ui.activity.main.MainViewModel" />
+
+        <variable
+            name="mainFragment"
+            type="com.example.myapplication.ui.nav.mine.MineFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_bg"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scaleType="fitXY"
+            android:background="@color/colorPrimary"
+            app:loadImageGoss="@{viewModel.userHeader}"
+            app:layout_constraintBottom_toTopOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.example.myapplication.ui.view.CircleImageView
+            android:id="@+id/iv_header"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="@dimen/dimen_48"
+            android:onClick="@{()-> mainFragment.selectImage()}"
+            android:scaleType="fitXY"
+            app:loadImage="@{viewModel.userHeader}"
+            android:src="@mipmap/ic_launcher"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_18"
+            android:tooltipText="@string/user_name"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_header"
+            tools:text="@string/user_name" />
+
+        <TextView
+            android:id="@+id/tv_integral"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin"
+            android:text="@string/integral"
+            android:textColor="@color/white"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/tv_user_integral"
+            app:layout_constraintTop_toBottomOf="@+id/tv_user_name" />
+
+        <TextView
+            android:id="@+id/tv_user_integral"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_8"
+            android:text="@{viewModel.mIntegral.coinCount}"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_integral"
+            app:layout_constraintLeft_toRightOf="@+id/tv_integral"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_integral"
+            tools:text="20分" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.38" />
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_24"
+            android:layout_marginTop="@dimen/dimen_32"
+            android:layout_marginRight="@dimen/dimen_24"
+            app:layout_constraintTop_toBottomOf="@+id/tv_integral">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/dimen_32"
+                    android:text="@string/my_todo"
+                    android:textSize="@dimen/text_18" />
+
+
+                <TextView
+                    style="@style/mine_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/my_collect" />
+
+                <TextView
+                    style="@style/mine_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/my_collect" />
+
+                <TextView
+                    style="@style/mine_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/integral_details" />
+
+                <TextView
+                    style="@style/mine_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/integral_ranking" />
+
+
+                <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+                    style="@style/QMUIRoundButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/dimen_16"
+                    android:layout_marginVertical="@dimen/dimen_40"
+                    android:onClick="@{()->viewModel.logout()}"
+                    android:text="@string/logout"
+                    app:qmui_backgroundColor="@color/qmui_btn_bg"
+                    app:qmui_radius="@dimen/dimen_8" />
+
+            </LinearLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -25,9 +25,9 @@ import com.example.myapplication.enums.LoadState;
 /**
  * Fragment的基类
  *
- * @author devel
  * @param <DB> data binding
  * @param <VM> view model
+ * @author devel
  */
 public abstract class BaseFragment<DB extends ViewDataBinding, VM extends BaseViewModel>
         extends Fragment {
@@ -71,7 +71,7 @@ public abstract class BaseFragment<DB extends ViewDataBinding, VM extends BaseVi
                 mFragmentBaseBinding.flContentContainer, true);
 
         bindViewModel();
-
+        mDataBinding.setLifecycleOwner(this);
         initLoadState();
 
         init();
