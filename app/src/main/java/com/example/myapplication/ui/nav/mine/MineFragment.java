@@ -5,6 +5,8 @@ import android.widget.Toast;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
@@ -12,13 +14,18 @@ import com.example.myapplication.common.Code;
 import com.example.myapplication.databinding.FragmentMineBinding;
 import com.example.myapplication.http.bean.LoginBean;
 import com.example.myapplication.http.data.HttpBaseResponse;
+import com.example.myapplication.ui.activity.main.MainActivity;
 import com.example.myapplication.ui.activity.main.MainViewModel;
+import com.example.myapplication.ui.nav.login.LoginFragment;
 import com.example.myapplication.util.ImageSelectUtil;
 import com.guoxiaoxing.phoenix.core.model.MediaEntity;
 import com.guoxiaoxing.phoenix.picker.Phoenix;
 
 import static android.app.Activity.RESULT_OK;
 
+/**
+ * @author devel
+ */
 public class MineFragment extends BaseFragment<FragmentMineBinding, MainViewModel> {
 
 
@@ -35,7 +42,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MainViewMode
     @Override
     protected void bindViewModel() {
         mDataBinding.setViewModel(mViewModel);
-        mDataBinding.setMainFragment(this);
+        mDataBinding.setMineFragment(this);
 
     }
 
@@ -79,4 +86,12 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MainViewMode
             }
         }
     }
+
+    /**
+     * 跳转到清单界面
+     */
+    public void startTodFragment() {
+        NavHostFragment.findNavController(MineFragment.this).navigate(R.id.toDoFragment);
+    }
+
 }

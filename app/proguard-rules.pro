@@ -24,3 +24,6 @@
 -keep class **_FragmentFinder { *; }
 -keep class com.qmuiteam.qmui.arch.record.** { *; }
 -keep class androidx.fragment.app.* { *; }
+
+-dontwarn com.ccj.poptabview.**
+-keep class com.ccj.poptabview.**{*;}

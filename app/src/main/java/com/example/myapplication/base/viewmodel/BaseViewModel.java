@@ -3,14 +3,12 @@ package com.example.myapplication.base.viewmodel;
 
 import android.content.res.Resources;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.DefaultLifecycleObserver;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-
 import com.example.myapplication.App;
 import com.example.myapplication.enums.LoadState;
+
+import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 /**
  * ViewModel的基类

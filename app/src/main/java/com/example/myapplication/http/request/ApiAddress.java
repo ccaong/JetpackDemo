@@ -5,6 +5,7 @@ import com.example.myapplication.http.bean.ArticleListBean;
 import com.example.myapplication.http.bean.HomeBannerEntity;
 import com.example.myapplication.http.bean.Integral;
 import com.example.myapplication.http.bean.LoginBean;
+import com.example.myapplication.http.bean.ToDoListBean;
 import com.example.myapplication.http.bean.WeChatBean;
 import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.http.bean.ImageBean;
@@ -139,12 +140,35 @@ public interface ApiAddress {
 
     /**
      * ToDo列表
-     * 方法：GET
+     * 方法：POST
      *
-     * @param page 页码
+     * @param page     页码
+     * @param type     类别
+     * @param priority 优先级
      * @return
      */
-    @GET("lg/todo/v2/list/{page}/json")
-    Observable<HttpBaseResponse<Object>> getToDoList(@Path("page") int page);
+    @POST("lg/todo/v2/list/{page}/json")
+    Observable<HttpBaseResponse<ToDoListBean>> getToDoList(@Path("page") int page,
+                                                           @Query("type") int type, @Query("priority") int priority);
+
+    /**
+     * ToDo列表
+     * 方法：POST
+     *
+     * @param title    标题
+     * @param content  内容
+     * @param date     时间
+     * @param status   状态
+     * @param page     页码
+     * @param type     类别
+     * @param priority 优先级
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("lg/todo/update/{id}/json")
+    Observable<HttpBaseResponse<ToDoListBean>> updateToDoList(@Path("id") int page,
+                                                              @Field("title") String title, @Field("content") String content,
+                                                              @Field("date") String date, @Field("status") int status,
+                                                              @Field("type") int type, @Field("priority") int priority);
 
 }

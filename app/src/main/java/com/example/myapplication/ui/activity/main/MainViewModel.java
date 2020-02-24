@@ -1,5 +1,7 @@
 package com.example.myapplication.ui.activity.main;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
@@ -84,6 +86,8 @@ public class MainViewModel extends BaseViewModel {
         LoginBean loginBean = Hawk.get(Code.HawkCode.LOGIN_DATA);
 
         if (loginBean != null) {
+            Log.e("更新头像","准备登录成功");
+
             login(loginBean.getUsername(), loginBean.getPassword(), true);
         } else {
             HttpBaseResponse bean = new HttpBaseResponse();
@@ -124,6 +128,7 @@ public class MainViewModel extends BaseViewModel {
                             if (bean.errorCode == 0) {
                                 userBean.postValue(bean);
                                 loadUserHeader();
+                                Log.e("更新头像","自动登录成功");
                             } else {
                                 userName.postValue(name);
                             }
@@ -131,10 +136,16 @@ public class MainViewModel extends BaseViewModel {
                             userBean.postValue(bean);
                             if (bean.errorCode == 0) {
                                 loadUserHeader();
+                                Log.e("更新头像","手动登录成功");
                             }
                         }
                         bean.data.setPassword(pwd);
                         Hawk.put(Code.HawkCode.LOGIN_DATA, bean.data);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("更新头像","登录失败"+e.getMessage());
                     }
                 });
     }
@@ -145,6 +156,7 @@ public class MainViewModel extends BaseViewModel {
     private void loadUserHeader() {
         String path = Hawk.get(Code.HawkCode.HEADER_IMAGE + userBean.getValue().data.getUsername());
         if (!CommonUtils.isStringEmpty(path)) {
+            Log.e("更新头像","更新数据");
             userHeader.postValue(path);
         }
     }

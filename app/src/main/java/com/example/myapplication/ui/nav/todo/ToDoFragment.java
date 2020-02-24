@@ -1,19 +1,46 @@
 package com.example.myapplication.ui.nav.todo;
 
-import android.os.Bundle;
+import android.view.View;
 
-import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProviders;
-
+import com.ccj.poptabview.FilterConfig;
+import com.ccj.poptabview.base.BaseFilterTabBean;
+import com.ccj.poptabview.bean.FilterGroup;
+import com.ccj.poptabview.bean.FilterTabBean;
+import com.ccj.poptabview.listener.OnPopTabSetListener;
+import com.ccj.poptabview.loader.PopEntityLoaderImp;
+import com.ccj.poptabview.loader.ResultLoaderImp;
+import com.cjj.MaterialRefreshLayout;
+import com.cjj.MaterialRefreshListener;
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
-import com.example.myapplication.databinding.FragmentListBinding;
+import com.example.myapplication.databinding.FragmentTodoListBinding;
+import com.example.myapplication.http.bean.ToDoListBean;
+import com.example.myapplication.http.data.HttpBaseResponse;
+import com.example.myapplication.ui.adapter.CommonAdapter;
 
-public class ToDoFragment extends BaseFragment<FragmentListBinding, ToDoViewModel> {
+import java.util.ArrayList;
+import java.util.List;
+
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+/**
+ * @author devel
+ */
+public class ToDoFragment extends BaseFragment<FragmentTodoListBinding, ToDoViewModel> implements OnPopTabSetListener<String> {
+
+
+    private CommonAdapter<ToDoListBean.ToDoData> commonAdapter;
+
+    @Override
+    protected boolean isSupportLoad() {
+        return true;
+    }
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.fragment_list;
+        return R.layout.fragment_todo_list;
     }
 
     @Override
@@ -24,13 +51,190 @@ public class ToDoFragment extends BaseFragment<FragmentListBinding, ToDoViewMode
 
     @Override
     protected void bindViewModel() {
-        mDataBinding.setToDoViewModel(mViewModel);
+        mDataBinding.setViewModel(mViewModel);
     }
 
     @Override
     protected void init() {
+        mViewModel.loadToDoList();
+        initRecyclerView();
+        addMyMethod();
+        setRefresh();
+    }
 
+    private void setRefresh() {
+        mDataBinding.mrlRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
+            @Override
+            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
+                mViewModel.refresh();
+            }
+
+            @Override
+            public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
+                super.onRefreshLoadMore(materialRefreshLayout);
+                mViewModel.loadMore();
+            }
+        });
+    }
+
+    private void initRecyclerView() {
+        commonAdapter = new CommonAdapter<ToDoListBean.ToDoData>(R.layout.item_todo_data, com.example.myapplication.BR.toDoData) {
+            @Override
+            public void addListener(View root, ToDoListBean.ToDoData itemData, int position) {
+                super.addListener(root, itemData, position);
+                root.findViewById(R.id.card_view).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // TODO: 2020/2/24  打开详情
+
+                    }
+                });
+
+                root.findViewById(R.id.iv_priority).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (itemData.getPriority() == 0) {
+                            itemData.setPriority(1);
+                        } else {
+                            itemData.setPriority(0);
+                        }
+                        mViewModel.updateToDoData(itemData);
+                        commonAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        };
+        mDataBinding.recycle.setAdapter(commonAdapter);
+        mDataBinding.recycle.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        mViewModel.getToDoBean().observe(this, new Observer<HttpBaseResponse<ToDoListBean>>() {
+            @Override
+            public void onChanged(HttpBaseResponse<ToDoListBean> toDoListBeanHttpBaseResponse) {
+                commonAdapter.onItemDatasChanged(toDoListBeanHttpBaseResponse.data.getDatas());
+            }
+        });
 
     }
 
+
+    /**
+     * 筛选条件
+     */
+    private void addMyMethod() {
+        FilterGroup filterGroup1 = getStatusData("状态");
+        FilterGroup filterGroup3 = getTimeData("优先级");
+
+        mDataBinding.popView.setOnPopTabSetListener(this)
+                .setPopEntityLoader(new PopEntityLoaderImp()).setResultLoader(new ResultLoaderImp())
+                .addFilterItem(filterGroup1.getTab_group_name(), filterGroup1.getFilter_tab(), filterGroup1.getTab_group_type(), filterGroup1.getSingle_or_mutiply())
+                .addFilterItem(filterGroup3.getTab_group_name(), filterGroup3.getFilter_tab(), filterGroup3.getTab_group_type(), filterGroup3.getSingle_or_mutiply());
+    }
+
+    public FilterGroup getStatusData(String groupName) {
+
+        FilterGroup filterGroup = new FilterGroup();
+
+        filterGroup.setTab_group_name(groupName);
+        filterGroup.setTab_group_type(FilterConfig.TYPE_POPWINDOW_SINGLE);
+        filterGroup.setSingle_or_mutiply(FilterConfig.FILTER_TYPE_SINGLE);
+
+        List<BaseFilterTabBean> singleFilterList = new ArrayList<>();
+        for (int i = -1; i < 4; i++) {
+            //一级filter
+            FilterTabBean singleFilterBean = new FilterTabBean();
+            singleFilterBean.setTab_id(String.valueOf(i));
+            switch (i) {
+                case -1:
+                    singleFilterBean.setTab_name("全部");
+                    break;
+                case 0:
+                    singleFilterBean.setTab_name("学习");
+                    break;
+                case 1:
+                    singleFilterBean.setTab_name("工作");
+                    break;
+                case 2:
+                    singleFilterBean.setTab_name("生活");
+                    break;
+                case 3:
+                    singleFilterBean.setTab_name("其他");
+                    break;
+                default:
+                    break;
+            }
+            singleFilterList.add(singleFilterBean);
+        }
+
+        filterGroup.setFilter_tab(singleFilterList);
+        return filterGroup;
+
+    }
+
+    public FilterGroup getTimeData(String groupName) {
+
+        FilterGroup filterGroup = new FilterGroup();
+
+        filterGroup.setTab_group_name(groupName);
+        filterGroup.setTab_group_type(FilterConfig.TYPE_POPWINDOW_SINGLE);
+        filterGroup.setSingle_or_mutiply(FilterConfig.FILTER_TYPE_SINGLE);
+
+        List<BaseFilterTabBean> singleFilterList = new ArrayList<>();
+        for (int i = -1; i < 2; i++) {
+            FilterTabBean singleFilterBean = new FilterTabBean();
+            singleFilterBean.setTab_id(String.valueOf(i));
+            switch (i) {
+                case -1:
+                    singleFilterBean.setTab_name("全部");
+                    break;
+                case 0:
+                    singleFilterBean.setTab_name("重要");
+                    break;
+                case 1:
+                    singleFilterBean.setTab_name("一般");
+                    break;
+                default:
+                    break;
+            }
+            singleFilterList.add(singleFilterBean);
+        }
+        filterGroup.setFilter_tab(singleFilterList);
+        return filterGroup;
+
+    }
+
+    /**
+     * 选择筛选条件
+     *
+     * @param index
+     * @param lable
+     * @param params
+     * @param value
+     */
+    @Override
+    public void onPopTabSet(int index, String lable, String params, String value) {
+
+        if (value != null) {
+            if (index == 0) {
+                if (value.equals("全部")) {
+                    mViewModel.setType(0);
+                } else if (value.equals("学习")) {
+                    mViewModel.setType(1);
+                } else if (value.equals("工作")) {
+                    mViewModel.setType(2);
+                } else if (value.equals("生活")) {
+                    mViewModel.setType(3);
+                } else if (value.equals("其他")) {
+                    mViewModel.setType(4);
+                }
+            } else {
+                if (value.equals("全部")) {
+                    mViewModel.setPriority(0);
+                } else if (value.equals("重要")) {
+                    mViewModel.setPriority(1);
+                } else if (value.equals("一般")) {
+                    mViewModel.setPriority(2);
+                }
+            }
+        }
+    }
 }

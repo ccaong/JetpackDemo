@@ -20,7 +20,6 @@ import com.example.myapplication.enums.LoadState;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.databinding.Observable;
 import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.Observer;
 
@@ -48,8 +47,6 @@ public abstract class BaseActivity<DB extends ViewDataBinding, VM extends BaseVi
     private ViewNoNetworkBinding mViewNoNetworkBinding;
 
     private ViewNoDataBinding mViewNoDataBinding;
-
-    private Observable.OnPropertyChangedCallback mLoadStateCallback;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

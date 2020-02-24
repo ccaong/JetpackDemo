@@ -4,13 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="com.example.myapplication.ui.activity.main.MainViewModel" />
 
         <variable
-            name="mainFragment"
+            name="mineFragment"
             type="com.example.myapplication.ui.nav.mine.MineFragment" />
     </data>
 
@@ -23,36 +22,36 @@
             android:id="@+id/iv_bg"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:scaleType="fitXY"
             android:background="@color/colorPrimary"
-            app:loadImageGoss="@{viewModel.userHeader}"
-            app:layout_constraintBottom_toTopOf="@+id/guideline"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toTopOf="@+id/guideline_1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:loadImageGoss="@{viewModel.userHeader}" />
 
         <com.example.myapplication.ui.view.CircleImageView
             android:id="@+id/iv_header"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginTop="@dimen/dimen_48"
-            android:onClick="@{()-> mainFragment.selectImage()}"
+            android:layout_marginBottom="@dimen/margin"
+            android:onClick="@{()-> mineFragment.selectImage()}"
             android:scaleType="fitXY"
-            app:loadImage="@{viewModel.userHeader}"
             android:src="@mipmap/ic_launcher"
+            app:layout_constraintBottom_toTopOf="@+id/tv_user_name"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:loadImage="@{viewModel.userHeader}" />
 
         <TextView
             android:id="@+id/tv_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin"
+            android:layout_marginBottom="@dimen/dimen_8"
             android:textColor="@color/white"
             android:textSize="@dimen/text_18"
             android:tooltipText="@string/user_name"
+            app:layout_constraintBottom_toTopOf="@+id/tv_integral"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_header"
             tools:text="@string/user_name" />
 
         <TextView
@@ -60,24 +59,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin"
+            android:layout_marginBottom="@dimen/margin"
             android:text="@string/integral"
             android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/guideline"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/tv_user_integral"
-            app:layout_constraintTop_toBottomOf="@+id/tv_user_name" />
+            app:layout_constraintRight_toLeftOf="@+id/tv_user_integral" />
 
         <TextView
             android:id="@+id/tv_user_integral"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dimen_8"
+            android:layout_marginBottom="@dimen/margin"
             android:text="@{viewModel.mIntegral.coinCount}"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/tv_integral"
+            app:layout_constraintBottom_toTopOf="@+id/guideline"
             app:layout_constraintLeft_toRightOf="@+id/tv_integral"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_integral"
             tools:text="20分" />
 
         <androidx.constraintlayout.widget.Guideline
@@ -85,16 +86,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.3" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.38" />
 
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dimen_24"
-            android:layout_marginTop="@dimen/dimen_32"
             android:layout_marginRight="@dimen/dimen_24"
-            app:layout_constraintTop_toBottomOf="@+id/tv_integral">
+            app:layout_constraintTop_toBottomOf="@+id/guideline">
 
 
             <LinearLayout
@@ -108,6 +116,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/dimen_32"
                     android:text="@string/my_todo"
+                    android:onClick="@{()->mineFragment.startTodFragment()}"
                     android:textSize="@dimen/text_18" />
 
 

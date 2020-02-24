@@ -14,6 +14,7 @@ import com.example.myapplication.databinding.FragmentListBinding;
 import com.example.myapplication.http.bean.ArticleBean;
 import com.example.myapplication.http.bean.ArticleListBean;
 import com.example.myapplication.ui.activity.web.DetailsActivity;
+import com.example.myapplication.ui.adapter.ArticleListAdapter;
 import com.example.myapplication.ui.adapter.CommonAdapter;
 
 import androidx.lifecycle.Observer;
@@ -94,6 +95,14 @@ public class WeChatContentListFragment extends BaseFragment<FragmentListBinding,
         });
     }
 
+
+    private void initRecyclerView1() {
+
+        mDataBinding.recycle.setAdapter(new ArticleListAdapter(mViewModel.getList()));
+        mDataBinding.recycle.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+
     private void initRecyclerView() {
 
         CommonAdapter commonAdapter = new CommonAdapter<ArticleBean>(R.layout.item_article, BR.articleBean) {
@@ -103,7 +112,7 @@ public class WeChatContentListFragment extends BaseFragment<FragmentListBinding,
                 root.findViewById(R.id.card_view).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        DetailsActivity.start(getActivity(),itemData.getLink());
+                        DetailsActivity.start(getActivity(), itemData.getLink());
                     }
                 });
             }

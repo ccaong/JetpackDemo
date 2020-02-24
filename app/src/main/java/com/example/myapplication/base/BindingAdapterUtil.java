@@ -12,6 +12,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.cjj.MaterialRefreshLayout;
+import com.example.myapplication.App;
+import com.example.myapplication.R;
 import com.example.myapplication.base.adapter.BasePagerAdapter;
 import com.example.myapplication.enums.RefreshState;
 import com.example.myapplication.http.bean.ArticleBean;
@@ -119,4 +121,27 @@ public class BindingAdapterUtil {
             }
         }
     }
+
+
+    @BindingAdapter("todoGrade")
+    public static void setTodoGrade(ImageView view, int priority) {
+        if (priority == 0) {
+            view.setImageResource(R.mipmap.ic_star);
+        } else {
+            view.setImageResource(R.mipmap.ic_star_outline);
+        }
+    }
+
+
+    @BindingAdapter("todoStatus")
+    public static void setTodoStatus(TextView view, int status) {
+        if (status == 0) {
+            view.setText("未完成");
+            view.setTextColor(App.getContext().getResources().getColor(R.color.app_color_theme_1));
+        } else {
+            view.setText("已完成");
+            view.setTextColor(App.getContext().getResources().getColor(R.color.color_blue));
+        }
+    }
+
 }

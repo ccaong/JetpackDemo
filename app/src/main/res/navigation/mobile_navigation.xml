@@ -72,5 +72,11 @@
         android:name="com.example.myapplication.ui.nav.register.RegisterFragment"
         android:label="RegisterFragment" />
 
+    <!--    待办清单-->
+    <fragment
+        android:id="@+id/toDoFragment"
+        android:name="com.example.myapplication.ui.nav.todo.ToDoFragment"
+        android:label="ToDoFragment" />
+
 
 </navigation>

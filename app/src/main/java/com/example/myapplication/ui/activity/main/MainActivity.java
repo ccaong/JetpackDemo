@@ -14,6 +14,7 @@ import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.ui.view.CircleImageView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -112,6 +113,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         mViewModel.getUserHeader().observe(this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
+                Log.e("更新头像","更新成功"+s);
                 Glide.with(MainActivity.this)
                         .load(s)
                         .into(ivHeader);

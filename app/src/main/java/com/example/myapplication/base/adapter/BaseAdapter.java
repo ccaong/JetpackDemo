@@ -1,58 +1,39 @@
 package com.example.myapplication.base.adapter;
 
 
+import java.util.List;
+
 import androidx.annotation.NonNull;
-import androidx.databinding.ObservableList;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Adapter的基类
+ * @author devel
  */
-public abstract class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
+public abstract class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> implements LifecycleOwner {
 
-    protected ObservableList<Object> mDataList;
+    protected LiveData<List<Object>> mDataList;
 
-    public BaseAdapter(@NonNull ObservableList<Object> dataList) {
+    public BaseAdapter(@NonNull LiveData<List<Object>> dataList) {
         mDataList = dataList;
         initCallback();
     }
 
     private void initCallback() {
-        mDataList.addOnListChangedCallback(new ObservableList.OnListChangedCallback<ObservableList<Object>>() {
 
+        mDataList.observe(this, new Observer<Object>() {
             @Override
-            public void onChanged(ObservableList<Object> sender) {
+            public void onChanged(Object o) {
                 notifyDataSetChanged();
-            }
-
-            @Override
-            public void onItemRangeChanged(ObservableList<Object> sender, int positionStart, int itemCount) {
-                notifyItemRangeChanged(positionStart, itemCount);
-            }
-
-            @Override
-            public void onItemRangeInserted(ObservableList<Object> sender, int positionStart, int itemCount) {
-                notifyItemRangeInserted(positionStart, itemCount);
-            }
-
-            @Override
-            public void onItemRangeMoved(ObservableList<Object> sender, int fromPosition, int toPosition, int itemCount) {
-                if (itemCount == 1) {
-                    notifyItemMoved(fromPosition, toPosition);
-                } else {
-                    notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onItemRangeRemoved(ObservableList<Object> sender, int positionStart, int itemCount) {
-                notifyItemRangeRemoved(positionStart, itemCount);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return mDataList != null ? mDataList.size() : 0;
+        return mDataList.getValue() != null ? mDataList.getValue().size() : 0;
     }
 }
