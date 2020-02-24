@@ -21,7 +21,9 @@ import java.util.List;
  *
  * @author devel
  */
-public class CommonAdapter<T> extends RecyclerView.Adapter<CommonViewHolder> {
+public class CommonAdapterNew<T,DB extends ViewDataBinding> extends RecyclerView.Adapter<CommonViewHolder> {
+
+    protected DB mDataBinding;
 
 
     private List<T> mList;
@@ -29,21 +31,15 @@ public class CommonAdapter<T> extends RecyclerView.Adapter<CommonViewHolder> {
      * 布局id
      */
     private int defaultLayout;
-    /**
-     *
-     */
-    private int brId;
 
 
-    public CommonAdapter(int defaultLayout, int brId) {
+    public CommonAdapterNew(int defaultLayout) {
         this.defaultLayout = defaultLayout;
-        this.brId = brId;
     }
 
-    public CommonAdapter(List<T> list, int defaultLayout, int brId) {
+    public CommonAdapterNew(List<T> list, int defaultLayout) {
         this.mList = list;
         this.defaultLayout = defaultLayout;
-        this.brId = brId;
     }
 
     public int getItemLayout(T itemData) {
@@ -116,15 +112,21 @@ public class CommonAdapter<T> extends RecyclerView.Adapter<CommonViewHolder> {
     @NonNull
     @Override
     public CommonViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        // TODO: 2020/2/24 可以根据不同的viewType，返回不同的ViewHolder 
-        ViewDataBinding dataBinding = DataBindingUtil.inflate(LayoutInflater.from(viewGroup.getContext()), viewType, viewGroup, false);
-        return new CommonViewHolder(dataBinding);
+        // TODO: 2020/2/24 可以根据不同的viewType，返回不同的ViewHolder
+        mDataBinding = DataBindingUtil.inflate(LayoutInflater.from(viewGroup.getContext()), viewType, viewGroup, false);
+        return new CommonViewHolder(mDataBinding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CommonViewHolder commonViewHolder, int position) {
         //绑定数据
-        commonViewHolder.binding.setVariable(brId, mList.get(position));
+
+        ItemArticleNewBinding newBinding = (ItemArticleNewBinding) commonViewHolder.binding;
+        ArticleViewModel articleViewModel = new ArticleViewModel();
+        articleViewModel.setBaseModel((ArticleBean) mList.get(position));
+        newBinding.setViewModel(articleViewModel);
+
+//        commonViewHolder.binding.setVariable(brId, mList.get(position));
         addListener(commonViewHolder.binding.getRoot(), mList.get(position), position);
         //防止数据闪烁
         commonViewHolder.binding.executePendingBindings();

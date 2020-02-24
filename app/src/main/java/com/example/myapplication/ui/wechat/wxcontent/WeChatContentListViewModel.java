@@ -12,9 +12,11 @@ import com.example.myapplication.util.NetworkUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.databinding.ObservableList;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
+
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -27,12 +29,11 @@ public class WeChatContentListViewModel extends BaseViewModel {
     private MutableLiveData<ArticleListBean> mArticleList;
     private List<ArticleBean> mList;
 
-    private MutableLiveData<List<Object>> list;
+    private ObservableList<Object> list;
 
     public WeChatContentListViewModel() {
 
         mArticleList = new MediatorLiveData<>();
-        list = new MediatorLiveData<>();
         mList = new ArrayList<>();
     }
 
@@ -44,7 +45,7 @@ public class WeChatContentListViewModel extends BaseViewModel {
         return mArticleList;
     }
 
-    public LiveData<List<Object>> getList() {
+    public ObservableList<Object> getList() {
         return list;
     }
 
@@ -105,13 +106,13 @@ public class WeChatContentListViewModel extends BaseViewModel {
                                 mList.addAll(mArticleListBean.data.getDatas());
                                 mArticleList.postValue(mArticleListBean.data);
 
-                                list.postValue(mList);
+
                             } else {
                                 mList.addAll(mArticleListBean.data.getDatas());
                                 mArticleListBean.data.setDatas(mList);
                                 mArticleList.postValue(mArticleListBean.data);
 
-                                list.postValue(mList);
+
                             }
                         } else {
                             loadState.postValue(LoadState.ERROR);

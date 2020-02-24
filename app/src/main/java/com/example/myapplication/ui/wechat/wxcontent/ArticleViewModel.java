@@ -37,6 +37,9 @@ public class ArticleViewModel extends BaseItemViewModel<ArticleBean> {
 
     private DetailsNavigator mDetailsNavigator;
 
+    public ArticleViewModel() {
+    }
+
     public ArticleViewModel(@NonNull DetailsNavigator detailsNavigator) {
         mDetailsNavigator = detailsNavigator;
     }

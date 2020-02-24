@@ -11,6 +11,7 @@ import com.cjj.MaterialRefreshListener;
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
 import com.example.myapplication.databinding.FragmentListBinding;
+import com.example.myapplication.databinding.ItemArticleNewBinding;
 import com.example.myapplication.http.bean.ArticleBean;
 import com.example.myapplication.http.bean.ArticleListBean;
 import com.example.myapplication.ui.activity.web.DetailsActivity;

@@ -10,6 +10,7 @@ import com.example.myapplication.ui.wechat.wxcontent.ArticleViewHolder;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.ObservableList;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleRegistry;
 import androidx.lifecycle.LiveData;
@@ -25,22 +26,11 @@ public class ArticleListAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
     private static final int VIEW_TYPE_ARTICLE = 1;
     private static final int VIEW_TYPE_BANNER = 2;
 
-    private LifecycleRegistry mLifecycleRegistry=new LifecycleRegistry(ArticleListAdapter.this);
 
-
-    public ArticleListAdapter(@NonNull LiveData<List<Object>> dataList) {
+    public ArticleListAdapter(@NonNull ObservableList<Object> dataList) {
         super(dataList);
-
-        MyObserver myObserver = new MyObserver();
-        mLifecycleRegistry.addObserver(myObserver);
-
     }
 
-    @NonNull
-    @Override
-    public Lifecycle getLifecycle() {
-        return mLifecycleRegistry;
-    }
 
     @NonNull
     @Override
@@ -59,7 +49,7 @@ public class ArticleListAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Object data = mDataList.getValue().get(position);
+        Object data = mDataList.get(position);
         int viewType = getItemViewType(position);
         switch (viewType) {
             case VIEW_TYPE_ARTICLE:
@@ -77,7 +67,7 @@ public class ArticleListAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        Object data = mDataList.getValue().get(position);
+        Object data = mDataList.get(position);
         if (data instanceof ArticleBean) {
             return VIEW_TYPE_ARTICLE;
         } /*else if (data instanceof BannerData) {
