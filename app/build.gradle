@@ -81,6 +81,11 @@ android {
         //PopTabView 条件筛选view
         implementation 'me.ccj.PopsTabView:poptabview_lib:1.5.0'
 
+        //FlowLayout 标签布局
+        implementation 'com.hyman:flowlayout-lib:1.1.2'
+        // 流式布局
+        implementation 'com.google.android:flexbox:2.0.1'
+
         //图片/视频选择、预览、编辑与拍照
         implementation 'com.github.guoxiaoxing:phoenix:1.0.15'
         //选填 - 图片压缩，开启功能：Phoenix.with().enableCompress(true)，获取结果：MediaEntity.getCompressPath()
