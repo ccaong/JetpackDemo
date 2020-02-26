@@ -1,6 +1,8 @@
 package com.example.myapplication;
 
+import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -9,6 +11,7 @@ import com.example.myapplication.http.data.HttpResponseInterface;
 import com.example.myapplication.http.httptool.HttpException;
 import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.ServerAddress;
+import com.example.myapplication.manager.MyActivityManager;
 import com.google.gson.Gson;
 import com.guoxiaoxing.phoenix.core.listener.ImageLoader;
 import com.guoxiaoxing.phoenix.picker.Phoenix;
@@ -25,18 +28,56 @@ import androidx.multidex.MultiDexApplication;
 
 public class App extends MultiDexApplication {
     private static Context context;
-    public static String Mac = "";
 
     @Override
     public void onCreate() {
         super.onCreate();
         context = this;
-
+        initActivityManager();
         init();
     }
 
     public static Context getContext() {
         return context;
+    }
+
+    private void initActivityManager() {
+        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+            @Override
+            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+
+            }
+
+            @Override
+            public void onActivityStarted(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityResumed(Activity activity) {
+                MyActivityManager.getInstance().setCurrentActivity(activity);
+            }
+
+            @Override
+            public void onActivityPaused(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityStopped(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+            }
+
+            @Override
+            public void onActivityDestroyed(Activity activity) {
+
+            }
+        });
     }
 
     private void init() {

@@ -1,12 +1,8 @@
 package com.example.myapplication.ui.wechat.wxcontent;
 
-import android.text.TextUtils;
-
-
 import com.example.myapplication.R;
 import com.example.myapplication.base.viewmodel.BaseItemViewModel;
 import com.example.myapplication.http.bean.ArticleBean;
-import com.example.myapplication.navinterface.DetailsNavigator;
 import com.example.myapplication.util.CommonUtils;
 
 import java.util.List;
@@ -35,14 +31,10 @@ public class ArticleViewModel extends BaseItemViewModel<ArticleBean> {
 
     public final MutableLiveData<Boolean> fresh = new MutableLiveData(false);
 
-    private DetailsNavigator mDetailsNavigator;
 
     public ArticleViewModel() {
     }
 
-    public ArticleViewModel(@NonNull DetailsNavigator detailsNavigator) {
-        mDetailsNavigator = detailsNavigator;
-    }
 
     @Override
     protected void setAllModel(@NonNull ArticleBean article) {
@@ -75,8 +67,6 @@ public class ArticleViewModel extends BaseItemViewModel<ArticleBean> {
 
     public void onClickItem() {
         ArticleBean article = getBaseModel();
-        if (article != null && !TextUtils.isEmpty(article.getLink())) {
-//            mDetailsNavigator.startDetailsActivity(article.getLink());
-        }
+
     }
 }

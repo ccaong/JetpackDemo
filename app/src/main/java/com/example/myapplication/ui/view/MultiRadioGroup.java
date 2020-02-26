@@ -1,4 +1,4 @@
-package com.guoqing.aqsc.view;
+package com.example.myapplication.ui.view;
 
 import android.content.Context;
 import android.util.AttributeSet;

@@ -11,13 +11,10 @@ import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
 import com.example.myapplication.common.Code;
 import com.example.myapplication.databinding.FragmentListBinding;
-import com.example.myapplication.databinding.ItemArticleNewBinding;
 import com.example.myapplication.http.bean.ArticleBean;
 import com.example.myapplication.http.bean.ArticleListBean;
 import com.example.myapplication.ui.activity.web.DetailsActivity;
-import com.example.myapplication.ui.adapter.ArticleListAdapter;
 import com.example.myapplication.ui.adapter.CommonAdapter;
-import com.example.myapplication.ui.adapter.CommonAdapterNew;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -67,7 +64,8 @@ public class WeChatContentListFragment extends BaseFragment<FragmentListBinding,
 
     @Override
     protected void init() {
-        mDataBinding.mrlRefreshLayout.setLoadMore(true);
+        refreshLayout = mDataBinding.mrlRefreshLayout;
+
         mViewModel.setId(id);
         mViewModel.loadData();
 
@@ -84,34 +82,29 @@ public class WeChatContentListFragment extends BaseFragment<FragmentListBinding,
             @Override
             public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
                 mDataBinding.mrlRefreshLayout.setLoadMore(true);
-                mViewModel.mRefresh = true;
-                mViewModel.refreshData();
-
+                mViewModel.refreshData(true);
             }
 
             @Override
             public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
-                mViewModel.mRefresh = true;
-                mViewModel.loadMoreData();
+                mViewModel.refreshData(false);
             }
         });
     }
 
 
-    private void initRecyclerView1() {
-
-        mDataBinding.recycle.setAdapter(new ArticleListAdapter(mViewModel.getList()));
-        mDataBinding.recycle.setLayoutManager(new LinearLayoutManager(getContext()));
-    }
-
-
     private void initRecyclerView() {
 
-        CommonAdapterNew commonAdapter = new CommonAdapterNew<ArticleBean,ItemArticleNewBinding>(R.layout.item_article_new) {
+        CommonAdapter commonAdapter = new CommonAdapter<ArticleBean>(R.layout.item_article, BR.articleBean) {
             @Override
             public void addListener(View root, ArticleBean itemData, int position) {
                 super.addListener(root, itemData, position);
-
+                root.findViewById(R.id.card_view).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        DetailsActivity.start(getActivity(), itemData.getLink());
+                    }
+                });
             }
         };
         mDataBinding.recycle.setAdapter(commonAdapter);
@@ -120,15 +113,11 @@ public class WeChatContentListFragment extends BaseFragment<FragmentListBinding,
         mViewModel.getArticleList().observe(this, new Observer<ArticleListBean>() {
             @Override
             public void onChanged(ArticleListBean articleListBean) {
-
-                if (articleListBean.isOver()) {
-                    Toast.makeText(getContext(), "没有更多数据了！", Toast.LENGTH_SHORT).show();
-                    mDataBinding.mrlRefreshLayout.finishRefreshLoadMore();
+                if (articleListBean.getCurPage() >= articleListBean.getPageCount()) {
+                    mDataBinding.mrlRefreshLayout.setLoadMore(false);
                     return;
                 }
                 commonAdapter.onItemDatasChanged(articleListBean.getDatas());
-                mDataBinding.mrlRefreshLayout.finishRefresh();
-                mDataBinding.mrlRefreshLayout.finishRefreshLoadMore();
             }
         });
     }

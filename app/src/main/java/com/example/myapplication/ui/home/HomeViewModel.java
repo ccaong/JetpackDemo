@@ -1,22 +1,23 @@
 package com.example.myapplication.ui.home;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
 import com.example.myapplication.base.viewmodel.BaseViewModel;
+import com.example.myapplication.enums.LoadState;
 import com.example.myapplication.http.bean.ArticleBean;
 import com.example.myapplication.http.bean.ArticleListBean;
-import com.example.myapplication.http.bean.HomeBannerEntity;
-import com.example.myapplication.enums.LoadState;
-import com.example.myapplication.enums.RefreshState;
+import com.example.myapplication.http.bean.HomeBanner;
+import com.example.myapplication.http.bean.home.BannerData;
+import com.example.myapplication.http.bean.home.HomeData;
 import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.http.data.HttpDisposable;
 import com.example.myapplication.http.request.HttpRequest;
 import com.example.myapplication.util.NetworkUtils;
+import com.orhanobut.hawk.Hawk;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -24,12 +25,11 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class HomeViewModel extends BaseViewModel {
 
-    private MutableLiveData<HomeBannerEntity> mBanner;
-    private MutableLiveData<ArticleListBean> mArticleList;
+    private List<HomeBanner> mBannerList;
+    private List<ArticleBean> mArticleList;
 
-    public MutableLiveData<RefreshState> mRefreshState;
-
-    private List<ArticleBean> mList;
+    private MutableLiveData<List<HomeData>> mHomeList;
+    private List<HomeData> mList;
 
     /**
      * 请求页码
@@ -37,18 +37,18 @@ public class HomeViewModel extends BaseViewModel {
     private int mPageNum;
 
     public HomeViewModel() {
-        mBanner = new MutableLiveData<>();
-        mArticleList = new MutableLiveData<>();
-        mRefreshState = new MutableLiveData<>();
+
+        mHomeList = new MutableLiveData<>();
+
+        mBannerList = new ArrayList<>();
+        mArticleList = new ArrayList<>();
+
         mList = new ArrayList<>();
     }
 
-    public LiveData<HomeBannerEntity> getBanner() {
-        return mBanner;
-    }
 
-    public LiveData<ArticleListBean> getArticleList() {
-        return mArticleList;
+    public LiveData<List<HomeData>> getHomeList() {
+        return mHomeList;
     }
 
 
@@ -57,6 +57,7 @@ public class HomeViewModel extends BaseViewModel {
      */
     @Override
     public void reloadData() {
+        mRefresh = false;
         loadHomeData();
     }
 
@@ -69,24 +70,22 @@ public class HomeViewModel extends BaseViewModel {
         }
         mPageNum = 0;
         loadBanner();
-        loadTopArticleList();
     }
 
     /**
      * 刷新
      */
-    public void refreshData() {
-        loadHomeData();
-    }
+    public void refreshData(boolean refresh) {
+        mRefresh = true;
+        if (refresh) {
+            mPageNum = 0;
+            loadHomeData();
+        } else {
+            mPageNum++;
+            loadArticleList(mPageNum);
+        }
 
-    /**
-     * 加载更多数据
-     */
-    public void loadMoreData() {
-        mPageNum++;
-        loadArticleList(mPageNum);
     }
-
 
     /**
      * 获取首页轮播图
@@ -108,18 +107,27 @@ public class HomeViewModel extends BaseViewModel {
         HttpRequest.getInstance()
                 .getBanner()
                 .subscribeOn(Schedulers.io())
-                .subscribe(new HttpDisposable<HomeBannerEntity>() {
+                .subscribe(new HttpDisposable<HttpBaseResponse<List<HomeBanner>>>() {
                     @Override
-                    public void success(HomeBannerEntity homeBannerEntity) {
-                        mBanner.postValue(homeBannerEntity);
+                    public void success(HttpBaseResponse<List<HomeBanner>> homeBannerEntity) {
+
+                        mList.clear();
+                        HomeData homeData = new HomeData();
+                        homeData.setBannerData(new BannerData(homeBannerEntity.data));
+                        mList.add(homeData);
+                        mHomeList.postValue(mList);
+
                         if (!mRefresh) {
                             loadState.postValue(LoadState.SUCCESS);
                         }
+                        //获取置顶文章
+                        loadTopArticleList();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        super.onError(e);
+                        //获取置顶文章
+                        loadTopArticleList();
                     }
                 });
     }
@@ -144,26 +152,18 @@ public class HomeViewModel extends BaseViewModel {
 
                         if (mArticleBean.data != null && mArticleBean.data.size() != 0) {
 
-                            mList.clear();
-                            mList.addAll(mArticleBean.data);
-
-                            for (ArticleBean bean :mList){
+                            for (ArticleBean bean : mArticleBean.data) {
                                 bean.setTop(true);
+                                HomeData homeData = new HomeData();
+                                homeData.setArticleList(bean);
+                                mList.add(homeData);
                             }
-
-                            HttpBaseResponse<ArticleListBean> mArticleListBean = new HttpBaseResponse<>();
-                            mArticleListBean.errorCode = mArticleBean.errorCode;
-                            mArticleListBean.data.setDatas(mList);
-                            mArticleList.postValue(mArticleListBean.data);
+                            mHomeList.postValue(mList);
 
                             //获取首页文章
                             loadArticleList(0);
                             if (!mRefresh) {
                                 loadState.postValue(LoadState.SUCCESS);
-                            }
-                        } else {
-                            if (!mRefresh) {
-                                loadState.postValue(LoadState.NO_DATA);
                             }
                         }
                     }
@@ -189,10 +189,12 @@ public class HomeViewModel extends BaseViewModel {
                     public void success(HttpBaseResponse<ArticleListBean> mArticleListBean) {
 
                         if (mArticleListBean.data.getDatas() != null && mArticleListBean.data.getDatas().size() != 0) {
-
-                            mList.addAll(mArticleListBean.data.getDatas());
-                            mArticleListBean.data.setDatas(mList);
-                            mArticleList.postValue(mArticleListBean.data);
+                            for (ArticleBean bean : mArticleListBean.data.getDatas()) {
+                                HomeData homeData = new HomeData();
+                                homeData.setArticleList(bean);
+                                mList.add(homeData);
+                            }
+                            mHomeList.postValue(mList);
                         }
                     }
 

@@ -1,6 +1,6 @@
-package com.example.myapplication.http.data;
+package com.example.myapplication.http.bean.home;
 
-import com.example.myapplication.http.bean.HomeBanner;
+import com.example.myapplication.http.bean.ArticleBean;
 
 /**
  * @author : devel
@@ -9,22 +9,22 @@ import com.example.myapplication.http.bean.HomeBanner;
  */
 public class HomeData {
 
-    private HomeBanner bannerData;
-    private ArticleList articleList;
+    private BannerData bannerData;
+    private ArticleBean articleList;
 
-    public HomeBanner getBannerData() {
+    public BannerData getBannerData() {
         return bannerData;
     }
 
-    public void setBannerData(HomeBanner bannerData) {
+    public void setBannerData(BannerData bannerData) {
         this.bannerData = bannerData;
     }
 
-    public ArticleList getArticleList() {
+    public ArticleBean getArticleList() {
         return articleList;
     }
 
-    public void setArticleList(ArticleList articleList) {
+    public void setArticleList(ArticleBean articleList) {
         this.articleList = articleList;
     }
 

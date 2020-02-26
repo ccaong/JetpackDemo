@@ -5,6 +5,7 @@ import android.content.res.Resources;
 
 import com.example.myapplication.App;
 import com.example.myapplication.enums.LoadState;
+import com.example.myapplication.enums.RefreshState;
 
 import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.MutableLiveData;
@@ -18,6 +19,12 @@ import androidx.lifecycle.ViewModel;
 public abstract class BaseViewModel extends ViewModel implements DefaultLifecycleObserver {
 
     public Resources resources;
+
+
+    /**
+     * 刷新状态
+     */
+    public MutableLiveData<RefreshState> refreshState = new MutableLiveData<>();
 
     /**
      * 加载状态

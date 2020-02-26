@@ -27,11 +27,9 @@ public final class CommonUtils {
         return list == null || list.size() == 0;
     }
 
-    public static boolean isStringEmpty(String string){
+    public static boolean isStringEmpty(String string) {
         return string == null || "".equals(string);
     }
-
-
 
     /**
      * 获取字符串资源
@@ -42,6 +40,17 @@ public final class CommonUtils {
     public static String getString(@StringRes int resId) {
         return App.getContext().getString(resId);
     }
+
+    /**
+     * 获取字符串资源
+     *
+     * @param i
+     * @return 字符串
+     */
+    public static String int2String(@StringRes int i) {
+        return i + "";
+    }
+
 
     /**
      * 获取颜色资源

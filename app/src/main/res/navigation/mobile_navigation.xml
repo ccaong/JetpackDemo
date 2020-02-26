@@ -12,16 +12,11 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
+        android:id="@+id/nav_collect"
         android:name="com.example.myapplication.ui.nav.collect.CollectFragment"
         android:label="@string/collect"
         tools:layout="@layout/fragment_list" />
 
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.myapplication.ui.nav.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
 
     <fragment
         android:id="@+id/nav_tools"
@@ -77,6 +72,30 @@
         android:id="@+id/toDoFragment"
         android:name="com.example.myapplication.ui.nav.todo.ToDoFragment"
         android:label="ToDoFragment" />
+
+    <!--    待办清单详情-->
+    <fragment
+        android:id="@+id/toDoContentFragment"
+        android:name="com.example.myapplication.ui.nav.todo.todocontent.ToDoContentFragment"
+        android:label="ToDoContentFragment" />
+
+    <!--    新增待办事项-->
+    <fragment
+        android:id="@+id/addToDoFragment"
+        android:name="com.example.myapplication.ui.nav.todo.addtodo.AddToDoFragment"
+        android:label="@string/add_todo_title" />
+
+    <!--    积分详情列表-->
+    <fragment
+        android:id="@+id/coinListFragment"
+        android:name="com.example.myapplication.ui.nav.mine.coin.CoinListFragment"
+        android:label="@string/integral_details" />
+
+    <!--    积分排行榜-->
+    <fragment
+        android:id="@+id/coinRankListFragment"
+        android:name="com.example.myapplication.ui.nav.mine.coinrank.CoinRankListFragment"
+        android:label="@string/integral_ranking" />
 
 
 </navigation>

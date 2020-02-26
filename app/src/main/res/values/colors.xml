@@ -4,6 +4,17 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
+
+    <!--MD 字体颜色-->
+    <!--87% — D4  普通文字 -->
+    <color name="text_black_87">#D4000000</color>
+    <!--54% — 8A  减淡文字 -->
+    <color name="text_black_54">#8A000000</color>
+    <!--26% — 42  禁用状态/提示文字  -->
+    <color name="text_black_26">#42000000</color>
+    <!--12% — 1E  分隔线-->
+    <color name="text_black_12">#1E000000</color>
+
     <color name="color_red">#F44336</color>
     <color name="color_green">#4CAF50</color>
     <color name="color_blue">#2196f3</color>
@@ -17,6 +28,10 @@
     <color name="background">#f0eff4</color>
 
     <color name="page_background">#FFFFFF</color>
+
+    <color name="gray_dft">#888888</color>
+
+
 
     <color name="app_color_theme_1">#EF5362</color> <!-- Grapefruit -->
     <color name="app_color_theme_2">#FE6D4B</color> <!-- Bittersweet -->

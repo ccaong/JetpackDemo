@@ -10,6 +10,8 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.BR;
+import com.example.myapplication.R;
 import com.example.myapplication.databinding.ItemArticleNewBinding;
 import com.example.myapplication.http.bean.ArticleBean;
 import com.example.myapplication.ui.wechat.wxcontent.ArticleViewModel;
@@ -44,11 +46,6 @@ public class CommonAdapter<T> extends RecyclerView.Adapter<CommonViewHolder> {
         this.mList = list;
         this.defaultLayout = defaultLayout;
         this.brId = brId;
-    }
-
-    public int getItemLayout(T itemData) {
-        // TODO: 2020/2/24 可以根据不同的数据类型，返回不同的布局文件
-        return defaultLayout;
     }
 
     /**
@@ -107,6 +104,11 @@ public class CommonAdapter<T> extends RecyclerView.Adapter<CommonViewHolder> {
         notifyItemRangeRemoved(positionStart, itemCount);
     }
 
+    public int getItemLayout(T itemData) {
+        return defaultLayout;
+    }
+
+
     @Override
     public int getItemViewType(int position) {
         return getItemLayout(mList.get(position));
@@ -116,13 +118,13 @@ public class CommonAdapter<T> extends RecyclerView.Adapter<CommonViewHolder> {
     @NonNull
     @Override
     public CommonViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        // TODO: 2020/2/24 可以根据不同的viewType，返回不同的ViewHolder 
         ViewDataBinding dataBinding = DataBindingUtil.inflate(LayoutInflater.from(viewGroup.getContext()), viewType, viewGroup, false);
         return new CommonViewHolder(dataBinding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CommonViewHolder commonViewHolder, int position) {
+
         //绑定数据
         commonViewHolder.binding.setVariable(brId, mList.get(position));
         addListener(commonViewHolder.binding.getRoot(), mList.get(position), position);

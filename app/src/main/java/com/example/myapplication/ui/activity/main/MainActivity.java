@@ -76,7 +76,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         drawer = mDataBinding.drawerLayout;
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,
+                R.id.nav_home,
                 R.id.nav_tools, R.id.nav_share, R.id.nav_send)
                 .setDrawerLayout(drawer)
                 .build();
@@ -113,7 +113,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         mViewModel.getUserHeader().observe(this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
-                Log.e("更新头像","更新成功"+s);
+                Log.e("更新头像", "更新成功" + s);
                 Glide.with(MainActivity.this)
                         .load(s)
                         .into(ivHeader);
@@ -139,6 +139,18 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
+                    case R.id.nav_home:
+                        Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment).navigate(R.id.nav_home);
+                        break;
+                    case R.id.nav_collect:
+                        Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment).navigate(R.id.nav_collect);
+                        break;
+                    case R.id.toDoFragment:
+                        Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment).navigate(R.id.toDoFragment);
+                        break;
+                    case R.id.nav_tools:
+                        Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment).navigate(R.id.nav_tools);
+                        break;
                     case R.id.nav_share:
                         Toast.makeText(MainActivity.this, "nav_share", Toast.LENGTH_SHORT).show();
                         break;
@@ -155,11 +167,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
 
     @Override
     public boolean onSupportNavigateUp() {

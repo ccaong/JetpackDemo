@@ -1,4 +1,4 @@
-package com.guoqing.aqsc.view;
+package com.example.myapplication.ui.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -9,7 +9,8 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.guoqing.aqsc.R;
+import com.example.myapplication.R;
+
 
 /**
  * @author HuangFusheng

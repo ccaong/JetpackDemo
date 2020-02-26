@@ -2,6 +2,7 @@ package com.example.myapplication.base;
 
 
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +18,12 @@ import com.example.myapplication.R;
 import com.example.myapplication.base.adapter.BasePagerAdapter;
 import com.example.myapplication.enums.RefreshState;
 import com.example.myapplication.http.bean.ArticleBean;
+import com.example.myapplication.http.bean.HomeBanner;
+import com.example.myapplication.http.bean.home.BannerData;
+import com.example.myapplication.ui.adapter.BannerViewHolder;
+import com.example.myapplication.util.CommonUtils;
+import com.zhouwei.mzbanner.MZBannerView;
+import com.zhouwei.mzbanner.holder.MZHolderCreator;
 
 import java.util.List;
 
@@ -38,7 +45,7 @@ public class BindingAdapterUtil {
      * @param <T>       数据类型
      */
     @SuppressWarnings("unchecked")
-    @BindingAdapter("app:dataList")
+    @BindingAdapter("dataList")
     public static <T> void setDataList(ViewPager viewPager, List<T> dataList) {
         PagerAdapter adapter = viewPager.getAdapter();
         if (adapter instanceof BasePagerAdapter) {
@@ -71,6 +78,7 @@ public class BindingAdapterUtil {
                 break;
         }
     }
+
 
     /**
      * 设置RefreshLayout的加载更多
@@ -108,6 +116,21 @@ public class BindingAdapterUtil {
         view.setVisibility(visibility ? View.VISIBLE : View.GONE);
     }
 
+    @BindingAdapter("bannerData")
+    public static void setbBannerData(MZBannerView banner, BannerData bannerData) {
+        if (bannerData == null || bannerData.getBannerData() == null) {
+            return;
+        }
+        List<HomeBanner> movies = bannerData.getBannerData();
+        banner.setPages(movies, new MZHolderCreator<BannerViewHolder>() {
+            @Override
+            public BannerViewHolder createViewHolder() {
+                return new BannerViewHolder();
+            }
+        });
+        banner.start();
+    }
+
     @BindingAdapter("articleTag")
     public static void setArticleTag(TextView view, ArticleBean articleBean) {
         if (articleBean != null && articleBean.getTags() != null) {
@@ -133,6 +156,16 @@ public class BindingAdapterUtil {
     }
 
 
+    @BindingAdapter("todoCheck")
+    public static void setToDoDone(CheckBox view, int status) {
+        if (status == 0) {
+            view.setChecked(false);
+        } else {
+            view.setChecked(true);
+        }
+    }
+
+
     @BindingAdapter("todoStatus")
     public static void setTodoStatus(TextView view, int status) {
         if (status == 0) {
@@ -141,6 +174,34 @@ public class BindingAdapterUtil {
         } else {
             view.setText("已完成");
             view.setTextColor(App.getContext().getResources().getColor(R.color.color_blue));
+        }
+    }
+
+    @BindingAdapter("coinCount")
+    public static void setCoinCount(TextView view, int count) {
+        view.setText(count + "分");
+    }
+
+    @BindingAdapter("coinLeave")
+    public static void setCoinLeave(TextView view, int count) {
+        view.setText("LV" + count);
+    }
+
+    @BindingAdapter("coinRank")
+    public static void setCoinRank(TextView view, int count) {
+        if (count == 1) {
+            view.setText("");
+            view.setBackground(App.getContext().getDrawable(R.mipmap.ic_rank_first));
+        } else if (count == 2) {
+            view.setText("");
+            view.setBackground(App.getContext().getDrawable(R.mipmap.ic_rank_second));
+
+        } else if (count == 3) {
+            view.setText("");
+            view.setBackground(App.getContext().getDrawable(R.mipmap.ic_rank_thred));
+        } else {
+            view.setText("" + count);
+            view.setBackground(null);
         }
     }
 

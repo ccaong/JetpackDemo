@@ -88,10 +88,30 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MainViewMode
     }
 
     /**
-     * 跳转到清单界面
+     * 跳转到我的收藏界面
+     */
+    public void startCollectFragment() {
+        NavHostFragment.findNavController(MineFragment.this).navigate(R.id.nav_collect);
+    }
+    /**
+     * 跳转到待办清单界面
      */
     public void startTodFragment() {
         NavHostFragment.findNavController(MineFragment.this).navigate(R.id.toDoFragment);
+    }
+
+    /**
+     * 跳转积分详情界面
+     */
+    public void startIntegralFragment() {
+        NavHostFragment.findNavController(MineFragment.this).navigate(R.id.coinListFragment);
+    }
+
+    /**
+     * 跳转积分排行榜
+     */
+    public void startCoinRankFragment() {
+        NavHostFragment.findNavController(MineFragment.this).navigate(R.id.coinRankListFragment);
     }
 
 }

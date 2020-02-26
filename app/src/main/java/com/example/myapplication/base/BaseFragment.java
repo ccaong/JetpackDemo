@@ -1,9 +1,13 @@
 package com.example.myapplication.base;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,6 +16,7 @@ import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 
+import com.cjj.MaterialRefreshLayout;
 import com.example.myapplication.R;
 import com.example.myapplication.base.viewmodel.BaseViewModel;
 import com.example.myapplication.databinding.FragmentBaseBinding;
@@ -20,6 +25,7 @@ import com.example.myapplication.databinding.ViewLoadingBinding;
 import com.example.myapplication.databinding.ViewNoDataBinding;
 import com.example.myapplication.databinding.ViewNoNetworkBinding;
 import com.example.myapplication.enums.LoadState;
+import com.example.myapplication.enums.RefreshState;
 
 
 /**
@@ -31,6 +37,8 @@ import com.example.myapplication.enums.LoadState;
  */
 public abstract class BaseFragment<DB extends ViewDataBinding, VM extends BaseViewModel>
         extends Fragment {
+
+    public MaterialRefreshLayout refreshLayout;
 
     protected DB mDataBinding;
 
@@ -74,6 +82,8 @@ public abstract class BaseFragment<DB extends ViewDataBinding, VM extends BaseVi
         mDataBinding.setLifecycleOwner(this);
         initLoadState();
 
+        initRefreshState();
+
         init();
 
         return mFragmentBaseBinding.getRoot();
@@ -81,7 +91,7 @@ public abstract class BaseFragment<DB extends ViewDataBinding, VM extends BaseVi
 
     private void initLoadState() {
         if (mViewModel != null && isSupportLoad()) {
-            mViewModel.loadState.observe(this, new Observer<LoadState>() {
+            mViewModel.loadState.observe(getViewLifecycleOwner(), new Observer<LoadState>() {
                 @Override
                 public void onChanged(LoadState loadState) {
                     switchLoadView(loadState);
@@ -146,6 +156,28 @@ public abstract class BaseFragment<DB extends ViewDataBinding, VM extends BaseVi
         }
     }
 
+    private void initRefreshState() {
+        mViewModel.refreshState.observe(getViewLifecycleOwner(), new Observer<RefreshState>() {
+            @Override
+            public void onChanged(RefreshState refreshState) {
+                // TODO: 2020/2/25  更新下拉刷新状态
+                if (refreshLayout == null) {
+                    return;
+                }
+                switch (refreshState) {
+                    case LOAD_MORE_END:
+                        refreshLayout.finishRefreshLoadMore();
+                        break;
+                    case REFRESH_END:
+                        refreshLayout.finishRefresh();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -160,6 +192,7 @@ public abstract class BaseFragment<DB extends ViewDataBinding, VM extends BaseVi
     protected void handleArguments(Bundle args) {
 
     }
+
 
     /**
      * 是否支持页面加载。默认不支持

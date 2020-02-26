@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.example.myapplication.ui.activity.main.MainViewModel" />
@@ -115,8 +116,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/dimen_32"
-                    android:text="@string/my_todo"
                     android:onClick="@{()->mineFragment.startTodFragment()}"
+                    android:text="@string/my_todo"
                     android:textSize="@dimen/text_18" />
 
 
@@ -130,18 +131,24 @@
                     style="@style/mine_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:onClick="@{()->mineFragment.startCollectFragment()}"
                     android:text="@string/my_collect" />
 
                 <TextView
                     style="@style/mine_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:onClick="@{()->mineFragment.startIntegralFragment()}"
                     android:text="@string/integral_details" />
+
 
                 <TextView
                     style="@style/mine_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/ic_rank"
+                    android:drawablePadding="@dimen/dimen_16"
+                    android:onClick="@{()->mineFragment.startCoinRankFragment()}"
                     android:text="@string/integral_ranking" />
 
 
@@ -149,7 +156,6 @@
                     style="@style/QMUIRoundButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/dimen_16"
                     android:layout_marginVertical="@dimen/dimen_40"
                     android:onClick="@{()->viewModel.logout()}"
                     android:text="@string/logout"

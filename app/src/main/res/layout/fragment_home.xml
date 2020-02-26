@@ -42,7 +42,7 @@
             android:layout_weight="1"
             android:background="@color/page_background"
             app:isLoadMore="true"
-            app:refreshState="@{viewModel.mRefreshState}"
+            app:refreshState="@{viewModel.refreshState}"
             tools:context=".module.main.fragment.HomepageFragment">
 
             <androidx.recyclerview.widget.RecyclerView

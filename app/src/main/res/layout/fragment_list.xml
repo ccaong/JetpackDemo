@@ -21,6 +21,7 @@
             android:id="@+id/mrl_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:refreshState="@{viewModel.refreshState}"
             app:isLoadMore="true">
 
             <androidx.recyclerview.widget.RecyclerView
