@@ -109,6 +109,10 @@
         android:id="@+id/coinRankListFragment"
         android:name="com.example.myapplication.ui.nav.mine.coinrank.CoinRankListFragment"
         android:label="@string/integral_ranking" />
+    <fragment
+        android:id="@+id/navigation_project"
+        android:name="com.example.myapplication.ui.bottom.project.ProjectFragment"
+        android:label="ProjectFragment" />
 
 
 </navigation>

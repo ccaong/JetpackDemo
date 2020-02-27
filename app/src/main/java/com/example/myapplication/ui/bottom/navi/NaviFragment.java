@@ -1,29 +1,43 @@
 package com.example.myapplication.ui.bottom.navi;
 
-import android.util.Log;
+import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener;
 
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
 import com.example.myapplication.databinding.NaviFragmentBinding;
+import com.example.myapplication.http.bean.ArticleBean;
 import com.example.myapplication.http.bean.NavigationBean;
-import com.example.myapplication.util.CommonUtils;
+import com.example.myapplication.ui.activity.web.DetailsActivity;
+import com.example.myapplication.ui.adapter.NavigationAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import q.rorbin.verticaltablayout.VerticalTabLayout;
-import q.rorbin.verticaltablayout.adapter.SimpleTabAdapter;
-import q.rorbin.verticaltablayout.widget.ITabView;
 import q.rorbin.verticaltablayout.widget.TabView;
 
 /**
  * @author devel
  */
-public class NaviFragment extends BaseFragment<NaviFragmentBinding, NaviViewModel> implements VerticalTabLayout.OnTabSelectedListener {
+public class NaviFragment extends BaseFragment<NaviFragmentBinding, NaviViewModel>
+        implements VerticalTabLayout.OnTabSelectedListener {
 
-    List<String> mTitlesList;
+    private OnScrollListener mScrollListener;
+
+    private NavigationAdapter commonAdapter;
+
+    private LinearLayoutManager mLayoutManager;
+
+    private boolean mNeedScroll = false;
+
+    private int mToPosition = -1;
+
 
     @Override
     protected int getLayoutResId() {
@@ -41,67 +55,113 @@ public class NaviFragment extends BaseFragment<NaviFragmentBinding, NaviViewMode
     }
 
     @Override
+    protected boolean isSupportLoad() {
+        return true;
+    }
+
+    @Override
     protected void init() {
         mViewModel.loadNavigationData();
+        initDataChange();
 
         initVerticalTabLayout();
         initContentRecyclerView();
-        initDataChange();
-    }
-
-    public void initVerticalTabLayout() {
-        //初始化Tab栏数据
-        mTitlesList = new ArrayList<>();
-        mDataBinding.verticalTabLayout.addOnTabSelectedListener(this);
-    }
-
-    private void initData() {
-        mDataBinding.verticalTabLayout.setTabAdapter(new SimpleTabAdapter() {
-
-            @Override
-            public int getCount() {
-                return mTitlesList.size();
-            }
-
-            @Override
-            public ITabView.TabTitle getTitle(int position) {
-                return new ITabView.TabTitle.Builder()
-                        .setContent(mTitlesList.get(position))
-                        .setTextColor(CommonUtils.getColor(R.color.colorPrimary),
-                                CommonUtils.getColor(R.color.text_black_87))
-                        .setTextSize(16)
-                        .build();
-            }
-        });
-    }
-
-
-    public void initContentRecyclerView() {
-
     }
 
     public void initDataChange() {
         mViewModel.getDataList().observe(this, new Observer<List<NavigationBean>>() {
             @Override
             public void onChanged(List<NavigationBean> navigationBeans) {
-                for (NavigationBean baan : navigationBeans) {
-                    mTitlesList.add(baan.getName());
-                }
-                initData();
-
+                commonAdapter.onItemDatasChanged(navigationBeans);
             }
         });
     }
 
+    public void initVerticalTabLayout() {
+        //初始化Tab栏数据
+        mDataBinding.verticalTabLayout.addOnTabSelectedListener(this);
+    }
+
+    public void initContentRecyclerView() {
+        mLayoutManager = new LinearLayoutManager(getContext());
+        mScrollListener = new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    if (mNeedScroll) {
+                        mNeedScroll = false;
+                        smoothScrollToPosition(mToPosition);
+                    } else {
+                        setTabSelected();
+                    }
+                }
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+
+            }
+        };
+
+        commonAdapter = new NavigationAdapter(mViewModel.getDataList().getValue()) {
+            @Override
+            public void addChildrenListener(View root, ArticleBean itemData, int position) {
+                super.addChildrenListener(root, itemData, position);
+                DetailsActivity.start(getActivity(), itemData.getLink());
+            }
+        };
+        mDataBinding.recyclerView.addOnScrollListener(mScrollListener);
+        mDataBinding.recyclerView.setLayoutManager(mLayoutManager);
+        mDataBinding.recyclerView.setAdapter(commonAdapter);
+    }
+
+    private void setTabSelected() {
+        int firstPosition = mLayoutManager.findFirstVisibleItemPosition();
+        mDataBinding.verticalTabLayout.setTabSelected(firstPosition, false);
+    }
+
     @Override
     public void onTabSelected(TabView tab, int position) {
-
-        Log.e("选中事项", "position" + position);
-        Log.e("选中事项", "TabView" + tab.getTitleView().getText());
+        smoothScrollToPosition(position);
     }
 
     @Override
     public void onTabReselected(TabView tab, int position) {
 
     }
+
+
+    /**
+     * 滚动到指定位置
+     *
+     * @param position
+     */
+    private void smoothScrollToPosition(int position) {
+        int firstPosition = mLayoutManager.findFirstVisibleItemPosition();
+        int lastPosition = mLayoutManager.findLastVisibleItemPosition();
+
+        if (position < firstPosition) {
+            mDataBinding.recyclerView.smoothScrollToPosition(position);
+        } else if (position <= lastPosition) {
+            int movePosition = position - firstPosition;
+            if (movePosition >= 0 && movePosition < mLayoutManager.getChildCount()) {
+                int top = mLayoutManager.getChildAt(movePosition).getTop();
+                mDataBinding.recyclerView.smoothScrollBy(0, top);
+            }
+        } else {
+            mDataBinding.recyclerView.smoothScrollToPosition(position);
+            mToPosition = position;
+            mNeedScroll = true;
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mDataBinding.verticalTabLayout.removeOnTabSelectedListener(this);
+        mDataBinding.recyclerView.removeOnScrollListener(mScrollListener);
+    }
+
+
 }

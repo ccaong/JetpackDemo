@@ -16,11 +16,11 @@ import com.example.myapplication.http.bean.home.HomeData;
 import java.util.List;
 
 /**
- * 通用的Adapter
+ * 主页的Adapter
  *
  * @author devel
  */
-public class CommonAdapterNew extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     private List<HomeData> mList;
@@ -34,11 +34,10 @@ public class CommonAdapterNew extends RecyclerView.Adapter<RecyclerView.ViewHold
     private int brId;
 
 
-    public CommonAdapterNew(int defaultLayout, int brId) {
+    public HomeAdapter(int defaultLayout, int brId) {
         this.defaultLayout = defaultLayout;
         this.brId = brId;
     }
-
 
     /**
      * 添加监听回调
@@ -58,42 +57,6 @@ public class CommonAdapterNew extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onItemDatasChanged(List<HomeData> newItemDatas) {
         this.mList = newItemDatas;
         notifyDataSetChanged();
-    }
-
-    /**
-     * 改变部分数据
-     *
-     * @param newItemDatas
-     * @param positionStart
-     * @param itemCount
-     */
-    public void onItemRangeChanged(List<HomeData> newItemDatas, int positionStart, int itemCount) {
-        this.mList = newItemDatas;
-        notifyItemRangeChanged(positionStart, itemCount);
-    }
-
-    /**
-     * 插入数据
-     *
-     * @param newItemDatas
-     * @param positionStart
-     * @param itemCount
-     */
-    protected void onItemRangeInserted(List<HomeData> newItemDatas, int positionStart, int itemCount) {
-        this.mList = newItemDatas;
-        notifyItemRangeInserted(positionStart, itemCount);
-    }
-
-    /**
-     * 移除某个数据
-     *
-     * @param newItemDatas
-     * @param positionStart
-     * @param itemCount
-     */
-    protected void onItemRangeRemoved(List<HomeData> newItemDatas, int positionStart, int itemCount) {
-        this.mList = newItemDatas;
-        notifyItemRangeRemoved(positionStart, itemCount);
     }
 
     public int getItemLayout(HomeData itemData) {
@@ -120,6 +83,9 @@ public class CommonAdapterNew extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder commonViewHolder, int position) {
+        if (position >= mList.size()) {
+            return;
+        }
         HomeData homeData = mList.get(position);
         if (homeData == null) {
             return;

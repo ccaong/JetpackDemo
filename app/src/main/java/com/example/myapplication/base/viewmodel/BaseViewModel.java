@@ -49,4 +49,11 @@ public abstract class BaseViewModel extends ViewModel implements DefaultLifecycl
         }
         return resources;
     }
+
+    /**
+     * 收藏文章
+     */
+    public void collectArticle(boolean collect) {
+
+    }
 }

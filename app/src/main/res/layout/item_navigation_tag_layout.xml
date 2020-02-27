@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="navigationChildren"
+            type="com.example.myapplication.http.bean.ArticleBean" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen_8"
+            android:background="@drawable/shape_label_green"
+            android:padding="@dimen/dimen_8"
+            android:text="@{navigationChildren.title}"
+            android:textColor="@color/green" />
+
+    </LinearLayout>
+</layout>

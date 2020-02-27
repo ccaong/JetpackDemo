@@ -17,6 +17,7 @@
     <string name="title_dashboard">公众号</string>
     <string name="title_notifications">体系</string>
     <string name="title_navigation">导航</string>
+    <string name="title_project">项目</string>
 
     <!-- Splash   -->
     <string name="str_copyright">Copyright \u00a9 2020-present CCAONG</string>
@@ -89,5 +90,7 @@
     <string name="add">添加</string>
     <string name="done_time">计划完成时间</string>
     <string name="add_todo_title">新增待办</string>
+
+    <string name="author">作者：</string>
 
 </resources>

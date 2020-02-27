@@ -140,7 +140,6 @@ public interface ApiAddress {
     Observable<HttpBaseResponse<ArticleListBean>> getWechatArticleList(@Path("id") int id, @Path("page") int page);
 
 
-
     /**
      * 获取导航列表
      *
@@ -149,6 +148,14 @@ public interface ApiAddress {
     @GET("navi/json")
     Observable<HttpBaseResponse<List<NavigationBean>>> getNavigationBean();
 
+
+    /**
+     * 获取项目分类列表数据
+     *
+     * @return 项目分类列表数据
+     */
+    @GET("project/tree/json")
+    Observable<HttpBaseResponse<List<WeChatBean>>> getProjectListData();
 
 
     /**

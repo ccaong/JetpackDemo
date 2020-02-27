@@ -1,6 +1,7 @@
 package com.example.myapplication.base;
 
 
+import android.os.Build;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -17,15 +18,21 @@ import com.example.myapplication.http.bean.ArticleBean;
 import com.example.myapplication.http.bean.HomeBanner;
 import com.example.myapplication.http.bean.home.BannerData;
 import com.example.myapplication.ui.adapter.BannerViewHolder;
+import com.example.myapplication.util.CommonUtils;
 import com.zhouwei.mzbanner.MZBannerView;
 import com.zhouwei.mzbanner.holder.MZHolderCreator;
 
 import java.util.List;
 
+import androidx.annotation.RequiresApi;
 import androidx.databinding.BindingAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
 import jp.wasabeef.glide.transformations.BlurTransformation;
+import q.rorbin.verticaltablayout.VerticalTabLayout;
+import q.rorbin.verticaltablayout.adapter.SimpleTabAdapter;
+import q.rorbin.verticaltablayout.widget.ITabView;
 
 /**
  * @author : devel
@@ -129,6 +136,17 @@ public class BindingAdapterUtil {
         banner.start();
     }
 
+
+    @BindingAdapter("isCollect")
+    public static void setTodoGrade(ImageView view, boolean collect) {
+        if (collect) {
+            view.setImageResource(R.mipmap.ic_collect_yes);
+        } else {
+            view.setImageResource(R.mipmap.ic_collect_no);
+        }
+    }
+
+
     @BindingAdapter("articleTag")
     public static void setArticleTag(TextView view, ArticleBean articleBean) {
         if (articleBean != null && articleBean.getTags() != null) {
@@ -185,6 +203,7 @@ public class BindingAdapterUtil {
         view.setText("LV" + count);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @BindingAdapter("coinRank")
     public static void setCoinRank(TextView view, int count) {
         if (count == 1) {
@@ -201,6 +220,38 @@ public class BindingAdapterUtil {
             view.setText("" + count);
             view.setBackground(null);
         }
+    }
+
+
+    /**
+     * 设置VerticalTabLayout的标题
+     *
+     * @param verticalTabLayout VerticalTabLayout
+     * @param mTitlesList       标题列表
+     */
+    @BindingAdapter("app:titleList")
+    public static void setTitleList(VerticalTabLayout verticalTabLayout, List<String> mTitlesList) {
+        if (CommonUtils.isListEmpty(mTitlesList)) {
+            return;
+        }
+
+        verticalTabLayout.setTabAdapter(new SimpleTabAdapter() {
+
+            @Override
+            public int getCount() {
+                return mTitlesList.size();
+            }
+
+            @Override
+            public ITabView.TabTitle getTitle(int position) {
+                return new ITabView.TabTitle.Builder()
+                        .setContent(mTitlesList.get(position))
+                        .setTextColor(CommonUtils.getColor(R.color.colorPrimary),
+                                CommonUtils.getColor(R.color.text_black_54))
+                        .setTextSize(16)
+                        .build();
+            }
+        });
     }
 
 }

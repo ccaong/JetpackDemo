@@ -10,8 +10,11 @@ import com.example.myapplication.util.CommonUtils;
 
 import java.util.List;
 
+import androidx.databinding.ObservableArrayList;
+import androidx.databinding.ObservableList;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -20,6 +23,11 @@ import io.reactivex.schedulers.Schedulers;
 public class NaviViewModel extends BaseViewModel {
 
     public MutableLiveData<List<NavigationBean>> dataList;
+
+    /**
+     * 标题
+     */
+    public final ObservableList<String> mTitlesList = new ObservableArrayList<>();
 
     public NaviViewModel() {
         dataList = new MutableLiveData<>();
@@ -39,8 +47,11 @@ public class NaviViewModel extends BaseViewModel {
                     @Override
                     public void success(HttpBaseResponse<List<NavigationBean>> listBean) {
                         if (!CommonUtils.isListEmpty(listBean.data)) {
-                            dataList.postValue(listBean.data);
                             loadState.postValue(LoadState.SUCCESS);
+                            for (NavigationBean baan : listBean.data) {
+                                mTitlesList.add(baan.getName());
+                            }
+                            dataList.postValue(listBean.data);
                         } else {
                             loadState.postValue(LoadState.NO_DATA);
                         }
@@ -48,10 +59,8 @@ public class NaviViewModel extends BaseViewModel {
 
                     @Override
                     public void onError(Throwable e) {
-                        super.onError(e);
+                        loadState.postValue(LoadState.ERROR);
                     }
                 });
     }
-
-
 }

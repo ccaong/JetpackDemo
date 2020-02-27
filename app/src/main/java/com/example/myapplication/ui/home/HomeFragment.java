@@ -10,7 +10,7 @@ import com.example.myapplication.base.BaseFragment;
 import com.example.myapplication.databinding.FragmentHomeBinding;
 import com.example.myapplication.http.bean.home.HomeData;
 import com.example.myapplication.ui.activity.web.DetailsActivity;
-import com.example.myapplication.ui.adapter.CommonAdapterNew;
+import com.example.myapplication.ui.adapter.HomeAdapter;
 import com.zhouwei.mzbanner.MZBannerView;
 
 import java.util.List;
@@ -73,7 +73,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
      * 初始化RecycleView
      */
     private void initRecycle() {
-        CommonAdapterNew commonAdapter = new CommonAdapterNew(R.layout.item_article, BR.articleBean) {
+        HomeAdapter commonAdapter = new HomeAdapter(R.layout.item_article, BR.articleBean) {
             @Override
             public void addListener(View root, HomeData itemData, int position) {
                 super.addListener(root, itemData, position);
@@ -91,6 +91,15 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                         @Override
                         public void onClick(View v) {
                             DetailsActivity.start(getActivity(), itemData.getArticleList().getLink());
+                        }
+                    });
+
+                    root.findViewById(R.id.iv_collect).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            itemData.getArticleList().setCollect(!itemData.getArticleList().isCollect());
+                            notifyDataSetChanged();
+                            mViewModel.collectArticle(!itemData.getArticleList().isCollect());
                         }
                     });
                 }

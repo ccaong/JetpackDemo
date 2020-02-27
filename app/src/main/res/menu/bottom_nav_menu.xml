@@ -21,5 +21,9 @@
         android:id="@+id/navigation_navigation"
         android:icon="@mipmap/ic_navigation"
         android:title="@string/title_navigation" />
+    <item
+        android:id="@+id/navigation_project"
+        android:icon="@mipmap/ic_android"
+        android:title="@string/title_navigation" />
 
 </menu>
