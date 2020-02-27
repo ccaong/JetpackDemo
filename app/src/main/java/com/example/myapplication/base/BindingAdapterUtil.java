@@ -6,10 +6,6 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.databinding.BindingAdapter;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.cjj.MaterialRefreshLayout;
@@ -21,12 +17,14 @@ import com.example.myapplication.http.bean.ArticleBean;
 import com.example.myapplication.http.bean.HomeBanner;
 import com.example.myapplication.http.bean.home.BannerData;
 import com.example.myapplication.ui.adapter.BannerViewHolder;
-import com.example.myapplication.util.CommonUtils;
 import com.zhouwei.mzbanner.MZBannerView;
 import com.zhouwei.mzbanner.holder.MZHolderCreator;
 
 import java.util.List;
 
+import androidx.databinding.BindingAdapter;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
 /**

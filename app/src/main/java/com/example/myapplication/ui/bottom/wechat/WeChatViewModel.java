@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.wechat;
+package com.example.myapplication.ui.bottom.wechat;
 
 import com.example.myapplication.base.viewmodel.BaseViewModel;
 import com.example.myapplication.http.bean.WeChatBean;
@@ -23,6 +23,10 @@ public class WeChatViewModel extends BaseViewModel {
 
     public WeChatViewModel() {
         dataList = new ObservableArrayList<>();
+    }
+
+    public void setDataList(List<WeChatBean> mList) {
+        dataList.addAll(mList);
     }
 
     /**

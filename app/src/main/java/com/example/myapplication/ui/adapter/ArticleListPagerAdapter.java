@@ -2,7 +2,7 @@ package com.example.myapplication.ui.adapter;
 
 import com.example.myapplication.base.adapter.BasePagerAdapter;
 import com.example.myapplication.http.bean.WeChatBean;
-import com.example.myapplication.ui.wechat.wxcontent.WeChatContentListFragment;
+import com.example.myapplication.ui.articlelist.ArticleListFragment;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -24,10 +24,9 @@ public class ArticleListPagerAdapter extends BasePagerAdapter<WeChatBean> {
         Fragment fragment = mFragmentMap.get(position);
         if (fragment == null) {
             WeChatBean chapter = mDataList.get(position);
-            fragment = WeChatContentListFragment.newInstance(chapter.getId());
+            fragment = ArticleListFragment.newInstance(0, chapter.getId());
             mFragmentMap.put(position, fragment);
         }
-
         return fragment;
     }
 

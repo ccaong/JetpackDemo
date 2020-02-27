@@ -1,8 +1,12 @@
 package com.example.myapplication.http.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class WeChatBean {
+/**
+ * @author devel
+ */
+public class WeChatBean implements Serializable {
     /**
      * children : []
      * courseId : 13

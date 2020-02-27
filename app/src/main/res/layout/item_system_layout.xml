@@ -7,7 +7,7 @@
 
         <variable
             name="systemData"
-            type="com.example.myapplication.http.bean.System" />
+            type="com.example.myapplication.http.bean.WeChatBean" />
 
     </data>
 
@@ -17,6 +17,7 @@
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dimen_8">
@@ -32,15 +33,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{systemData.name}"
+                    android:textSize="@dimen/text_16"
                     tools:text="@string/mine" />
 
-<!--                <Flayout-->
 
-<!--                <com.zhy.view.flowlayout.TagFlowLayout-->
-<!--                    android:id="@+id/tag_layout"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    zhy:max_select="1" />-->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/children_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_8"
+                    android:layout_marginTop="@dimen/dimen_8" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

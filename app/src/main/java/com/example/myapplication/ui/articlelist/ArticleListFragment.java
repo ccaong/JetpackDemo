@@ -1,8 +1,7 @@
-package com.example.myapplication.ui.wechat.wxcontent;
+package com.example.myapplication.ui.articlelist;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
@@ -23,22 +22,25 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 /**
  * @author devel
  */
-public class WeChatContentListFragment extends BaseFragment<FragmentListBinding, WeChatContentListViewModel> {
+public class ArticleListFragment extends BaseFragment<FragmentListBinding, ArticleListViewModel> {
 
+    private int type;
     private int id;
 
-    public static WeChatContentListFragment newInstance(int id) {
-        WeChatContentListFragment weChatContentListFragment = new WeChatContentListFragment();
+    public static ArticleListFragment newInstance(int type, int id) {
+        ArticleListFragment articleListFragment = new ArticleListFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt(Code.ParamCode.PARAM1, id);
-        weChatContentListFragment.setArguments(bundle);
-        return weChatContentListFragment;
+        bundle.putInt(Code.ParamCode.PARAM1, type);
+        bundle.putInt(Code.ParamCode.PARAM2, id);
+        articleListFragment.setArguments(bundle);
+        return articleListFragment;
     }
 
     @Override
     protected void handleArguments(Bundle args) {
         super.handleArguments(args);
-        id = args.getInt(Code.ParamCode.PARAM1);
+        type = args.getInt(Code.ParamCode.PARAM1);
+        id = args.getInt(Code.ParamCode.PARAM2);
     }
 
     @Override
@@ -54,7 +56,7 @@ public class WeChatContentListFragment extends BaseFragment<FragmentListBinding,
     @Override
     protected void initViewModel() {
 
-        mViewModel = ViewModelProviders.of(this).get(WeChatContentListViewModel.class);
+        mViewModel = ViewModelProviders.of(this).get(ArticleListViewModel.class);
     }
 
     @Override
@@ -66,6 +68,7 @@ public class WeChatContentListFragment extends BaseFragment<FragmentListBinding,
     protected void init() {
         refreshLayout = mDataBinding.mrlRefreshLayout;
 
+        mViewModel.setType(type);
         mViewModel.setId(id);
         mViewModel.loadData();
 

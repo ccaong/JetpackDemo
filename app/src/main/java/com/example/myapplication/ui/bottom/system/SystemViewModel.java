@@ -1,8 +1,8 @@
-package com.example.myapplication.ui.system;
+package com.example.myapplication.ui.bottom.system;
 
 import com.example.myapplication.base.viewmodel.BaseViewModel;
 import com.example.myapplication.enums.LoadState;
-import com.example.myapplication.http.bean.System;
+import com.example.myapplication.http.bean.WeChatBean;
 import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.http.data.HttpDisposable;
 import com.example.myapplication.http.request.HttpRequest;
@@ -20,16 +20,14 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class SystemViewModel extends BaseViewModel {
 
-    private MutableLiveData<List<System>> mSystemList;
+    private MutableLiveData<List<WeChatBean>> mSystemList;
 
 
     public SystemViewModel() {
         mSystemList = new MutableLiveData<>();
-
     }
 
-
-    public LiveData<List<System>> getSystemList() {
+    public LiveData<List<WeChatBean>> getSystemList() {
         return mSystemList;
     }
 
@@ -68,9 +66,9 @@ public class SystemViewModel extends BaseViewModel {
         HttpRequest.getInstance()
                 .getSystemList()
                 .subscribeOn(Schedulers.io())
-                .subscribe(new HttpDisposable<HttpBaseResponse<List<System>>>() {
+                .subscribe(new HttpDisposable<HttpBaseResponse<List<WeChatBean>>>() {
                     @Override
-                    public void success(HttpBaseResponse<List<System>> bean) {
+                    public void success(HttpBaseResponse<List<WeChatBean>> bean) {
 
                         if (bean != null && bean.errorCode == 0) {
                             loadState.postValue(LoadState.SUCCESS);

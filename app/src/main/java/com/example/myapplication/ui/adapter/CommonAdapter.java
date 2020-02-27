@@ -10,11 +10,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.BR;
-import com.example.myapplication.R;
-import com.example.myapplication.databinding.ItemArticleNewBinding;
-import com.example.myapplication.http.bean.ArticleBean;
-import com.example.myapplication.ui.wechat.wxcontent.ArticleViewModel;
 
 import java.util.List;
 

@@ -8,17 +8,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.databinding.ItemArticleNewBinding;
-import com.example.myapplication.http.bean.ArticleBean;
 import com.example.myapplication.http.bean.home.HomeData;
-import com.example.myapplication.ui.wechat.wxcontent.ArticleViewModel;
 
 import java.util.List;
 
@@ -27,10 +20,10 @@ import java.util.List;
  *
  * @author devel
  */
-public class CommonAdapterNew<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class CommonAdapterNew extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
-    private List<T> mList;
+    private List<HomeData> mList;
     /**
      * 布局id
      */
@@ -46,11 +39,6 @@ public class CommonAdapterNew<T> extends RecyclerView.Adapter<RecyclerView.ViewH
         this.brId = brId;
     }
 
-    public CommonAdapterNew(List<T> list, int defaultLayout, int brId) {
-        this.mList = list;
-        this.defaultLayout = defaultLayout;
-        this.brId = brId;
-    }
 
     /**
      * 添加监听回调
@@ -59,7 +47,7 @@ public class CommonAdapterNew<T> extends RecyclerView.Adapter<RecyclerView.ViewH
      * @param itemData
      * @param position
      */
-    public void addListener(View root, T itemData, int position) {
+    public void addListener(View root, HomeData itemData, int position) {
     }
 
     /**
@@ -67,7 +55,7 @@ public class CommonAdapterNew<T> extends RecyclerView.Adapter<RecyclerView.ViewH
      *
      * @param newItemDatas
      */
-    public void onItemDatasChanged(List<T> newItemDatas) {
+    public void onItemDatasChanged(List<HomeData> newItemDatas) {
         this.mList = newItemDatas;
         notifyDataSetChanged();
     }
@@ -79,7 +67,7 @@ public class CommonAdapterNew<T> extends RecyclerView.Adapter<RecyclerView.ViewH
      * @param positionStart
      * @param itemCount
      */
-    public void onItemRangeChanged(List<T> newItemDatas, int positionStart, int itemCount) {
+    public void onItemRangeChanged(List<HomeData> newItemDatas, int positionStart, int itemCount) {
         this.mList = newItemDatas;
         notifyItemRangeChanged(positionStart, itemCount);
     }
@@ -91,7 +79,7 @@ public class CommonAdapterNew<T> extends RecyclerView.Adapter<RecyclerView.ViewH
      * @param positionStart
      * @param itemCount
      */
-    protected void onItemRangeInserted(List<T> newItemDatas, int positionStart, int itemCount) {
+    protected void onItemRangeInserted(List<HomeData> newItemDatas, int positionStart, int itemCount) {
         this.mList = newItemDatas;
         notifyItemRangeInserted(positionStart, itemCount);
     }
@@ -103,17 +91,16 @@ public class CommonAdapterNew<T> extends RecyclerView.Adapter<RecyclerView.ViewH
      * @param positionStart
      * @param itemCount
      */
-    protected void onItemRangeRemoved(List<T> newItemDatas, int positionStart, int itemCount) {
+    protected void onItemRangeRemoved(List<HomeData> newItemDatas, int positionStart, int itemCount) {
         this.mList = newItemDatas;
         notifyItemRangeRemoved(positionStart, itemCount);
     }
 
-    public int getItemLayout(T itemData) {
-        // TODO: 2020/2/24 可以根据不同的数据类型，返回不同的布局文件
-        if (itemData instanceof ArticleBean) {
-            return defaultLayout;
-        } else {
+    public int getItemLayout(HomeData itemData) {
+        if (itemData.getBannerData() != null) {
             return R.layout.item_home_banner;
+        } else {
+            return defaultLayout;
         }
     }
 
@@ -127,25 +114,25 @@ public class CommonAdapterNew<T> extends RecyclerView.Adapter<RecyclerView.ViewH
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        // TODO: 2020/2/24 可以根据不同的viewType，返回不同的ViewHolder
         ViewDataBinding dataBinding = DataBindingUtil.inflate(LayoutInflater.from(viewGroup.getContext()), viewType, viewGroup, false);
         return new CommonViewHolder(dataBinding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder commonViewHolder, int position) {
-        HomeData homeData = (HomeData) mList.get(position);
-
+        HomeData homeData = mList.get(position);
+        if (homeData == null) {
+            return;
+        }
         if (homeData.getArticleList() != null) {
             //绑定数据
             ((CommonViewHolder) commonViewHolder).binding.setVariable(brId, homeData.getArticleList());
         } else {
             ((CommonViewHolder) commonViewHolder).binding.setVariable(com.example.myapplication.BR.bannerData, homeData.getBannerData());
         }
-
         addListener(((CommonViewHolder) commonViewHolder).binding.getRoot(), mList.get(position), position);
         //防止数据闪烁
-//        ((CommonViewHolder) commonViewHolder).binding.executePendingBindings();
+        ((CommonViewHolder) commonViewHolder).binding.executePendingBindings();
     }
 
     @Override

@@ -10,7 +10,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.myapplication.ui.wechat.wxcontent.WeChatContentListViewModel" />
+            type="com.example.myapplication.ui.articlelist.ArticleListViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

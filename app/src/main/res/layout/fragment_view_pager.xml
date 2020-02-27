@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.myapplication.ui.wechat.WeChatViewModel" />
+            type="com.example.myapplication.ui.bottom.wechat.WeChatViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

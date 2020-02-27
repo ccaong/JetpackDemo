@@ -1,9 +1,15 @@
-package com.example.myapplication.ui.wechat;
+package com.example.myapplication.ui.bottom.wechat;
+
+import android.os.Bundle;
 
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
+import com.example.myapplication.common.Code;
 import com.example.myapplication.databinding.FragmentViewPagerBinding;
+import com.example.myapplication.http.bean.WeChatBean;
 import com.example.myapplication.ui.adapter.ArticleListPagerAdapter;
+
+import java.util.List;
 
 import androidx.lifecycle.ViewModelProviders;
 
@@ -14,6 +20,17 @@ import androidx.lifecycle.ViewModelProviders;
 public class WeChatFragment extends BaseFragment<FragmentViewPagerBinding, WeChatViewModel> {
 
     private ArticleListPagerAdapter mPagerAdapter;
+
+    private List<WeChatBean> mList;
+    private int pos;
+
+    @Override
+    protected void handleArguments(Bundle args) {
+        super.handleArguments(args);
+        pos = args.getInt(Code.ParamCode.PARAM2, 0);
+        mList = (List<WeChatBean>) args.getSerializable(Code.ParamCode.PARAM1);
+    }
+
 
     @Override
     protected int getLayoutResId() {
@@ -37,11 +54,17 @@ public class WeChatFragment extends BaseFragment<FragmentViewPagerBinding, WeCha
 
     @Override
     protected void init() {
-        mViewModel.loadWeChatList();
+        if (mList != null) {
+            mViewModel.setDataList(mList);
+        } else {
+            mViewModel.loadWeChatList();
+        }
 
         mPagerAdapter = new ArticleListPagerAdapter(getChildFragmentManager());
         mDataBinding.viewPager.setAdapter(mPagerAdapter);
         mDataBinding.tabLayout.setupWithViewPager(mDataBinding.viewPager);
+
+        mDataBinding.viewPager.setCurrentItem(pos);
     }
 
     @Override

@@ -39,15 +39,28 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.myapplication.ui.wechat.WeChatFragment"
+        android:name="com.example.myapplication.ui.bottom.wechat.WeChatFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_view_pager" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.myapplication.ui.system.SystemFragment"
+        android:name="com.example.myapplication.ui.bottom.system.SystemFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+
+    <!--    体系详情-->
+    <fragment
+        android:id="@+id/systemChildrenFragment"
+        android:name="com.example.myapplication.ui.bottom.system.systemchildren.SystemChildrenFragment"
+        android:label="SystemChildrenFragment" />
+
+    <!--    导航-->
+    <fragment
+        android:id="@+id/navigation_navigation"
+        android:name="com.example.myapplication.ui.bottom.navi.NaviFragment"
+        android:label="NaviFragment" />
+
 
     <!--    登陆页面-->
     <fragment

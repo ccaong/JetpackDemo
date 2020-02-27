@@ -25,9 +25,6 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class HomeViewModel extends BaseViewModel {
 
-    private List<HomeBanner> mBannerList;
-    private List<ArticleBean> mArticleList;
-
     private MutableLiveData<List<HomeData>> mHomeList;
     private List<HomeData> mList;
 
@@ -37,12 +34,7 @@ public class HomeViewModel extends BaseViewModel {
     private int mPageNum;
 
     public HomeViewModel() {
-
         mHomeList = new MutableLiveData<>();
-
-        mBannerList = new ArrayList<>();
-        mArticleList = new ArrayList<>();
-
         mList = new ArrayList<>();
     }
 

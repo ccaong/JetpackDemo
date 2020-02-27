@@ -2,13 +2,13 @@ package com.example.myapplication.http.request;
 
 import com.example.myapplication.http.bean.ArticleBean;
 import com.example.myapplication.http.bean.ArticleListBean;
-import com.example.myapplication.http.bean.System;
 import com.example.myapplication.http.bean.CoinBean;
 import com.example.myapplication.http.bean.CoinRankBean;
 import com.example.myapplication.http.bean.HomeBanner;
 import com.example.myapplication.http.bean.ImageBean;
 import com.example.myapplication.http.bean.Integral;
 import com.example.myapplication.http.bean.LoginBean;
+import com.example.myapplication.http.bean.NavigationBean;
 import com.example.myapplication.http.bean.ToDoListBean;
 import com.example.myapplication.http.bean.WeChatBean;
 import com.example.myapplication.http.data.HttpBaseResponse;
@@ -106,7 +106,7 @@ public interface ApiAddress {
      * @return
      */
     @GET("tree/json")
-    Observable<HttpBaseResponse<List<System>>> getSystemList();
+    Observable<HttpBaseResponse<List<WeChatBean>>> getSystemList();
 
 
     /**
@@ -138,6 +138,17 @@ public interface ApiAddress {
      */
     @GET("wxarticle/list/{id}/{page}/json")
     Observable<HttpBaseResponse<ArticleListBean>> getWechatArticleList(@Path("id") int id, @Path("page") int page);
+
+
+
+    /**
+     * 获取导航列表
+     *
+     * @return
+     */
+    @GET("navi/json")
+    Observable<HttpBaseResponse<List<NavigationBean>>> getNavigationBean();
+
 
 
     /**

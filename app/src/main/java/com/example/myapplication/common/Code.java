@@ -16,9 +16,9 @@ public final class Code {
 
     public static final class ParamCode {
         public static final String KEY_URL = "key_url";
-        public static final String PARAM1 = "param";
-        public static final String PARAM2 = "param";
-        public static final String PARAM3 = "param";
+        public static final String PARAM1 = "param_1";
+        public static final String PARAM2 = "param_2";
+        public static final String PARAM3 = "param_3";
     }
 
     public static final class HawkCode {
