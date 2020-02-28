@@ -8,6 +8,7 @@ import com.cjj.MaterialRefreshListener;
 import com.example.myapplication.BR;
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
+import com.example.myapplication.base.ScrollToTop;
 import com.example.myapplication.common.Code;
 import com.example.myapplication.databinding.FragmentListBinding;
 import com.example.myapplication.http.bean.ArticleBean;
@@ -108,6 +109,15 @@ public class ArticleListFragment extends BaseFragment<FragmentListBinding, Artic
                         DetailsActivity.start(getActivity(), itemData.getLink());
                     }
                 });
+
+                root.findViewById(R.id.iv_collect).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        itemData.setCollect(!itemData.isCollect());
+                        notifyDataSetChanged();
+                        mViewModel.changeArticleCollect(itemData.isCollect(), itemData.getId());
+                    }
+                });
             }
         };
         mDataBinding.recycle.setAdapter(commonAdapter);
@@ -123,5 +133,12 @@ public class ArticleListFragment extends BaseFragment<FragmentListBinding, Artic
                 commonAdapter.onItemDatasChanged(articleListBean.getDatas());
             }
         });
+    }
+
+    /**
+     * 滚动到顶部
+     */
+    public void scrollToTop() {
+        mDataBinding.recycle.smoothScrollToPosition(0);
     }
 }

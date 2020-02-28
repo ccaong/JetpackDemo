@@ -59,26 +59,14 @@
     <fragment
         android:id="@+id/navigation_navigation"
         android:name="com.example.myapplication.ui.bottom.navi.NaviFragment"
-        android:label="NaviFragment" />
+        android:label="@string/title_navigation" />
 
-
-    <!--    登陆页面-->
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.example.myapplication.ui.nav.login.LoginFragment"
-        android:label="LoginFragment" />
 
     <!--    我的-->
     <fragment
         android:id="@+id/mineFragment"
         android:name="com.example.myapplication.ui.nav.mine.MineFragment"
         android:label="@string/mine" />
-
-    <!--    注册-->
-    <fragment
-        android:id="@+id/registerFragment"
-        android:name="com.example.myapplication.ui.nav.register.RegisterFragment"
-        android:label="RegisterFragment" />
 
     <!--    待办清单-->
     <fragment
@@ -112,7 +100,7 @@
     <fragment
         android:id="@+id/navigation_project"
         android:name="com.example.myapplication.ui.bottom.project.ProjectFragment"
-        android:label="ProjectFragment" />
+        android:label="@string/title_project" />
 
 
 </navigation>

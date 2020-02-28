@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
+import com.example.myapplication.base.ScrollToTop;
 import com.example.myapplication.common.Code;
 import com.example.myapplication.databinding.FragmentViewPagerBinding;
 import com.example.myapplication.http.bean.WeChatBean;
@@ -17,7 +18,7 @@ import androidx.lifecycle.ViewModelProviders;
 /**
  * @author devel
  */
-public class WeChatFragment extends BaseFragment<FragmentViewPagerBinding, WeChatViewModel> {
+public class WeChatFragment extends BaseFragment<FragmentViewPagerBinding, WeChatViewModel> implements ScrollToTop {
 
     private ArticleListPagerAdapter mPagerAdapter;
 
@@ -73,5 +74,10 @@ public class WeChatFragment extends BaseFragment<FragmentViewPagerBinding, WeCha
         if (mPagerAdapter != null) {
             mPagerAdapter.release();
         }
+    }
+
+    @Override
+    public void scrollToTop() {
+
     }
 }

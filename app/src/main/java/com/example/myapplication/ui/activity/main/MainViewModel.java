@@ -1,15 +1,8 @@
 package com.example.myapplication.ui.activity.main;
 
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
 import com.example.myapplication.base.viewmodel.BaseViewModel;
 import com.example.myapplication.common.Code;
-import com.example.myapplication.http.bean.Integral;
+import com.example.myapplication.http.bean.Coin;
 import com.example.myapplication.http.bean.LoginBean;
 import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.http.data.HttpDisposable;
@@ -17,6 +10,8 @@ import com.example.myapplication.http.request.HttpRequest;
 import com.example.myapplication.util.CommonUtils;
 import com.orhanobut.hawk.Hawk;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import io.reactivex.schedulers.Schedulers;
 
 public class MainViewModel extends BaseViewModel {
@@ -34,21 +29,13 @@ public class MainViewModel extends BaseViewModel {
     /**
      * 积分信息
      */
-    public MutableLiveData<Integral> mIntegral;
-
-    public MutableLiveData<String> userName;
-    public MutableLiveData<String> userPwd;
+    public MutableLiveData<Coin> mIntegral;
 
     public MainViewModel() {
-        if (userBean == null) {
-            userBean = new MutableLiveData<>();
-        }
+        userBean = new MutableLiveData<>();
         userHeader = new MutableLiveData<>();
         mIntegral = new MutableLiveData<>();
-        userName = new MutableLiveData<>();
-        userPwd = new MutableLiveData<>();
     }
-
 
     /**
      * 获取用户信息
@@ -59,37 +46,40 @@ public class MainViewModel extends BaseViewModel {
         return userBean;
     }
 
+    /**
+     * 获取用户头像
+     *
+     * @return
+     */
     public LiveData<String> getUserHeader() {
         return userHeader;
     }
 
     /**
-     * 更新当前用户头像
-     *
-     * @param path
+     * 设置用户信息
      */
-    public void updateUserHeader(String path) {
-        userHeader.postValue(path);
-        Hawk.put(Code.HawkCode.HEADER_IMAGE + userBean.getValue().data.getUsername(),
-                path);
-    }
+    public void setUserBean() {
+        //从缓存中读取用户信息
+        HttpBaseResponse<LoginBean> httpBean = new HttpBaseResponse<>();
+        httpBean.errorCode = 0;
+        httpBean.data = Hawk.get(Code.HawkCode.LOGIN_DATA);
+        userBean.postValue(httpBean);
 
-    @Override
-    public void onCreate(@NonNull LifecycleOwner owner) {
-        getUserData();
+        //读取本地缓存中的用户头像
+        loadUserHeader(httpBean.data.getUsername());
     }
 
     /**
      * 获取缓存的用户信息
      */
-    private void getUserData() {
+    public void getUserData() {
         LoginBean loginBean = Hawk.get(Code.HawkCode.LOGIN_DATA);
 
         if (loginBean != null) {
-            Log.e("更新头像","准备登录成功");
-
-            login(loginBean.getUsername(), loginBean.getPassword(), true);
+            //自动登录
+            login(loginBean.getUsername(), loginBean.getPassword());
         } else {
+            //缓存中没有用户信息
             HttpBaseResponse bean = new HttpBaseResponse();
             bean.errorCode = 3;
             userBean.postValue(bean);
@@ -97,26 +87,12 @@ public class MainViewModel extends BaseViewModel {
     }
 
     /**
-     * 用户点击登陆
-     */
-    public void login() {
-
-        if (CommonUtils.isStringEmpty(userName.getValue()) || CommonUtils.isStringEmpty(userPwd.getValue())) {
-            HttpBaseResponse bean = new HttpBaseResponse();
-            bean.errorCode = 1;
-            userBean.postValue(bean);
-            return;
-        }
-        login(userName.getValue(), userPwd.getValue(), false);
-    }
-
-    /**
-     * 登陆
+     * 自动登陆
      *
      * @param name
      * @param pwd
      */
-    private void login(String name, String pwd, boolean autoLogin) {
+    private void login(String name, String pwd) {
 
         HttpRequest.getInstance()
                 .Login(name, pwd)
@@ -124,28 +100,13 @@ public class MainViewModel extends BaseViewModel {
                 .subscribe(new HttpDisposable<HttpBaseResponse<LoginBean>>() {
                     @Override
                     public void success(HttpBaseResponse<LoginBean> bean) {
-                        if (autoLogin) {
-                            if (bean.errorCode == 0) {
-                                userBean.postValue(bean);
-                                loadUserHeader();
-                                Log.e("更新头像","自动登录成功");
-                            } else {
-                                userName.postValue(name);
-                            }
-                        } else {
+                        if (bean.errorCode == 0) {
+                            //自动登录成功
                             userBean.postValue(bean);
-                            if (bean.errorCode == 0) {
-                                loadUserHeader();
-                                Log.e("更新头像","手动登录成功");
-                            }
+                            bean.data.setPassword(pwd);
+                            Hawk.put(Code.HawkCode.LOGIN_DATA, bean.data);
+                            loadUserHeader(bean.data.getUsername());
                         }
-                        bean.data.setPassword(pwd);
-                        Hawk.put(Code.HawkCode.LOGIN_DATA, bean.data);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("更新头像","登录失败"+e.getMessage());
                     }
                 });
     }
@@ -153,13 +114,13 @@ public class MainViewModel extends BaseViewModel {
     /**
      * 从本地缓存中获取用户头像
      */
-    private void loadUserHeader() {
-        String path = Hawk.get(Code.HawkCode.HEADER_IMAGE + userBean.getValue().data.getUsername());
+    private void loadUserHeader(String userName) {
+        String path = Hawk.get(Code.HawkCode.HEADER_IMAGE + userName);
         if (!CommonUtils.isStringEmpty(path)) {
-            Log.e("更新头像","更新数据");
             userHeader.postValue(path);
         }
     }
+
 
     /**
      * 退出
@@ -181,6 +142,9 @@ public class MainViewModel extends BaseViewModel {
                         userBean.postValue(bean);
 
                         userHeader.postValue(null);
+                        Coin coin = new Coin();
+                        coin.setCoinCount(0);
+                        mIntegral.postValue(coin);
                     }
                 });
 
@@ -194,9 +158,9 @@ public class MainViewModel extends BaseViewModel {
         HttpRequest.getInstance()
                 .getMyIntegral()
                 .subscribeOn(Schedulers.io())
-                .subscribe(new HttpDisposable<HttpBaseResponse<Integral>>() {
+                .subscribe(new HttpDisposable<HttpBaseResponse<Coin>>() {
                     @Override
-                    public void success(HttpBaseResponse<Integral> integral) {
+                    public void success(HttpBaseResponse<Coin> integral) {
 
                         if (integral.errorCode == 0) {
                             mIntegral.postValue(integral.data);
@@ -205,4 +169,14 @@ public class MainViewModel extends BaseViewModel {
                 });
     }
 
+
+    /**
+     * 更新当前用户头像
+     *
+     * @param path
+     */
+    public void updateUserHeader(String path) {
+        userHeader.postValue(path);
+        Hawk.put(Code.HawkCode.HEADER_IMAGE + userBean.getValue().data.getUsername(), path);
+    }
 }

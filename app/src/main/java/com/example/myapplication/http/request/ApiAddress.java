@@ -2,11 +2,11 @@ package com.example.myapplication.http.request;
 
 import com.example.myapplication.http.bean.ArticleBean;
 import com.example.myapplication.http.bean.ArticleListBean;
+import com.example.myapplication.http.bean.Coin;
 import com.example.myapplication.http.bean.CoinBean;
 import com.example.myapplication.http.bean.CoinRankBean;
 import com.example.myapplication.http.bean.HomeBanner;
 import com.example.myapplication.http.bean.ImageBean;
-import com.example.myapplication.http.bean.Integral;
 import com.example.myapplication.http.bean.LoginBean;
 import com.example.myapplication.http.bean.NavigationBean;
 import com.example.myapplication.http.bean.ToDoListBean;
@@ -167,6 +167,24 @@ public interface ApiAddress {
     @GET("lg/collect/list/{page}/json")
     Observable<HttpBaseResponse<ArticleListBean>> getCollectList(@Path("page") int page);
 
+    /**
+     * 收藏文章
+     *
+     * @param id 要收藏的文章id
+     * @return
+     */
+    @POST("lg/collect/{id}/json")
+    Observable<HttpBaseResponse<Object>> collectArticle(@Path("id") int id);
+
+    /**
+     * 取消收藏文章
+     *
+     * @param id 要取消收藏的文章id
+     * @return
+     */
+    @POST("lg/uncollect_originId/{id}/json")
+    Observable<HttpBaseResponse<Object>> unCollectArticle(@Path("id") int id);
+
 
     /**
      * 添加一条待办事项
@@ -236,7 +254,7 @@ public interface ApiAddress {
      * @return
      */
     @GET("lg/coin/userinfo/json")
-    Observable<HttpBaseResponse<Integral>> getMyIntegral();
+    Observable<HttpBaseResponse<Coin>> getMyIntegral();
 
     /**
      * 查询积分详情列表

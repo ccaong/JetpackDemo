@@ -1,9 +1,11 @@
 package com.example.myapplication.ui.bottom.system.systemchildren;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
+import com.example.myapplication.base.ScrollToTop;
 import com.example.myapplication.common.Code;
 import com.example.myapplication.databinding.FragmentViewPagerBinding;
 import com.example.myapplication.http.bean.WeChatBean;
@@ -12,6 +14,7 @@ import com.example.myapplication.ui.articlelist.ArticleListFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
@@ -21,8 +24,9 @@ import androidx.lifecycle.ViewModelProviders;
  * @date : 2020/2/27 9:46
  * @desc :
  */
-public class SystemChildrenFragment extends BaseFragment<FragmentViewPagerBinding, SystemChildrenViewModel> {
+public class SystemChildrenFragment extends BaseFragment<FragmentViewPagerBinding, SystemChildrenViewModel> implements ScrollToTop {
 
+    private FmPagerAdapter adapter;
     private List<WeChatBean> mList;
     private int pos;
 
@@ -61,9 +65,17 @@ public class SystemChildrenFragment extends BaseFragment<FragmentViewPagerBindin
         }
         mDataBinding.tabLayout.setupWithViewPager(mDataBinding.viewPager);
 
-        FmPagerAdapter adapter = new FmPagerAdapter(getChildFragmentManager(), fragments, sTitle);
+        adapter = new FmPagerAdapter(getChildFragmentManager(), fragments, sTitle);
         mDataBinding.viewPager.setAdapter(adapter);
 
         mDataBinding.viewPager.setCurrentItem(pos);
+    }
+
+    @Override
+    public void scrollToTop() {
+        ArticleListFragment fragment = (ArticleListFragment) adapter.getCurrentFragment();
+        if (fragment != null) {
+            fragment.scrollToTop();
+        }
     }
 }

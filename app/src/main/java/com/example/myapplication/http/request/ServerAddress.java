@@ -8,15 +8,12 @@ package com.example.myapplication.http.request;
  */
 public class ServerAddress {
 
-    public static String API_DEFAULT_HOST = "https://wanandroid.com/";
+    public static final String API_BING = "https://www.bing.com/";
+
+    public static final String API_DEFAULT_HOST = "https://wanandroid.com/";
 
 
     public static String getApiDefaultHost() {
         return API_DEFAULT_HOST;
     }
-
-    public static void setApiDefaultHost(String IP) {
-        API_DEFAULT_HOST = "http://" + IP + "/mobileInterface/";
-    }
-
 }

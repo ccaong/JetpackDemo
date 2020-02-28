@@ -1,6 +1,6 @@
 package com.example.myapplication.http.bean;
 
-public class Integral {
+public class Coin {
 
     /**
      * coinCount : 451
@@ -13,6 +13,7 @@ public class Integral {
     private int rank;
     private int userId;
     private String username;
+
 
     public String getCoinCount() {
         return coinCount+"分";

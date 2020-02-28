@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.cjj.MaterialRefreshLayout;
 import com.example.myapplication.App;
@@ -101,8 +102,23 @@ public class BindingAdapterUtil {
 
     @BindingAdapter("loadImage")
     public static void setImageUrl(ImageView imageView, String url) {
+        if (url != null) {
+            Glide.with(imageView.getContext())
+                    .load(url)
+                    .into(imageView);
+        }
+    }
+
+    @BindingAdapter("loadImageWithError")
+    public static void setImageUrlWithError(ImageView imageView, String url) {
+        RequestOptions options = new RequestOptions();
+        options.placeholder(R.mipmap.ic_logo)
+                .error(R.mipmap.ic_logo).fallback(R.mipmap.ic_logo)
+                .transform(new CircleCrop());
+
         Glide.with(imageView.getContext())
                 .load(url)
+                .apply(options)
                 .into(imageView);
     }
 

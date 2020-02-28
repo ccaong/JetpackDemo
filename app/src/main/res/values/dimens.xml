@@ -20,6 +20,12 @@
     <dimen name="dimen_48">48dp</dimen>
     <dimen name="dimen_56">56dp</dimen>
     <dimen name="dimen_64">64dp</dimen>
+    <dimen name="dimen_80">80dp</dimen>
+    <dimen name="dimen_100">100dp</dimen>
+    <dimen name="dimen_160">160dp</dimen>
+    <dimen name="dimen_240">240dp</dimen>
+    <dimen name="dimen_280">280dp</dimen>
+    <dimen name="dimen_320">320dp</dimen>
 
 
     <dimen name="text_10">10sp</dimen>

@@ -18,17 +18,21 @@ import com.just.agentweb.WebChromeClient;
 
 /**
  * 详情页
+ * webView
  */
 public class DetailsActivity extends BaseActivity<ActivityDetailsBinding, DetailsViewModel> {
 
     private AgentWeb mAgentWeb;
 
     private String mUrl;
+    /**
+     * 是否从Splash界面跳转过来
+     */
     private boolean mFromSplash;
 
-    public static void start(Context context, String url, boolean from) {
+    public static void start(Context context, String url, boolean fromSplash) {
         Intent intent = new Intent(context, DetailsActivity.class);
-        intent.putExtra(Code.ParamCode.PARAM1, from);
+        intent.putExtra(Code.ParamCode.PARAM1, fromSplash);
         intent.putExtra(Code.ParamCode.KEY_URL, url);
         context.startActivity(intent);
     }
@@ -95,7 +99,6 @@ public class DetailsActivity extends BaseActivity<ActivityDetailsBinding, Detail
             case android.R.id.home:
                 super.onBackPressed();
                 return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -123,7 +126,8 @@ public class DetailsActivity extends BaseActivity<ActivityDetailsBinding, Detail
     public void onBackPressed() {
         if (!mAgentWeb.back()) {
             if (mFromSplash) {
-                MainActivity.start(DetailsActivity.this);
+                //如果从Splash界面跳转来，就返回到主页
+                MainActivity.start(DetailsActivity.this,false);
                 finish();
             } else {
                 super.onBackPressed();
@@ -136,7 +140,6 @@ public class DetailsActivity extends BaseActivity<ActivityDetailsBinding, Detail
         if (mAgentWeb.handleKeyEvent(keyCode, event)) {
             return true;
         }
-
         return super.onKeyDown(keyCode, event);
     }
 }

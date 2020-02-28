@@ -36,11 +36,11 @@
             android:layout_marginBottom="@dimen/margin"
             android:onClick="@{()-> mineFragment.selectImage()}"
             android:scaleType="fitXY"
-            android:src="@mipmap/ic_launcher"
+            android:src="@mipmap/ic_logo"
             app:layout_constraintBottom_toTopOf="@+id/tv_user_name"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:loadImage="@{viewModel.userHeader}" />
+            app:loadImageWithError="@{viewModel.userHeader}" />
 
         <TextView
             android:id="@+id/tv_user_name"
@@ -116,6 +116,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/dimen_32"
+                    android:drawableLeft="@mipmap/ic_todo"
+                    android:drawablePadding="@dimen/dimen_16"
                     android:onClick="@{()->mineFragment.startTodFragment()}"
                     android:text="@string/my_todo"
                     android:textSize="@dimen/text_18" />
@@ -125,12 +127,8 @@
                     style="@style/mine_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/my_collect" />
-
-                <TextView
-                    style="@style/mine_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/ic_mine_collect"
+                    android:drawablePadding="@dimen/dimen_16"
                     android:onClick="@{()->mineFragment.startCollectFragment()}"
                     android:text="@string/my_collect" />
 
@@ -138,6 +136,8 @@
                     style="@style/mine_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/ic_mine_coin"
+                    android:drawablePadding="@dimen/dimen_16"
                     android:onClick="@{()->mineFragment.startIntegralFragment()}"
                     android:text="@string/integral_details" />
 

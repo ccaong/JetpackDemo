@@ -23,7 +23,7 @@
         android:title="@string/title_navigation" />
     <item
         android:id="@+id/navigation_project"
-        android:icon="@mipmap/ic_android"
-        android:title="@string/title_navigation" />
+        android:icon="@mipmap/ic_project"
+        android:title="@string/title_project" />
 
 </menu>

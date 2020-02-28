@@ -72,6 +72,16 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginBottom="@dimen/dimen_56"
+                android:layout_marginRight="@dimen/fab_margin"
+                app:srcCompat="@drawable/ic_arrow_upward_black_24dp" />
+
+
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
                 <com.google.android.material.navigation.NavigationView
@@ -84,4 +94,5 @@
                     app:menu="@menu/activity_main_drawer" />
 
     </androidx.drawerlayout.widget.DrawerLayout>
+
 </layout>

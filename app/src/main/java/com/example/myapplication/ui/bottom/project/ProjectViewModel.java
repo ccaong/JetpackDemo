@@ -13,16 +13,25 @@ import com.example.myapplication.util.CommonUtils;
 
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import io.reactivex.schedulers.Schedulers;
 
+/**
+ * @author devel
+ */
 public class ProjectViewModel extends BaseViewModel {
 
-    public ObservableList<WeChatBean> dataList;
+    public MutableLiveData<List<WeChatBean>> dataList;
 
     public ProjectViewModel() {
-        dataList = new ObservableArrayList<>();
+        dataList = new MutableLiveData<>();
     }
 
+
+    public LiveData<List<WeChatBean>> getDataList() {
+        return dataList;
+    }
 
     /**
      * 获取项目分类列表
@@ -37,7 +46,7 @@ public class ProjectViewModel extends BaseViewModel {
                     @Override
                     public void success(HttpBaseResponse<List<WeChatBean>> listHttpBaseResponse) {
                         if (!CommonUtils.isListEmpty(listHttpBaseResponse.data)) {
-                            dataList.addAll(listHttpBaseResponse.data);
+                            dataList.postValue(listHttpBaseResponse.data);
                             loadState.postValue(LoadState.SUCCESS);
                         } else {
                             loadState.postValue(LoadState.NO_DATA);

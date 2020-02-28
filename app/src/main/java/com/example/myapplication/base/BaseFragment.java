@@ -8,13 +8,17 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.cjj.MaterialRefreshLayout;
 import com.example.myapplication.R;
@@ -26,6 +30,9 @@ import com.example.myapplication.databinding.ViewNoDataBinding;
 import com.example.myapplication.databinding.ViewNoNetworkBinding;
 import com.example.myapplication.enums.LoadState;
 import com.example.myapplication.enums.RefreshState;
+import com.example.myapplication.http.data.HttpBaseResponse;
+import com.example.myapplication.ui.activity.login.LoginActivity;
+import com.example.myapplication.ui.activity.main.MainActivity;
 
 
 /**
@@ -83,6 +90,8 @@ public abstract class BaseFragment<DB extends ViewDataBinding, VM extends BaseVi
         initLoadState();
 
         initRefreshState();
+
+        initCollectState();
 
         init();
 
@@ -157,6 +166,9 @@ public abstract class BaseFragment<DB extends ViewDataBinding, VM extends BaseVi
     }
 
     private void initRefreshState() {
+        if (mViewModel == null) {
+            return;
+        }
         mViewModel.refreshState.observe(getViewLifecycleOwner(), new Observer<RefreshState>() {
             @Override
             public void onChanged(RefreshState refreshState) {
@@ -173,6 +185,25 @@ public abstract class BaseFragment<DB extends ViewDataBinding, VM extends BaseVi
                         break;
                     default:
                         break;
+                }
+            }
+        });
+    }
+
+    private void initCollectState() {
+        if (mViewModel == null) {
+            return;
+        }
+        mViewModel.getCollectStatus().observe(this, new Observer<HttpBaseResponse<Object>>() {
+            @Override
+            public void onChanged(HttpBaseResponse<Object> collect) {
+                if (collect.errorCode == 0) {
+                    Toast.makeText(getContext(), "收藏成功", Toast.LENGTH_SHORT).show();
+                } else if (collect.errorCode == -1001) {
+                    //跳转到登录界面
+                    LoginActivity.start(getActivity());
+                } else {
+                    Toast.makeText(getContext(), "操作失败！", Toast.LENGTH_SHORT).show();
                 }
             }
         });

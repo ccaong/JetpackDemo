@@ -8,6 +8,10 @@
         <variable
             name="viewModel"
             type="com.example.myapplication.ui.activity.splash.SplashViewModel" />
+
+        <variable
+            name="splashActivity"
+            type="com.example.myapplication.ui.activity.splash.SplashActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,8 +47,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin"
-            android:textSize="@dimen/text_12"
             android:text="@string/str_copyright"
+            android:textColor="@color/text_black_54"
+            android:textSize="@dimen/text_12"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />

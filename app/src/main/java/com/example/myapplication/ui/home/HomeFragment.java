@@ -7,6 +7,7 @@ import com.cjj.MaterialRefreshListener;
 import com.example.myapplication.BR;
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
+import com.example.myapplication.base.ScrollToTop;
 import com.example.myapplication.databinding.FragmentHomeBinding;
 import com.example.myapplication.http.bean.home.HomeData;
 import com.example.myapplication.ui.activity.web.DetailsActivity;
@@ -22,7 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 /**
  * @author devel
  */
-public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewModel> {
+public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewModel> implements ScrollToTop {
 
     @Override
     protected int getLayoutResId() {
@@ -46,7 +47,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
     @Override
     protected void init() {
-        mViewModel.loadHomeData();
+//        mViewModel.loadHomeData();
 
         initRecycle();
         initRefreshLayout();
@@ -99,7 +100,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                         public void onClick(View v) {
                             itemData.getArticleList().setCollect(!itemData.getArticleList().isCollect());
                             notifyDataSetChanged();
-                            mViewModel.collectArticle(!itemData.getArticleList().isCollect());
+                            mViewModel.changeArticleCollect(itemData.getArticleList().isCollect(), itemData.getArticleList().getId());
                         }
                     });
                 }
@@ -117,5 +118,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 mDataBinding.mrlRefreshLayout.finishRefresh();
             }
         });
+    }
+
+
+    @Override
+    public void scrollToTop() {
+        mDataBinding.recyclerView.smoothScrollToPosition(0);
     }
 }

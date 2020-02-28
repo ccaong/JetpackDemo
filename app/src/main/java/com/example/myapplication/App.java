@@ -6,9 +6,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.http.data.HttpResponseInterface;
-import com.example.myapplication.http.httptool.HttpException;
 import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.ServerAddress;
 import com.example.myapplication.manager.MyActivityManager;
@@ -41,6 +39,9 @@ public class App extends MultiDexApplication {
         return context;
     }
 
+    /**
+     * 管理Activity
+     */
     private void initActivityManager() {
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
@@ -80,6 +81,9 @@ public class App extends MultiDexApplication {
         });
     }
 
+    /**
+     * 一些第三方库或本地库的初始化设置
+     */
     private void init() {
         Hawk.init(context).build();
 

@@ -3,22 +3,28 @@ package com.example.myapplication.ui.activity.main;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseActivity;
+import com.example.myapplication.base.ScrollToTop;
+import com.example.myapplication.common.Code;
 import com.example.myapplication.databinding.ActivityMainBinding;
 import com.example.myapplication.http.bean.LoginBean;
 import com.example.myapplication.http.data.HttpBaseResponse;
+import com.example.myapplication.ui.activity.login.LoginActivity;
 import com.example.myapplication.ui.view.CircleImageView;
+import com.example.myapplication.util.GlideUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import android.util.Log;
-import android.view.MenuItem;
+import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
@@ -26,31 +32,33 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.google.android.material.navigation.NavigationView;
-
-import androidx.drawerlayout.widget.DrawerLayout;
-
-import android.view.Menu;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel> {
 
     private AppBarConfiguration mAppBarConfiguration;
     private DrawerLayout drawer;
+    private boolean isLogin;
 
-    public static void start(Context context) {
+    public static void start(Context context, Boolean isLogin) {
         Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra(Code.ParamCode.PARAM1, isLogin);
         context.startActivity(intent);
     }
 
+    @Override
+    protected void handleIntent(Intent intent) {
+        isLogin = intent.getBooleanExtra(Code.ParamCode.PARAM1, false);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        isLogin = intent.getBooleanExtra(Code.ParamCode.PARAM1, false);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mViewModel.getUserData();
     }
 
     @Override
@@ -60,7 +68,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     @Override
     protected void initViewModel() {
-
         mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
     }
 
@@ -71,8 +78,29 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     @Override
     protected void init() {
-        setSupportActionBar(mDataBinding.toolbar);
+        initView();
+        initUserData();
+        initFloatingActionButton();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        login();
+    }
+
+    private void login() {
+        if (isLogin) {
+            //已经登录成功了，直接从缓存中读取用户信息
+            mViewModel.setUserBean();
+        }
+    }
+
+    /**
+     * 初始化侧边栏和底部状态栏
+     */
+    private void initView() {
+        setSupportActionBar(mDataBinding.toolbar);
         drawer = mDataBinding.drawerLayout;
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -86,16 +114,17 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
         BottomNavigationView navView = findViewById(R.id.nav_view_bottom);
         NavigationUI.setupWithNavController(navView, navController);
-
-        initUserData();
-
     }
 
+    /**
+     * 初始化侧边栏用户信息
+     */
     private void initUserData() {
         TextView tvName = mDataBinding.navView.getHeaderView(0).findViewById(R.id.tv_nike_name);
         TextView textView = mDataBinding.navView.getHeaderView(0).findViewById(R.id.textView);
         CircleImageView ivHeader = mDataBinding.navView.getHeaderView(0).findViewById(R.id.imageView);
 
+        //加载用户昵称和账号
         mViewModel.getUserBean().observe(this, new Observer<HttpBaseResponse<LoginBean>>() {
             @Override
             public void onChanged(HttpBaseResponse<LoginBean> bean) {
@@ -109,29 +138,60 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
             }
         });
 
-
+        //加载用户头像
         mViewModel.getUserHeader().observe(this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
-                Log.e("更新头像", "更新成功" + s);
-                Glide.with(MainActivity.this)
-                        .load(s)
-                        .into(ivHeader);
+                GlideUtil.loadImageWithDefault(ivHeader, s);
             }
         });
 
+
+        //点击头部个人信息
         mDataBinding.navView.getHeaderView(0).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mViewModel.getUserBean().getValue().errorCode != 0) {
-                    Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment).navigate(R.id.loginFragment);
+                    //跳转到登录界面
+                    LoginActivity.start(MainActivity.this);
                     drawer.closeDrawer(GravityCompat.START);
                 } else {
+                    //跳转到mine界面
                     Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment).navigate(R.id.mineFragment);
                     drawer.closeDrawer(GravityCompat.START);
                 }
             }
         });
+    }
+
+    /**
+     * FloatingActionButton点击事件
+     * 回到顶部
+     */
+    private void initFloatingActionButton() {
+        mDataBinding.fabTop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = getFragment();
+                if (fragment != null) {
+                    ((ScrollToTop) fragment).scrollToTop();
+                }
+            }
+        });
+    }
+
+
+    /**
+     * 获取当前显示的Fragment实例
+     */
+    private Fragment getFragment() {
+        //获取指定的fragment
+        Fragment mMainNavFragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        Fragment fragment = mMainNavFragment.getChildFragmentManager().getPrimaryNavigationFragment();
+        if (fragment instanceof ScrollToTop) {
+            return fragment;
+        }
+        return null;
     }
 
     private void setNavigationView(NavigationView navigationView) {

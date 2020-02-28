@@ -12,14 +12,15 @@
     <application
         android:name=".App"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
             android:name=".ui.activity.main.MainActivity"
             android:label="@string/app_name"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".ui.activity.splash.SplashActivity"
@@ -31,6 +32,7 @@
             </intent-filter>
 
         </activity>
+        <activity android:name=".ui.activity.login.LoginActivity" />
         <activity android:name=".ui.activity.web.DetailsActivity" />
     </application>
 
