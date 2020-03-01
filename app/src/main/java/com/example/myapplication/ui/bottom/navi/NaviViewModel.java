@@ -5,6 +5,7 @@ import com.example.myapplication.enums.LoadState;
 import com.example.myapplication.http.bean.NavigationBean;
 import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.http.data.HttpDisposable;
+import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.HttpRequest;
 import com.example.myapplication.util.CommonUtils;
 
@@ -42,16 +43,16 @@ public class NaviViewModel extends BaseViewModel {
         loadState.postValue(LoadState.LOADING);
         HttpRequest.getInstance()
                 .getNavigationBean()
-                .subscribeOn(Schedulers.io())
-                .subscribe(new HttpDisposable<HttpBaseResponse<List<NavigationBean>>>() {
+                .compose(HttpFactory.schedulers())
+                .subscribe(new HttpDisposable<List<NavigationBean>>() {
                     @Override
-                    public void success(HttpBaseResponse<List<NavigationBean>> listBean) {
-                        if (!CommonUtils.isListEmpty(listBean.data)) {
+                    public void success(List<NavigationBean> listBean) {
+                        if (!CommonUtils.isListEmpty(listBean)) {
                             loadState.postValue(LoadState.SUCCESS);
-                            for (NavigationBean baan : listBean.data) {
+                            for (NavigationBean baan : listBean) {
                                 mTitlesList.add(baan.getName());
                             }
-                            dataList.postValue(listBean.data);
+                            dataList.postValue(listBean);
                         } else {
                             loadState.postValue(LoadState.NO_DATA);
                         }

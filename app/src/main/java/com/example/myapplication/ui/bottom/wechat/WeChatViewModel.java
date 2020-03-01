@@ -5,6 +5,7 @@ import com.example.myapplication.http.bean.WeChatBean;
 import com.example.myapplication.enums.LoadState;
 import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.http.data.HttpDisposable;
+import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.HttpRequest;
 import com.example.myapplication.util.CommonUtils;
 
@@ -37,12 +38,12 @@ public class WeChatViewModel extends BaseViewModel {
         loadState.postValue(LoadState.LOADING);
         HttpRequest.getInstance()
                 .getWechatList()
-                .subscribeOn(Schedulers.io())
-                .subscribe(new HttpDisposable<HttpBaseResponse<List<WeChatBean>>>() {
+                .compose(HttpFactory.<List<WeChatBean>>schedulers())
+                .subscribe(new HttpDisposable<List<WeChatBean>>() {
                     @Override
-                    public void success(HttpBaseResponse<List<WeChatBean>> listHttpBaseResponse) {
-                        if (!CommonUtils.isListEmpty(listHttpBaseResponse.data)) {
-                            dataList.addAll(listHttpBaseResponse.data);
+                    public void success(List<WeChatBean> listHttpBaseResponse) {
+                        if (!CommonUtils.isListEmpty(listHttpBaseResponse)) {
+                            dataList.addAll(listHttpBaseResponse);
                             loadState.postValue(LoadState.SUCCESS);
                         } else {
                             loadState.postValue(LoadState.NO_DATA);

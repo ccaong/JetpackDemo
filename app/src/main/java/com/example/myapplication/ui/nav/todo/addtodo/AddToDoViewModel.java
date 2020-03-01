@@ -2,10 +2,13 @@ package com.example.myapplication.ui.nav.todo.addtodo;
 
 import android.app.DatePickerDialog;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
+import com.example.myapplication.App;
 import com.example.myapplication.base.viewmodel.BaseViewModel;
 import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.http.data.HttpDisposable;
+import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.HttpRequest;
 import com.example.myapplication.manager.MyActivityManager;
 import com.example.myapplication.util.TimeUtils;
@@ -14,6 +17,7 @@ import java.util.Calendar;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
 import io.reactivex.schedulers.Schedulers;
 
 
@@ -22,7 +26,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class AddToDoViewModel extends BaseViewModel {
 
-    private MutableLiveData<HttpBaseResponse<Object>> addData;
+    private MutableLiveData<Object> addData;
 
     /**
      * 标题内容
@@ -58,7 +62,7 @@ public class AddToDoViewModel extends BaseViewModel {
         initDatePicker();
     }
 
-    public LiveData<HttpBaseResponse<Object>> getAdddata() {
+    public LiveData<Object> getAdddata() {
         return addData;
     }
 
@@ -109,19 +113,16 @@ public class AddToDoViewModel extends BaseViewModel {
     public void addData() {
         HttpRequest.getInstance()
                 .addToDoData(title.getValue(), content.getValue(), date.getValue(), type.getValue(), priority.getValue())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new HttpDisposable<HttpBaseResponse<Object>>() {
+                .compose(HttpFactory.schedulers())
+                .subscribe(new HttpDisposable<Object>() {
                     @Override
-                    public void success(HttpBaseResponse<Object> bean) {
+                    public void success(Object bean) {
                         addData.postValue(bean);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        HttpBaseResponse<Object> bean = new HttpBaseResponse<>();
-                        bean.errorCode = 1;
-                        bean.errorMsg = e.getMessage();
-                        addData.postValue(bean);
+                        Toast.makeText(App.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

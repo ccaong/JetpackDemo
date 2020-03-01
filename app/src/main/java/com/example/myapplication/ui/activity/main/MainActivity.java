@@ -26,6 +26,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -68,7 +69,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     @Override
     protected void initViewModel() {
-        mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(MainViewModel.class);
     }
 
     @Override
@@ -104,7 +105,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         drawer = mDataBinding.drawerLayout;
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home,
+                R.id.nav_home, R.id.nav_collect,
                 R.id.nav_tools, R.id.nav_share, R.id.nav_send)
                 .setDrawerLayout(drawer)
                 .build();
@@ -125,12 +126,12 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         CircleImageView ivHeader = mDataBinding.navView.getHeaderView(0).findViewById(R.id.imageView);
 
         //加载用户昵称和账号
-        mViewModel.getUserBean().observe(this, new Observer<HttpBaseResponse<LoginBean>>() {
+        mViewModel.getUserBean().observe(this, new Observer<LoginBean>() {
             @Override
-            public void onChanged(HttpBaseResponse<LoginBean> bean) {
-                if (bean.errorCode == 0) {
-                    tvName.setText(bean.data.getNickname());
-                    textView.setText(bean.data.getUsername());
+            public void onChanged(LoginBean bean) {
+                if (bean != null) {
+                    tvName.setText(bean.getNickname());
+                    textView.setText(bean.getUsername());
                 } else {
                     tvName.setText(getResources().getString(R.string.user_name));
                     textView.setText(getResources().getString(R.string.click_login));
@@ -151,7 +152,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         mDataBinding.navView.getHeaderView(0).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mViewModel.getUserBean().getValue().errorCode != 0) {
+                if (mViewModel.getUserBean().getValue() == null) {
                     //跳转到登录界面
                     LoginActivity.start(MainActivity.this);
                     drawer.closeDrawer(GravityCompat.START);

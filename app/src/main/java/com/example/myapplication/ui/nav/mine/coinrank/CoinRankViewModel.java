@@ -1,18 +1,20 @@
 package com.example.myapplication.ui.nav.mine.coinrank;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import com.example.myapplication.base.viewmodel.BaseViewModel;
 import com.example.myapplication.enums.LoadState;
 import com.example.myapplication.http.bean.CoinRankBean;
-import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.http.data.HttpDisposable;
+import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.HttpRequest;
+import com.example.myapplication.util.CommonUtils;
 import com.example.myapplication.util.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -80,26 +82,27 @@ public class CoinRankViewModel extends BaseViewModel {
         }
         HttpRequest.getInstance()
                 .queryCoinRank(mPage)
-                .subscribeOn(Schedulers.io())
-                .subscribe(new HttpDisposable<HttpBaseResponse<CoinRankBean>>() {
+                .compose(HttpFactory.schedulers())
+                .subscribe(new HttpDisposable<CoinRankBean>() {
                     @Override
-                    public void success(HttpBaseResponse<CoinRankBean> bean) {
+                    public void success(CoinRankBean bean) {
 
-                        if (bean != null && bean.errorCode == 0) {
-                            loadState.postValue(LoadState.SUCCESS);
-                            if (mPage == 0) {
-                                //第一次加载或刷新成功 清空列表，重新载入数据，设置刷新成功状态
-                                mList.clear();
-                                mList.addAll(bean.data.getDatas());
-                                mCoinList.postValue(bean.data);
-                            } else {
-                                //添加数据，设置下拉加载成功状态
-                                mList.addAll(bean.data.getDatas());
-                                bean.data.setDatas(mList);
-                                mCoinList.postValue(bean.data);
-                            }
-                        } else {
+                        if (CommonUtils.isListEmpty(bean.getDatas())) {
                             loadState.postValue(LoadState.NO_DATA);
+                            return;
+                        }
+
+                        loadState.postValue(LoadState.SUCCESS);
+                        if (mPage == 0) {
+                            //第一次加载或刷新成功 清空列表，重新载入数据，设置刷新成功状态
+                            mList.clear();
+                            mList.addAll(bean.getDatas());
+                            mCoinList.postValue(bean);
+                        } else {
+                            //添加数据，设置下拉加载成功状态
+                            mList.addAll(bean.getDatas());
+                            bean.setDatas(mList);
+                            mCoinList.postValue(bean);
                         }
                     }
 
@@ -109,6 +112,4 @@ public class CoinRankViewModel extends BaseViewModel {
                     }
                 });
     }
-
-
 }

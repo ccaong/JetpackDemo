@@ -27,13 +27,13 @@
     <fragment
         android:id="@+id/nav_share"
         android:name="com.example.myapplication.ui.nav.share.ShareFragment"
-        android:label="@string/menu_share"
+        android:label="@string/menu_update"
         tools:layout="@layout/fragment_share" />
 
     <fragment
         android:id="@+id/nav_send"
         android:name="com.example.myapplication.ui.nav.send.SendFragment"
-        android:label="@string/menu_send"
+        android:label="@string/menu_about"
         tools:layout="@layout/fragment_send" />
 
 
@@ -58,7 +58,7 @@
     <!--    导航-->
     <fragment
         android:id="@+id/navigation_navigation"
-        android:name="com.example.myapplication.ui.bottom.navi.NaviFragment"
+        android:name="com.example.myapplication.ui.bottom.navi.NavigationFragment"
         android:label="@string/title_navigation" />
 
 
@@ -101,6 +101,11 @@
         android:id="@+id/navigation_project"
         android:name="com.example.myapplication.ui.bottom.project.ProjectFragment"
         android:label="@string/title_project" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.myapplication.ui.search.SearchFragment"
+        android:label="search_fragment"
+        tools:layout="@layout/search_fragment" />
 
 
 </navigation>

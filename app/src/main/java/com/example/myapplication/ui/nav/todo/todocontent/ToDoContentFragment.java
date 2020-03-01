@@ -1,22 +1,32 @@
 package com.example.myapplication.ui.nav.todo.todocontent;
 
-import android.util.Log;
+import android.os.Bundle;
 import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.fragment.NavHostFragment;
+
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
+import com.example.myapplication.common.Code;
 import com.example.myapplication.databinding.FragmentToDoContentBinding;
 import com.example.myapplication.http.bean.ToDoListBean;
-import com.example.myapplication.ui.nav.todo.ToDoViewModel;
-
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 /**
  * @author devel
  */
-public class ToDoContentFragment extends BaseFragment<FragmentToDoContentBinding, ToDoViewModel> {
+public class ToDoContentFragment extends BaseFragment<FragmentToDoContentBinding, ToDoContentViewModel> {
+
+    private ToDoListBean.ToDoData data;
+
+    @Override
+    protected void handleArguments(Bundle args) {
+        super.handleArguments(args);
+        data = (ToDoListBean.ToDoData) args.getSerializable(Code.ParamCode.PARAM1);
+    }
 
     @Override
     protected int getLayoutResId() {
@@ -25,13 +35,12 @@ public class ToDoContentFragment extends BaseFragment<FragmentToDoContentBinding
 
     @Override
     protected void initViewModel() {
-
-        mViewModel = ViewModelProviders.of(getActivity()).get(ToDoViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(ToDoContentViewModel.class);
+        mViewModel.setToDoData(data);
     }
 
     @Override
     protected void bindViewModel() {
-
         mDataBinding.setViewModel(mViewModel);
     }
 
@@ -40,6 +49,8 @@ public class ToDoContentFragment extends BaseFragment<FragmentToDoContentBinding
         initData();
 
         initViewChange();
+
+        initDataChange();
     }
 
     private void initData() {
@@ -47,7 +58,6 @@ public class ToDoContentFragment extends BaseFragment<FragmentToDoContentBinding
         mViewModel.getData().observe(this, new Observer<ToDoListBean.ToDoData>() {
             @Override
             public void onChanged(ToDoListBean.ToDoData toDoData) {
-                Log.e("TODO", "数据改变");
                 switch (toDoData.getType()) {
                     case 1:
                         mDataBinding.radioGroup.check(R.id.btn1);
@@ -67,7 +77,6 @@ public class ToDoContentFragment extends BaseFragment<FragmentToDoContentBinding
             }
         });
     }
-
 
     private void initViewChange() {
 
@@ -102,6 +111,18 @@ public class ToDoContentFragment extends BaseFragment<FragmentToDoContentBinding
                         break;
                     default:
                         break;
+                }
+            }
+        });
+    }
+
+    private void initDataChange() {
+        mViewModel.getToDoChangeStatus().observe(this, new Observer<Object>() {
+            @Override
+            public void onChanged(Object object) {
+                if (object != null) {
+                    //数据更新成功或数据删除成功
+                    NavHostFragment.findNavController(ToDoContentFragment.this).navigateUp();
                 }
             }
         });

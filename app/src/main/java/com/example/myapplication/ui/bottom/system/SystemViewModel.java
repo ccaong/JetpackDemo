@@ -5,7 +5,9 @@ import com.example.myapplication.enums.LoadState;
 import com.example.myapplication.http.bean.WeChatBean;
 import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.http.data.HttpDisposable;
+import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.HttpRequest;
+import com.example.myapplication.util.CommonUtils;
 import com.example.myapplication.util.NetworkUtils;
 
 import androidx.lifecycle.LiveData;
@@ -65,19 +67,17 @@ public class SystemViewModel extends BaseViewModel {
         }
         HttpRequest.getInstance()
                 .getSystemList()
-                .subscribeOn(Schedulers.io())
-                .subscribe(new HttpDisposable<HttpBaseResponse<List<WeChatBean>>>() {
+                .compose(HttpFactory.schedulers())
+                .subscribe(new HttpDisposable<List<WeChatBean>>() {
                     @Override
-                    public void success(HttpBaseResponse<List<WeChatBean>> bean) {
-
-                        if (bean != null && bean.errorCode == 0) {
+                    public void success(List<WeChatBean> bean) {
+                        if (!CommonUtils.isListEmpty(bean)) {
                             loadState.postValue(LoadState.SUCCESS);
-                            mSystemList.postValue(bean.data);
+                            mSystemList.postValue(bean);
                         } else {
                             loadState.postValue(LoadState.NO_DATA);
                         }
                     }
-
                     @Override
                     public void onError(Throwable e) {
                         loadState.postValue(LoadState.ERROR);

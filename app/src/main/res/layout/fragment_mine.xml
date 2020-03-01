@@ -47,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/dimen_8"
-            android:textColor="@color/white"
+            android:textColor="@color/color_white"
             android:textSize="@dimen/text_18"
             android:tooltipText="@string/user_name"
             app:layout_constraintBottom_toTopOf="@+id/tv_integral"
@@ -62,7 +62,8 @@
             android:layout_marginTop="@dimen/margin"
             android:layout_marginBottom="@dimen/margin"
             android:text="@string/integral"
-            android:textColor="@color/white"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/text_12"
             app:layout_constraintBottom_toTopOf="@+id/guideline"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -75,12 +76,39 @@
             android:layout_marginLeft="@dimen/dimen_8"
             android:layout_marginBottom="@dimen/margin"
             android:text="@{viewModel.mIntegral.coinCount}"
-            android:textColor="@color/white"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/text_12"
+            app:layout_constraintRight_toLeftOf="@+id/tv_rank"
             app:layout_constraintBottom_toBottomOf="@+id/tv_integral"
             app:layout_constraintBottom_toTopOf="@+id/guideline"
             app:layout_constraintLeft_toRightOf="@+id/tv_integral"
-            app:layout_constraintRight_toRightOf="parent"
             tools:text="20分" />
+
+        <TextView
+            android:id="@+id/tv_rank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_8"
+            android:text="@string/rank"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/text_12"
+            app:layout_constraintRight_toLeftOf="@+id/tv_user_rank"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_integral"
+            app:layout_constraintLeft_toRightOf="@+id/tv_user_integral" />
+
+        <TextView
+            android:id="@+id/tv_user_rank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_8"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/text_12"
+            app:int2String="@{viewModel.mIntegral.rank}"
+            tools:text="202"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_integral"
+            app:layout_constraintLeft_toRightOf="@+id/tv_rank" />
+
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
@@ -136,6 +164,15 @@
                     style="@style/mine_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/ic_mine_share"
+                    android:drawablePadding="@dimen/dimen_16"
+                    android:onClick="@{()->mineFragment.startCollectFragment()}"
+                    android:text="@string/my_share" />
+
+                <TextView
+                    style="@style/mine_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:drawableLeft="@mipmap/ic_mine_coin"
                     android:drawablePadding="@dimen/dimen_16"
                     android:onClick="@{()->mineFragment.startIntegralFragment()}"
@@ -151,6 +188,15 @@
                     android:onClick="@{()->mineFragment.startCoinRankFragment()}"
                     android:text="@string/integral_ranking" />
 
+
+                <TextView
+                    style="@style/mine_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/ic_mine_setting"
+                    android:drawablePadding="@dimen/dimen_16"
+                    android:onClick="@{()->mineFragment.startCoinRankFragment()}"
+                    android:text="@string/system_setting" />
 
                 <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
                     style="@style/QMUIRoundButton"

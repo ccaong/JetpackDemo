@@ -5,30 +5,18 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/page_background">
+        android:background="@color/color_white">
 
         <ImageView
             android:id="@+id/img_no_data"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:src="@mipmap/ic_launcher"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/tv_no_data"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_no_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="@string/no_data"
-            android:textSize="16sp"
-            android:textColor="@color/colorPrimaryDark"
-            app:layout_constraintTop_toBottomOf="@id/img_no_data"
+            android:src="@mipmap/ic_nodata"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

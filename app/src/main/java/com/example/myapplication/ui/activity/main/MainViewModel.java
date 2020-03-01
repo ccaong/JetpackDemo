@@ -6,12 +6,14 @@ import com.example.myapplication.http.bean.Coin;
 import com.example.myapplication.http.bean.LoginBean;
 import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.http.data.HttpDisposable;
+import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.HttpRequest;
 import com.example.myapplication.util.CommonUtils;
 import com.orhanobut.hawk.Hawk;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
 import io.reactivex.schedulers.Schedulers;
 
 public class MainViewModel extends BaseViewModel {
@@ -19,7 +21,7 @@ public class MainViewModel extends BaseViewModel {
     /**
      * 登陆用户信息
      */
-    private MutableLiveData<HttpBaseResponse<LoginBean>> userBean;
+    private MutableLiveData<LoginBean> userBean;
 
     /**
      * 用户头像
@@ -42,7 +44,7 @@ public class MainViewModel extends BaseViewModel {
      *
      * @return
      */
-    public LiveData<HttpBaseResponse<LoginBean>> getUserBean() {
+    public LiveData<LoginBean> getUserBean() {
         return userBean;
     }
 
@@ -60,13 +62,11 @@ public class MainViewModel extends BaseViewModel {
      */
     public void setUserBean() {
         //从缓存中读取用户信息
-        HttpBaseResponse<LoginBean> httpBean = new HttpBaseResponse<>();
-        httpBean.errorCode = 0;
-        httpBean.data = Hawk.get(Code.HawkCode.LOGIN_DATA);
-        userBean.postValue(httpBean);
+        LoginBean data = Hawk.get(Code.HawkCode.LOGIN_DATA);
+        userBean.postValue(data);
 
         //读取本地缓存中的用户头像
-        loadUserHeader(httpBean.data.getUsername());
+        loadUserHeader(data.getUsername());
     }
 
     /**
@@ -80,9 +80,7 @@ public class MainViewModel extends BaseViewModel {
             login(loginBean.getUsername(), loginBean.getPassword());
         } else {
             //缓存中没有用户信息
-            HttpBaseResponse bean = new HttpBaseResponse();
-            bean.errorCode = 3;
-            userBean.postValue(bean);
+            userBean.postValue(null);
         }
     }
 
@@ -96,17 +94,15 @@ public class MainViewModel extends BaseViewModel {
 
         HttpRequest.getInstance()
                 .Login(name, pwd)
-                .subscribeOn(Schedulers.io())
-                .subscribe(new HttpDisposable<HttpBaseResponse<LoginBean>>() {
+                .compose(HttpFactory.schedulers())
+                .subscribe(new HttpDisposable<LoginBean>() {
                     @Override
-                    public void success(HttpBaseResponse<LoginBean> bean) {
-                        if (bean.errorCode == 0) {
-                            //自动登录成功
-                            userBean.postValue(bean);
-                            bean.data.setPassword(pwd);
-                            Hawk.put(Code.HawkCode.LOGIN_DATA, bean.data);
-                            loadUserHeader(bean.data.getUsername());
-                        }
+                    public void success(LoginBean bean) {
+                        //自动登录成功
+                        userBean.postValue(bean);
+                        bean.setPassword(pwd);
+                        Hawk.put(Code.HawkCode.LOGIN_DATA, bean);
+                        loadUserHeader(bean.getUsername());
                     }
                 });
     }
@@ -129,17 +125,15 @@ public class MainViewModel extends BaseViewModel {
 
         HttpRequest.getInstance()
                 .logout()
-                .subscribeOn(Schedulers.io())
-                .subscribe(new HttpDisposable<HttpBaseResponse<Object>>() {
+                .compose(HttpFactory.schedulers())
+                .subscribe(new HttpDisposable<Object>() {
                     @Override
-                    public void success(HttpBaseResponse<Object> integral) {
+                    public void success(Object integral) {
                         //清除本地缓存
                         Hawk.delete(Code.HawkCode.LOGIN_DATA);
                         Hawk.delete(Code.HawkCode.COOKIE);
 
-                        HttpBaseResponse bean = new HttpBaseResponse();
-                        bean.errorCode = 3;
-                        userBean.postValue(bean);
+                        userBean.postValue(null);
 
                         userHeader.postValue(null);
                         Coin coin = new Coin();
@@ -157,14 +151,11 @@ public class MainViewModel extends BaseViewModel {
 
         HttpRequest.getInstance()
                 .getMyIntegral()
-                .subscribeOn(Schedulers.io())
-                .subscribe(new HttpDisposable<HttpBaseResponse<Coin>>() {
+                .compose(HttpFactory.schedulers())
+                .subscribe(new HttpDisposable<Coin>() {
                     @Override
-                    public void success(HttpBaseResponse<Coin> integral) {
-
-                        if (integral.errorCode == 0) {
-                            mIntegral.postValue(integral.data);
-                        }
+                    public void success(Coin integral) {
+                        mIntegral.postValue(integral);
                     }
                 });
     }
@@ -177,6 +168,6 @@ public class MainViewModel extends BaseViewModel {
      */
     public void updateUserHeader(String path) {
         userHeader.postValue(path);
-        Hawk.put(Code.HawkCode.HEADER_IMAGE + userBean.getValue().data.getUsername(), path);
+        Hawk.put(Code.HawkCode.HEADER_IMAGE + userBean.getValue().getUsername(), path);
     }
 }

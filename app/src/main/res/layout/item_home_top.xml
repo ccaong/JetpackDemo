@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="topArticle"
+            type="com.example.myapplication.http.bean.home.HomeData.TopArticle" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_8"
+            android:layout_marginTop="@dimen/dimen_16"
+            android:textSize="@dimen/text_16"
+            android:textStyle="bold"
+            android:textColor="@color/color_fbbc04"
+            android:text="@{topArticle.name}" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_8" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_8"
+            android:layout_marginTop="@dimen/dimen_16"
+            android:layout_marginBottom="@dimen/dimen_8"
+            android:textSize="@dimen/text_16"
+            android:textColor="@color/color_e37400"
+            android:text="首页文章" />
+
+    </LinearLayout>
+</layout>

@@ -1,6 +1,11 @@
 package com.example.myapplication.ui.home;
 
 import android.view.View;
+import android.widget.ImageView;
+
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
@@ -9,6 +14,7 @@ import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
 import com.example.myapplication.base.ScrollToTop;
 import com.example.myapplication.databinding.FragmentHomeBinding;
+import com.example.myapplication.http.bean.ArticleBean;
 import com.example.myapplication.http.bean.home.HomeData;
 import com.example.myapplication.ui.activity.web.DetailsActivity;
 import com.example.myapplication.ui.adapter.HomeAdapter;
@@ -16,14 +22,12 @@ import com.zhouwei.mzbanner.MZBannerView;
 
 import java.util.List;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 /**
  * @author devel
  */
 public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewModel> implements ScrollToTop {
+
+    HomeAdapter commonAdapter;
 
     @Override
     protected int getLayoutResId() {
@@ -32,7 +36,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
     @Override
     protected void initViewModel() {
-        mViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+
+        initDataChange();
     }
 
     @Override
@@ -47,7 +53,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
     @Override
     protected void init() {
-//        mViewModel.loadHomeData();
+        mViewModel.loadHomeData();
 
         initRecycle();
         initRefreshLayout();
@@ -66,7 +72,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 mViewModel.refreshData(false);
             }
         });
-
     }
 
 
@@ -74,7 +79,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
      * 初始化RecycleView
      */
     private void initRecycle() {
-        HomeAdapter commonAdapter = new HomeAdapter(R.layout.item_article, BR.articleBean) {
+        commonAdapter = new HomeAdapter() {
             @Override
             public void addListener(View root, HomeData itemData, int position) {
                 super.addListener(root, itemData, position);
@@ -87,6 +92,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                             DetailsActivity.start(getActivity(), url);
                         }
                     });
+                } else if (itemData.getTopArticleList() != null) {
+
                 } else {
                     root.findViewById(R.id.card_view).setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -105,21 +112,35 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                     });
                 }
             }
+
+            @Override
+            public void addTopClickListener(ArticleBean itemData) {
+                super.addTopClickListener(itemData);
+                DetailsActivity.start(getActivity(), itemData.getLink());
+
+            }
+
+            @Override
+            public void addTopCollectListener(ArticleBean itemData) {
+                super.addTopCollectListener(itemData);
+                mViewModel.changeArticleCollect(itemData.isCollect(), itemData.getId());
+
+            }
         };
         mDataBinding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mDataBinding.recyclerView.setAdapter(commonAdapter);
+    }
 
+    private void initDataChange() {
         mViewModel.getHomeList().observe(this, new Observer<List<HomeData>>() {
             @Override
             public void onChanged(List<HomeData> homeDataList) {
-
                 commonAdapter.onItemDatasChanged(homeDataList);
                 mDataBinding.mrlRefreshLayout.finishRefreshLoadMore();
                 mDataBinding.mrlRefreshLayout.finishRefresh();
             }
         });
     }
-
 
     @Override
     public void scrollToTop() {

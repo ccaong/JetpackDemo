@@ -6,6 +6,7 @@ import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
+import com.example.myapplication.base.ScrollToTop;
 import com.example.myapplication.databinding.FragmentListBinding;
 import com.example.myapplication.http.bean.CoinBean;
 import com.example.myapplication.http.bean.CoinRankBean;
@@ -20,7 +21,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
  * @date : 2020/2/26 16:27
  * @desc :
  */
-public class CoinRankListFragment extends BaseFragment<FragmentListBinding, CoinRankViewModel> {
+public class CoinRankListFragment extends BaseFragment<FragmentListBinding, CoinRankViewModel>
+        implements ScrollToTop {
 
     @Override
     protected boolean isSupportLoad() {
@@ -91,4 +93,8 @@ public class CoinRankListFragment extends BaseFragment<FragmentListBinding, Coin
 
     }
 
+    @Override
+    public void scrollToTop() {
+        mDataBinding.recycle.smoothScrollToPosition(0);
+    }
 }

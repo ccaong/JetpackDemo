@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView.OnScrollListener;
 
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
+import com.example.myapplication.base.ScrollToTop;
 import com.example.myapplication.databinding.NaviFragmentBinding;
 import com.example.myapplication.http.bean.ArticleBean;
 import com.example.myapplication.http.bean.NavigationBean;
@@ -25,8 +26,8 @@ import q.rorbin.verticaltablayout.widget.TabView;
 /**
  * @author devel
  */
-public class NaviFragment extends BaseFragment<NaviFragmentBinding, NaviViewModel>
-        implements VerticalTabLayout.OnTabSelectedListener {
+public class NavigationFragment extends BaseFragment<NaviFragmentBinding, NaviViewModel>
+        implements ScrollToTop, VerticalTabLayout.OnTabSelectedListener {
 
     private OnScrollListener mScrollListener;
 
@@ -154,6 +155,11 @@ public class NaviFragment extends BaseFragment<NaviFragmentBinding, NaviViewMode
             mToPosition = position;
             mNeedScroll = true;
         }
+    }
+
+    @Override
+    public void scrollToTop() {
+        mDataBinding.recyclerView.smoothScrollToPosition(0);
     }
 
     @Override

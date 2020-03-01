@@ -100,6 +100,11 @@ public class BindingAdapterUtil {
     }
 
 
+    @BindingAdapter("int2String")
+    public static void int2String(TextView textView, int i) {
+        textView.setText("" + i);
+    }
+
     @BindingAdapter("loadImage")
     public static void setImageUrl(ImageView imageView, String url) {
         if (url != null) {

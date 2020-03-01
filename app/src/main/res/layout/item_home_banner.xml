@@ -9,29 +9,18 @@
             type="com.example.myapplication.http.bean.home.BannerData" />
     </data>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <androidx.cardview.widget.CardView
+        <com.zhouwei.mzbanner.MZBannerView
+            android:id="@+id/banner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            app:contentPadding="8dp"
-            app:layout_scrollFlags="scroll|enterAlways">
-
-            <com.zhouwei.mzbanner.MZBannerView
-                android:id="@+id/banner"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                app:bannerData="@{bannerData}"
-                app:canLoop="true"
-                app:indicatorAlign="center"
-                app:indicatorPaddingLeft="10dp"
-                app:open_mz_mode="true" />
-        </androidx.cardview.widget.CardView>
-
-
-    </LinearLayout>
+            android:layout_height="200dp"
+            app:bannerData="@{bannerData}"
+            app:canLoop="true"
+            app:indicatorAlign="center"
+            app:indicatorPaddingLeft="10dp"
+            app:open_mz_mode="false" />
+    </FrameLayout>
 </layout>

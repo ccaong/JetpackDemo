@@ -45,14 +45,14 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding, SplashVi
     @Override
     protected void init() {
         //加载闪屏页图片
-        mViewModel.getImageData().observe(this, new Observer<HttpBaseResponse<ImageBean>>() {
+        mViewModel.getImageData().observe(this, new Observer<ImageBean>() {
             @Override
-            public void onChanged(HttpBaseResponse<ImageBean> imageBean) {
+            public void onChanged(ImageBean imageBean) {
 
-                if (imageBean.errorCode == 0) {
+                if (imageBean != null) {
                     Glide.with(SplashActivity.this)
-                            .load(imageBean.data.getImages().get(0).getBaseUrl()
-                                    + imageBean.data.getImages().get(0).getUrl())
+                            .load(imageBean.getImages().get(0).getBaseUrl()
+                                    + imageBean.getImages().get(0).getUrl())
                             .into(mDataBinding.ivSplash);
                 } else {
                     //从网络获取图片失败，加载本地默认图片

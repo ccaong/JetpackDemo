@@ -1,18 +1,21 @@
 package com.example.myapplication.ui.nav.todo;
 
-import com.example.myapplication.base.viewmodel.BaseViewModel;
-import com.example.myapplication.enums.LoadState;
-import com.example.myapplication.http.bean.ToDoListBean;
-import com.example.myapplication.http.data.HttpBaseResponse;
-import com.example.myapplication.http.data.HttpDisposable;
-import com.example.myapplication.http.request.HttpRequest;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import io.reactivex.schedulers.Schedulers;
+
+import com.example.myapplication.base.viewmodel.BaseViewModel;
+import com.example.myapplication.enums.LoadState;
+import com.example.myapplication.enums.RefreshState;
+import com.example.myapplication.http.bean.ToDoListBean;
+import com.example.myapplication.http.data.HttpDisposable;
+import com.example.myapplication.http.request.HttpFactory;
+import com.example.myapplication.http.request.HttpRequest;
+import com.example.myapplication.util.CommonUtils;
+import com.example.myapplication.util.NetworkUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author devel
@@ -36,7 +39,9 @@ public class ToDoViewModel extends BaseViewModel {
     /**
      * 待办清单列表
      */
-    private MutableLiveData<HttpBaseResponse<ToDoListBean>> toDoListBean;
+    private MutableLiveData<ToDoListBean> toDoListBean;
+
+    private MutableLiveData<Object> toDoChangeStatus;
 
 
     /**
@@ -69,6 +74,8 @@ public class ToDoViewModel extends BaseViewModel {
 
     public ToDoViewModel() {
         toDoListBean = new MutableLiveData<>();
+        toDoChangeStatus = new MutableLiveData<>();
+
         toDoData = new MutableLiveData<>();
         mList = new ArrayList<>();
         queryType = new MutableLiveData<>(0);
@@ -87,11 +94,13 @@ public class ToDoViewModel extends BaseViewModel {
 
     public void setQueryType(int i) {
         this.queryType = new MutableLiveData<>(i);
+        mPage = 0;
         loadToDoList();
     }
 
     public void setQueryPriority(int i) {
         this.queryPriority = new MutableLiveData<>(i);
+        mPage = 0;
         loadToDoList();
     }
 
@@ -101,19 +110,23 @@ public class ToDoViewModel extends BaseViewModel {
      *
      * @param data
      */
-    public void setToDoData(ToDoListBean.ToDoData data) {
-        this.toDoData.postValue(data);
-
-        status.postValue(data.getStatus());
-        type.postValue(data.getType());
-        priority.postValue(data.getPriority());
-        title.postValue(data.getTitle());
-        content.postValue(data.getContent());
-    }
+//    public void setToDoData(ToDoListBean.ToDoData data) {
+//        this.toDoData.postValue(data);
+//
+//        status.postValue(data.getStatus());
+//        type.postValue(data.getType());
+//        priority.postValue(data.getPriority());
+//        title.postValue(data.getTitle());
+//        content.postValue(data.getContent());
+//    }
 
 
     public LiveData<ToDoListBean.ToDoData> getData() {
         return toDoData;
+    }
+
+    public LiveData<Object> getToDoChangeStatus() {
+        return toDoChangeStatus;
     }
 
     /**
@@ -121,64 +134,77 @@ public class ToDoViewModel extends BaseViewModel {
      *
      * @return
      */
-    public LiveData<HttpBaseResponse<ToDoListBean>> getToDoListBean() {
+    public LiveData<ToDoListBean> getToDoListBean() {
         return toDoListBean;
     }
 
-    /**
-     * 加载更多
-     */
-    public void loadMore() {
-        mRefresh = true;
-        mPage++;
-        loadData();
-    }
 
     /**
      * 刷新
      */
-    public void refresh() {
+    public void refreshData(Boolean refresh) {
+        if (refresh) {
+            mPage = 0;
+        } else {
+            mPage++;
+        }
         mRefresh = true;
-        loadToDoList();
-    }
-
-
-    @Override
-    public void reloadData() {
-        mRefresh = false;
-        loadToDoList();
-    }
-
-    public void loadToDoList() {
-        mPage = 0;
         loadData();
     }
 
+    @Override
+    public void reloadData() {
+        loadToDoList();
+    }
+
+    /**
+     * 第一次加载数据
+     */
+    public void loadToDoList() {
+        mPage = 0;
+        mRefresh = false;
+        loadData();
+        loadState.postValue(LoadState.LOADING);
+    }
+
+    /**
+     * 获取待办清单
+     */
     private void loadData() {
 
-        if (!mRefresh) {
-            loadState.postValue(LoadState.LOADING);
+        //判断网络
+        if (!NetworkUtils.isConnected()) {
+            loadState.postValue(LoadState.NO_NETWORK);
+            return;
         }
+
         HttpRequest.getInstance()
                 .getToDoList(mPage, queryType.getValue(), queryPriority.getValue())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new HttpDisposable<HttpBaseResponse<ToDoListBean>>() {
+                .compose(HttpFactory.schedulers())
+                .subscribe(new HttpDisposable<ToDoListBean>() {
                     @Override
-                    public void success(HttpBaseResponse<ToDoListBean> bean) {
-                        if (bean.errorCode == 0) {
-                            if (!mRefresh) {
-                                loadState.postValue(LoadState.SUCCESS);
-                            }
-                            if (mPage == 0) {
-                                mList.clear();
-                                toDoListBean.postValue(bean);
-                            } else {
-                                mList.addAll(bean.data.getDatas());
-                                bean.data.setDatas(mList);
-                                toDoListBean.postValue(bean);
-                            }
+                    public void success(ToDoListBean bean) {
+
+                        if (CommonUtils.isListEmpty(bean.getDatas())) {
+                            loadState.postValue(LoadState.NO_DATA);
+                            return;
+                        }
+                        //设置加载状态
+                        loadState.postValue(LoadState.SUCCESS);
+                        if (mPage == 0) {
+                            //设置刷新状态
+                            refreshState.postValue(RefreshState.REFRESH_END);
+
+                            mList.clear();
+                            mList.addAll(bean.getDatas());
+                            toDoListBean.postValue(bean);
                         } else {
-                            loadState.postValue(LoadState.ERROR);
+                            //设置刷新状态
+                            refreshState.postValue(RefreshState.LOAD_MORE_END);
+
+                            mList.addAll(bean.getDatas());
+                            bean.setDatas(mList);
+                            toDoListBean.postValue(bean);
                         }
                     }
 
@@ -187,35 +213,6 @@ public class ToDoViewModel extends BaseViewModel {
                         loadState.postValue(LoadState.ERROR);
                     }
                 });
-    }
-
-    /**
-     * 更新
-     */
-    public void updateToDoData(ToDoListBean.ToDoData bean) {
-        HttpRequest.getInstance()
-                .updateToDoList(bean.getId(), bean.getTitle(), bean.getContent(),
-                        bean.getDateStr(), bean.getStatus(),
-                        bean.getType(), bean.getPriority())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new HttpDisposable<HttpBaseResponse<ToDoListBean>>() {
-                    @Override
-                    public void success(HttpBaseResponse<ToDoListBean> bean) {
-                    }
-                });
-    }
-
-
-    public void updateTodo() {
-
-        toDoData.getValue().setTitle(title.getValue());
-        toDoData.getValue().setContent(content.getValue());
-
-        toDoData.getValue().setPriority(priority.getValue());
-        toDoData.getValue().setType(type.getValue());
-        toDoData.getValue().setStatus(status.getValue());
-
-        updateToDoData(toDoData.getValue());
     }
 
     /**
@@ -230,19 +227,50 @@ public class ToDoViewModel extends BaseViewModel {
     }
 
     /**
+     * 更新数据
+     */
+    public void updateTodo() {
+
+        toDoData.getValue().setTitle(title.getValue());
+        toDoData.getValue().setContent(content.getValue());
+
+        toDoData.getValue().setPriority(priority.getValue());
+        toDoData.getValue().setType(type.getValue());
+        toDoData.getValue().setStatus(status.getValue());
+
+        updateToDoData(toDoData.getValue());
+    }
+
+    /**
+     * 提交更新
+     */
+    public void updateToDoData(ToDoListBean.ToDoData bean) {
+
+        HttpRequest.getInstance()
+                .updateToDoList(bean.getId(), bean.getTitle(), bean.getContent(),
+                        bean.getDateStr(), bean.getStatus(),
+                        bean.getType(), bean.getPriority())
+                .compose(HttpFactory.schedulers())
+                .subscribe(new HttpDisposable<Object>() {
+                    @Override
+                    public void success(Object bean) {
+                        toDoChangeStatus.postValue(bean);
+                    }
+                });
+    }
+
+    /**
      * 删除一个ToDo
      */
     public void deleteToDo() {
         HttpRequest.getInstance()
                 .deleteToDo(toDoData.getValue().getId())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new HttpDisposable<HttpBaseResponse<Object>>() {
+                .compose(HttpFactory.schedulers())
+                .subscribe(new HttpDisposable<Object>() {
                     @Override
-                    public void success(HttpBaseResponse<Object> bean) {
-
+                    public void success(Object bean) {
+                        toDoChangeStatus.postValue(bean);
                     }
                 });
     }
-
-
 }

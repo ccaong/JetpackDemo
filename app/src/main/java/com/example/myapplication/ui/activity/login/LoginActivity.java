@@ -59,28 +59,23 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     }
 
     public void initData() {
-        mViewModel.getUserBean().observe(this, new Observer<HttpBaseResponse<LoginBean>>() {
+        mViewModel.getUserBean().observe(this, new Observer<LoginBean>() {
             @Override
-            public void onChanged(HttpBaseResponse<LoginBean> bean) {
-                if (bean.errorCode == 0) {
+            public void onChanged(LoginBean bean) {
+                if (bean != null) {
                     //登录成功，跳转到首页
-                    MainActivity.start(LoginActivity.this,true);
+                    MainActivity.start(LoginActivity.this, true);
                 }
             }
         });
 
-        mViewModel.getRegisterStatus().observe(this, new Observer<HttpBaseResponse<Object>>() {
+        mViewModel.getRegisterStatus().observe(this, new Observer<Object>() {
             @Override
-            public void onChanged(HttpBaseResponse<Object> register) {
-                if (register.errorCode == 0) {
-                    //注册成功,返回到登录界面
-                    Toast.makeText(LoginActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
-                    mViewModel.clearUserPwd();
-                    goToLogin();
-                } else {
-                    Toast.makeText(LoginActivity.this, register.errorMsg, Toast.LENGTH_SHORT).show();
-                    mViewModel.clearUserPwd();
-                }
+            public void onChanged(Object register) {
+                //注册成功,返回到登录界面
+                Toast.makeText(LoginActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+                mViewModel.clearUserPwd();
+                goToLogin();
             }
         });
     }

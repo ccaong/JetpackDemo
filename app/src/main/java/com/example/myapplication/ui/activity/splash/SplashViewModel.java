@@ -6,6 +6,7 @@ import com.example.myapplication.entity.livedata.ActivitySkip;
 import com.example.myapplication.http.bean.ImageBean;
 import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.http.data.HttpDisposable;
+import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.HttpRequest;
 import com.example.myapplication.http.request.ServerAddress;
 import com.example.myapplication.util.NetworkUtils;
@@ -33,7 +34,7 @@ public class SplashViewModel extends BaseViewModel {
     /**
      * 每日图片
      */
-    private MutableLiveData<HttpBaseResponse<ImageBean>> mImage;
+    private MutableLiveData<ImageBean> mImage;
     /**
      * 闪屏页倒计时
      */
@@ -51,7 +52,7 @@ public class SplashViewModel extends BaseViewModel {
     }
 
 
-    public LiveData<HttpBaseResponse<ImageBean>> getImageData() {
+    public LiveData<ImageBean> getImageData() {
         return mImage;
     }
 
@@ -77,29 +78,21 @@ public class SplashViewModel extends BaseViewModel {
 
         if (!NetworkUtils.isConnected()) {
             //没有网络连接
-            HttpBaseResponse baseResponse = new HttpBaseResponse();
-            baseResponse.errorCode = 1001;
-            mImage.postValue(baseResponse);
+            mImage.postValue(null);
         } else {
             HttpRequest.getInstance(ServerAddress.API_BING)
                     .getImage("js", 0, 1)
-                    .subscribeOn(Schedulers.io())
+                    .compose(HttpFactory.schedulers())
                     .subscribe(new HttpDisposable<ImageBean>() {
                         @Override
                         public void success(ImageBean imageBean) {
-
-                            HttpBaseResponse baseResponse = new HttpBaseResponse();
-                            baseResponse.errorCode = 0;
-                            baseResponse.data = imageBean;
-                            mImage.postValue(baseResponse);
+                            mImage.postValue(imageBean);
                             url = imageBean.getImages().get(0).getCopyrightlink();
                         }
 
                         @Override
                         public void onError(Throwable e) {
-                            HttpBaseResponse baseResponse = new HttpBaseResponse();
-                            baseResponse.errorCode = 1001;
-                            mImage.postValue(baseResponse);
+                            mImage.postValue(null);
                         }
                     });
         }

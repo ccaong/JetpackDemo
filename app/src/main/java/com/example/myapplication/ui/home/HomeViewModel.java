@@ -1,5 +1,7 @@
 package com.example.myapplication.ui.home;
 
+import android.util.Log;
+
 import com.example.myapplication.base.viewmodel.BaseViewModel;
 import com.example.myapplication.enums.LoadState;
 import com.example.myapplication.http.bean.ArticleBean;
@@ -9,15 +11,16 @@ import com.example.myapplication.http.bean.home.BannerData;
 import com.example.myapplication.http.bean.home.HomeData;
 import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.http.data.HttpDisposable;
+import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.HttpRequest;
 import com.example.myapplication.util.NetworkUtils;
-import com.orhanobut.hawk.Hawk;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -34,6 +37,7 @@ public class HomeViewModel extends BaseViewModel {
     private int mPageNum;
 
     public HomeViewModel() {
+        Log.e("生命周期", "ViewModel初始化");
         mHomeList = new MutableLiveData<>();
         mList = new ArrayList<>();
     }
@@ -98,16 +102,15 @@ public class HomeViewModel extends BaseViewModel {
     private void loadBannerByNet() {
         HttpRequest.getInstance()
                 .getBanner()
-                .subscribeOn(Schedulers.io())
-                .subscribe(new HttpDisposable<HttpBaseResponse<List<HomeBanner>>>() {
+                .compose(HttpFactory.schedulers())
+                .subscribe(new HttpDisposable<List<HomeBanner>>() {
                     @Override
-                    public void success(HttpBaseResponse<List<HomeBanner>> homeBannerEntity) {
-
+                    public void success(List<HomeBanner> homeBannerEntity) {
                         mList.clear();
+
                         HomeData homeData = new HomeData();
-                        homeData.setBannerData(new BannerData(homeBannerEntity.data));
+                        homeData.setBannerData(new BannerData(homeBannerEntity));
                         mList.add(homeData);
-                        mHomeList.postValue(mList);
 
                         if (!mRefresh) {
                             loadState.postValue(LoadState.SUCCESS);
@@ -137,20 +140,26 @@ public class HomeViewModel extends BaseViewModel {
     private void loadTopArticleList() {
         HttpRequest.getInstance()
                 .getTopArticleList()
-                .subscribeOn(Schedulers.io())
-                .subscribe(new HttpDisposable<HttpBaseResponse<List<ArticleBean>>>() {
+                .compose(HttpFactory.schedulers())
+                .subscribe(new HttpDisposable<List<ArticleBean>>() {
                     @Override
-                    public void success(HttpBaseResponse<List<ArticleBean>> mArticleBean) {
+                    public void success(List<ArticleBean> mArticleBean) {
 
-                        if (mArticleBean.data != null && mArticleBean.data.size() != 0) {
+                        if (mArticleBean != null && mArticleBean.size() != 0) {
 
-                            for (ArticleBean bean : mArticleBean.data) {
-                                bean.setTop(true);
-                                HomeData homeData = new HomeData();
-                                homeData.setArticleList(bean);
-                                mList.add(homeData);
-                            }
-                            mHomeList.postValue(mList);
+//                            for (ArticleBean bean : mArticleBean) {
+//                                bean.setTop(true);
+//                                HomeData homeData = new HomeData();
+//                                homeData.setArticleList(bean);
+//                                mList.add(homeData);
+//                            }
+                            HomeData homeData = new HomeData();
+                            HomeData.TopArticle topArticle = new HomeData.TopArticle();
+                            topArticle.setName("置顶文章");
+                            topArticle.setArticleBeanList(mArticleBean);
+                            homeData.setTopArticleList(topArticle);
+
+                            mList.add(homeData);
 
                             //获取首页文章
                             loadArticleList(0);
@@ -175,18 +184,21 @@ public class HomeViewModel extends BaseViewModel {
     private void loadArticleList(int page) {
         HttpRequest.getInstance()
                 .getArticleList(page)
-                .subscribeOn(Schedulers.io())
-                .subscribe(new HttpDisposable<HttpBaseResponse<ArticleListBean>>() {
+                .compose(HttpFactory.schedulers())
+                .subscribe(new HttpDisposable<ArticleListBean>() {
                     @Override
-                    public void success(HttpBaseResponse<ArticleListBean> mArticleListBean) {
+                    public void success(ArticleListBean mArticleListBean) {
 
-                        if (mArticleListBean.data.getDatas() != null && mArticleListBean.data.getDatas().size() != 0) {
-                            for (ArticleBean bean : mArticleListBean.data.getDatas()) {
+                        if (mArticleListBean.getDatas() != null && mArticleListBean.getDatas().size() != 0) {
+                            for (ArticleBean bean : mArticleListBean.getDatas()) {
                                 HomeData homeData = new HomeData();
                                 homeData.setArticleList(bean);
                                 mList.add(homeData);
                             }
-                            mHomeList.postValue(mList);
+
+                            List<HomeData> homeData = new ArrayList<>();
+                            homeData.addAll(mList);
+                            mHomeList.postValue(homeData);
                         }
                     }
 

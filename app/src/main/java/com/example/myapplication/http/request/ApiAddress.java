@@ -5,6 +5,7 @@ import com.example.myapplication.http.bean.ArticleListBean;
 import com.example.myapplication.http.bean.Coin;
 import com.example.myapplication.http.bean.CoinBean;
 import com.example.myapplication.http.bean.CoinRankBean;
+import com.example.myapplication.http.bean.CollectArticleBean;
 import com.example.myapplication.http.bean.HomeBanner;
 import com.example.myapplication.http.bean.ImageBean;
 import com.example.myapplication.http.bean.LoginBean;
@@ -16,6 +17,7 @@ import com.example.myapplication.http.data.HttpBaseResponse;
 import java.util.List;
 
 import io.reactivex.Observable;
+import retrofit2.Response;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -50,7 +52,7 @@ public interface ApiAddress {
      */
     @FormUrlEncoded
     @POST("user/login")
-    Observable<HttpBaseResponse<LoginBean>> Login(@Field("username") String username, @Field("password") String password);
+    Observable<LoginBean> Login(@Field("username") String username, @Field("password") String password);
 
     /**
      * 退出
@@ -58,7 +60,7 @@ public interface ApiAddress {
      * @return
      */
     @GET("user/logout/json")
-    Observable<HttpBaseResponse<Object>> logout();
+    Observable<Object> logout();
 
 
     /**
@@ -68,7 +70,7 @@ public interface ApiAddress {
      */
     @FormUrlEncoded
     @POST("user/register")
-    Observable<HttpBaseResponse<Object>> register(@Field("username") String username,
+    Observable<Object> register(@Field("username") String username,
                                                   @Field("password") String password,
                                                   @Field("repassword") String repwd);
 
@@ -79,7 +81,7 @@ public interface ApiAddress {
      * @return
      */
     @GET("banner/json")
-    Observable<HttpBaseResponse<List<HomeBanner>>> getBanner();
+    Observable<List<HomeBanner>> getBanner();
 
 
     /**
@@ -88,7 +90,7 @@ public interface ApiAddress {
      * @return
      */
     @GET("article/top/json")
-    Observable<HttpBaseResponse<List<ArticleBean>>> getTopArticleList();
+    Observable<List<ArticleBean>> getTopArticleList();
 
     /**
      * 首页文章列表
@@ -98,7 +100,7 @@ public interface ApiAddress {
      * @return
      */
     @GET("article/list/{page}/json")
-    Observable<HttpBaseResponse<ArticleListBean>> getArticleList(@Path("page") int page);
+    Observable<ArticleListBean> getArticleList(@Path("page") int page);
 
     /**
      * 获取体系列表
@@ -106,7 +108,7 @@ public interface ApiAddress {
      * @return
      */
     @GET("tree/json")
-    Observable<HttpBaseResponse<List<WeChatBean>>> getSystemList();
+    Observable<List<WeChatBean>> getSystemList();
 
 
     /**
@@ -116,8 +118,8 @@ public interface ApiAddress {
      * @param page 页码
      * @return
      */
-    @GET("article/list/{page}/json?cid=60")
-    Observable<HttpBaseResponse<ArticleListBean>> getSystemArticle(@Path("page") int page, @Query("cid") String cid);
+    @GET("article/list/{page}/json")
+    Observable<ArticleListBean> getSystemArticle(@Path("page") int page, @Query("cid") String cid);
 
 
     /**
@@ -126,7 +128,7 @@ public interface ApiAddress {
      * @return
      */
     @GET("wxarticle/chapters/json")
-    Observable<HttpBaseResponse<List<WeChatBean>>> getWechatList();
+    Observable<List<WeChatBean>> getWechatList();
 
 
     /**
@@ -137,7 +139,7 @@ public interface ApiAddress {
      * @return
      */
     @GET("wxarticle/list/{id}/{page}/json")
-    Observable<HttpBaseResponse<ArticleListBean>> getWechatArticleList(@Path("id") int id, @Path("page") int page);
+    Observable<ArticleListBean> getWechatArticleList(@Path("id") int id, @Path("page") int page);
 
 
     /**
@@ -146,7 +148,7 @@ public interface ApiAddress {
      * @return
      */
     @GET("navi/json")
-    Observable<HttpBaseResponse<List<NavigationBean>>> getNavigationBean();
+    Observable<List<NavigationBean>> getNavigationBean();
 
 
     /**
@@ -155,7 +157,7 @@ public interface ApiAddress {
      * @return 项目分类列表数据
      */
     @GET("project/tree/json")
-    Observable<HttpBaseResponse<List<WeChatBean>>> getProjectListData();
+    Observable<List<WeChatBean>> getProjectListData();
 
 
     /**
@@ -165,7 +167,7 @@ public interface ApiAddress {
      * @return
      */
     @GET("lg/collect/list/{page}/json")
-    Observable<HttpBaseResponse<ArticleListBean>> getCollectList(@Path("page") int page);
+    Observable<CollectArticleBean> getCollectList(@Path("page") int page);
 
     /**
      * 收藏文章
@@ -174,7 +176,7 @@ public interface ApiAddress {
      * @return
      */
     @POST("lg/collect/{id}/json")
-    Observable<HttpBaseResponse<Object>> collectArticle(@Path("id") int id);
+    Observable<Object> collectArticle(@Path("id") int id);
 
     /**
      * 取消收藏文章
@@ -183,7 +185,16 @@ public interface ApiAddress {
      * @return
      */
     @POST("lg/uncollect_originId/{id}/json")
-    Observable<HttpBaseResponse<Object>> unCollectArticle(@Path("id") int id);
+    Observable<Object> unCollectArticle(@Path("id") int id);
+
+    /**
+     * 取消收藏文章
+     *
+     * @param id 要取消收藏的文章id
+     * @return
+     */
+    @POST("lg/uncollect/{id}/json")
+    Observable<Response<Void>> unCollect(@Path("id") int id, @Query("originId") int originId);
 
 
     /**
@@ -198,7 +209,7 @@ public interface ApiAddress {
      * @return
      */
     @POST("lg/todo/add/json")
-    Observable<HttpBaseResponse<Object>> addToDoData(@Query("title") String title, @Query("content") String content,
+    Observable<Object> addToDoData(@Query("title") String title, @Query("content") String content,
                                                      @Query("date") String date,
                                                      @Query("type") int type, @Query("priority") int priority);
 
@@ -213,7 +224,7 @@ public interface ApiAddress {
      * @return
      */
     @POST("lg/todo/v2/list/{page}/json")
-    Observable<HttpBaseResponse<ToDoListBean>> getToDoList(@Path("page") int page,
+    Observable<ToDoListBean> getToDoList(@Path("page") int page,
                                                            @Query("type") int type, @Query("priority") int priority);
 
     /**
@@ -231,21 +242,20 @@ public interface ApiAddress {
      */
     @FormUrlEncoded
     @POST("lg/todo/update/{id}/json")
-    Observable<HttpBaseResponse<ToDoListBean>> updateToDoList(@Path("id") int page,
+    Observable<Object> updateToDoList(@Path("id") int page,
                                                               @Field("title") String title, @Field("content") String content,
                                                               @Field("date") String date, @Field("status") int status,
                                                               @Field("type") int type, @Field("priority") int priority);
 
     /**
-     * 删除
+     * 删除一条todo
      * 方法：POST
      *
      * @param id id
      * @return
      */
-    @FormUrlEncoded
     @POST("lg/todo/delete/{id}/json")
-    Observable<HttpBaseResponse<Object>> deleteToDo(@Path("id") int id);
+    Observable<Response<Void>> deleteToDo(@Path("id") int id);
 
 
     /**
@@ -254,7 +264,7 @@ public interface ApiAddress {
      * @return
      */
     @GET("lg/coin/userinfo/json")
-    Observable<HttpBaseResponse<Coin>> getMyIntegral();
+    Observable<Coin> getMyIntegral();
 
     /**
      * 查询积分详情列表
@@ -264,7 +274,7 @@ public interface ApiAddress {
      * @return
      */
     @GET("lg/coin/list/{page}/json")
-    Observable<HttpBaseResponse<CoinBean>> queryCoinList(@Path("page") int page);
+    Observable<CoinBean> queryCoinList(@Path("page") int page);
 
     /**
      * 查询积分详情排行榜
@@ -274,6 +284,6 @@ public interface ApiAddress {
      * @return
      */
     @GET("coin/rank/{page}/json")
-    Observable<HttpBaseResponse<CoinRankBean>> queryCoinRank(@Path("page") int page);
+    Observable<CoinRankBean> queryCoinRank(@Path("page") int page);
 
 }

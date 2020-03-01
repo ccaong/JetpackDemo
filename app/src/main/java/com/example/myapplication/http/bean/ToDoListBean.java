@@ -1,5 +1,6 @@
 package com.example.myapplication.http.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -84,7 +85,7 @@ public class ToDoListBean {
         this.datas = datas;
     }
 
-    public static class ToDoData {
+    public static class ToDoData implements Serializable {
         /**
          * completeDate : null
          * completeDateStr :

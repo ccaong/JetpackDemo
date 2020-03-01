@@ -1,5 +1,7 @@
 package com.example.myapplication.ui.nav.todo;
 
+import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,6 +18,8 @@ import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
+import com.example.myapplication.base.ScrollToTop;
+import com.example.myapplication.common.Code;
 import com.example.myapplication.databinding.FragmentTodoListBinding;
 import com.example.myapplication.http.bean.ToDoListBean;
 import com.example.myapplication.http.data.HttpBaseResponse;
@@ -33,7 +37,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 /**
  * @author devel
  */
-public class ToDoFragment extends BaseFragment<FragmentTodoListBinding, ToDoViewModel> implements OnPopTabSetListener<String> {
+public class ToDoFragment extends BaseFragment<FragmentTodoListBinding, ToDoViewModel>
+        implements ScrollToTop, OnPopTabSetListener<String> {
 
 
     private CommonAdapter<ToDoListBean.ToDoData> commonAdapter;
@@ -50,7 +55,6 @@ public class ToDoFragment extends BaseFragment<FragmentTodoListBinding, ToDoView
 
     @Override
     protected void initViewModel() {
-
         mViewModel = ViewModelProviders.of(getActivity()).get(ToDoViewModel.class);
     }
 
@@ -62,27 +66,30 @@ public class ToDoFragment extends BaseFragment<FragmentTodoListBinding, ToDoView
     @Override
     protected void init() {
         setHasOptionsMenu(true);
+
+        refreshLayout = mDataBinding.mrlRefreshLayout;
         mViewModel.loadToDoList();
-        initRecyclerView();
+
         addMyMethod();
-        setRefresh();
+
+        initRefreshLayout();
+        initRecyclerView();
     }
 
-    private void setRefresh() {
+    private void initRefreshLayout() {
         mDataBinding.mrlRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
             @Override
             public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
-                mViewModel.refresh();
+                mDataBinding.mrlRefreshLayout.setLoadMore(true);
+                mViewModel.refreshData(true);
             }
 
             @Override
             public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
-                super.onRefreshLoadMore(materialRefreshLayout);
-                mViewModel.loadMore();
+                mViewModel.refreshData(false);
             }
         });
     }
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -108,8 +115,10 @@ public class ToDoFragment extends BaseFragment<FragmentTodoListBinding, ToDoView
                 root.findViewById(R.id.card_view).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mViewModel.setToDoData(itemData);
-                        NavHostFragment.findNavController(ToDoFragment.this).navigate(R.id.toDoContentFragment);
+//                        mViewModel.setToDoData(itemData);
+                        Bundle bundle =new Bundle();
+                        bundle.putSerializable(Code.ParamCode.PARAM1,itemData);
+                        NavHostFragment.findNavController(ToDoFragment.this).navigate(R.id.toDoContentFragment,bundle);
                     }
                 });
 
@@ -130,22 +139,24 @@ public class ToDoFragment extends BaseFragment<FragmentTodoListBinding, ToDoView
         mDataBinding.recycle.setAdapter(commonAdapter);
         mDataBinding.recycle.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mViewModel.getToDoListBean().observe(this, new Observer<HttpBaseResponse<ToDoListBean>>() {
+        mViewModel.getToDoListBean().observe(this, new Observer<ToDoListBean>() {
             @Override
-            public void onChanged(HttpBaseResponse<ToDoListBean> toDoListBeanHttpBaseResponse) {
-                commonAdapter.onItemDatasChanged(toDoListBeanHttpBaseResponse.data.getDatas());
+            public void onChanged(ToDoListBean toDoListResponse) {
+                if (toDoListResponse.getCurPage() >= toDoListResponse.getPageCount()) {
+                    mDataBinding.mrlRefreshLayout.setLoadMore(false);
+                    return;
+                }
+                commonAdapter.onItemDatasChanged(toDoListResponse.getDatas());
             }
         });
-
     }
-
 
     /**
      * 筛选条件
      */
     private void addMyMethod() {
         FilterGroup filterGroup1 = getStatusData("状态");
-        FilterGroup filterGroup3 = getTimeData("优先级");
+        FilterGroup filterGroup3 = getPriorityData("优先级");
 
         mDataBinding.popView.setOnPopTabSetListener(this)
                 .setPopEntityLoader(new PopEntityLoaderImp()).setResultLoader(new ResultLoaderImp())
@@ -193,7 +204,7 @@ public class ToDoFragment extends BaseFragment<FragmentTodoListBinding, ToDoView
 
     }
 
-    public FilterGroup getTimeData(String groupName) {
+    public FilterGroup getPriorityData(String groupName) {
 
         FilterGroup filterGroup = new FilterGroup();
 
@@ -222,7 +233,6 @@ public class ToDoFragment extends BaseFragment<FragmentTodoListBinding, ToDoView
         }
         filterGroup.setFilter_tab(singleFilterList);
         return filterGroup;
-
     }
 
     /**
@@ -259,5 +269,10 @@ public class ToDoFragment extends BaseFragment<FragmentTodoListBinding, ToDoView
                 }
             }
         }
+    }
+
+    @Override
+    public void scrollToTop() {
+        mDataBinding.recycle.smoothScrollToPosition(0);
     }
 }

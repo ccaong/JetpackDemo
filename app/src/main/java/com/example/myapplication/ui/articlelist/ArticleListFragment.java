@@ -128,7 +128,6 @@ public class ArticleListFragment extends BaseFragment<FragmentListBinding, Artic
             public void onChanged(ArticleListBean articleListBean) {
                 if (articleListBean.getCurPage() >= articleListBean.getPageCount()) {
                     mDataBinding.mrlRefreshLayout.setLoadMore(false);
-                    return;
                 }
                 commonAdapter.onItemDatasChanged(articleListBean.getDatas());
             }

@@ -1,5 +1,6 @@
 package com.example.myapplication.base;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,6 +32,7 @@ import com.example.myapplication.databinding.ViewNoNetworkBinding;
 import com.example.myapplication.enums.LoadState;
 import com.example.myapplication.enums.RefreshState;
 import com.example.myapplication.http.data.HttpBaseResponse;
+import com.example.myapplication.manager.MyActivityManager;
 import com.example.myapplication.ui.activity.login.LoginActivity;
 import com.example.myapplication.ui.activity.main.MainActivity;
 
@@ -84,7 +86,6 @@ public abstract class BaseFragment<DB extends ViewDataBinding, VM extends BaseVi
         mFragmentBaseBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_base, container, false);
         mDataBinding = DataBindingUtil.inflate(inflater, getLayoutResId(),
                 mFragmentBaseBinding.flContentContainer, true);
-
         bindViewModel();
         mDataBinding.setLifecycleOwner(this);
         initLoadState();
@@ -106,6 +107,11 @@ public abstract class BaseFragment<DB extends ViewDataBinding, VM extends BaseVi
                     switchLoadView(loadState);
                 }
             });
+        } else {
+            Activity activity = MyActivityManager.getInstance().getCurrentActivity();
+            if (activity instanceof MainActivity) {
+                ((MainActivity) activity).mDataBinding.fabTop.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -148,6 +154,7 @@ public abstract class BaseFragment<DB extends ViewDataBinding, VM extends BaseVi
                 if (mViewLoadErrorBinding == null) {
                     mViewLoadErrorBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.view_load_error,
                             mFragmentBaseBinding.flContentContainer, false);
+                    mViewLoadErrorBinding.setViewModel(mViewModel);
                 }
                 mFragmentBaseBinding.flContentContainer.addView(mViewLoadErrorBinding.getRoot());
                 break;
@@ -194,16 +201,12 @@ public abstract class BaseFragment<DB extends ViewDataBinding, VM extends BaseVi
         if (mViewModel == null) {
             return;
         }
-        mViewModel.getCollectStatus().observe(this, new Observer<HttpBaseResponse<Object>>() {
+        mViewModel.getCollectStatus().observe(this, new Observer<Object>() {
             @Override
-            public void onChanged(HttpBaseResponse<Object> collect) {
-                if (collect.errorCode == 0) {
-                    Toast.makeText(getContext(), "收藏成功", Toast.LENGTH_SHORT).show();
-                } else if (collect.errorCode == -1001) {
+            public void onChanged(Object collect) {
+                if (collect == null) {
                     //跳转到登录界面
                     LoginActivity.start(getActivity());
-                } else {
-                    Toast.makeText(getContext(), "操作失败！", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -212,6 +215,10 @@ public abstract class BaseFragment<DB extends ViewDataBinding, VM extends BaseVi
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        // ViewModel订阅生命周期事件
+        if (mViewModel != null) {
+            getLifecycle().removeObserver(mViewModel);
+        }
     }
 
 

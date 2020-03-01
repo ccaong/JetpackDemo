@@ -21,7 +21,7 @@
             android:background="@drawable/shape_label_green"
             android:padding="@dimen/dimen_8"
             android:text="@{systemChildren.name}"
-            android:textColor="@color/green" />
+            android:textColor="@color/color_78c257" />
 
     </LinearLayout>
 </layout>

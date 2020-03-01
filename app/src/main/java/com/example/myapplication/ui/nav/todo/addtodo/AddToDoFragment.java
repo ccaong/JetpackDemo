@@ -35,16 +35,11 @@ public class AddToDoFragment extends BaseFragment<AddToDoFragmentBinding, AddToD
     @Override
     protected void init() {
 
-        mViewModel.getAdddata().observe(this, new Observer<HttpBaseResponse<Object>>() {
+        mViewModel.getAdddata().observe(this, new Observer<Object>() {
             @Override
-            public void onChanged(HttpBaseResponse<Object> objectHttpBaseResponse) {
-                if (objectHttpBaseResponse.errorCode == 0) {
-
+            public void onChanged(Object object) {
                     Toast.makeText(getActivity(), "新增待办事项成功！", Toast.LENGTH_SHORT).show();
                     NavHostFragment.findNavController(AddToDoFragment.this).navigateUp();
-                } else {
-                    Toast.makeText(getActivity(), "新增待办失败," + objectHttpBaseResponse.errorMsg, Toast.LENGTH_SHORT).show();
-                }
             }
         });
 

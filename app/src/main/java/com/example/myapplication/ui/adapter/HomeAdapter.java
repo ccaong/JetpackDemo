@@ -4,16 +4,25 @@ package com.example.myapplication.ui.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.example.myapplication.BR;
 import com.example.myapplication.R;
+import com.example.myapplication.http.bean.ArticleBean;
 import com.example.myapplication.http.bean.home.HomeData;
+import com.example.myapplication.ui.activity.web.DetailsActivity;
 
 import java.util.List;
+
+import static com.example.myapplication.App.getContext;
 
 /**
  * 主页的Adapter
@@ -22,21 +31,9 @@ import java.util.List;
  */
 public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-
     private List<HomeData> mList;
-    /**
-     * 布局id
-     */
-    private int defaultLayout;
-    /**
-     *
-     */
-    private int brId;
 
-
-    public HomeAdapter(int defaultLayout, int brId) {
-        this.defaultLayout = defaultLayout;
-        this.brId = brId;
+    public HomeAdapter() {
     }
 
     /**
@@ -48,6 +45,23 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
      */
     public void addListener(View root, HomeData itemData, int position) {
     }
+
+    /**
+     * 添加监听回调
+     *
+     * @param itemData
+     */
+    public void addTopClickListener(ArticleBean itemData) {
+    }
+    /**
+     * 添加监听回调
+     *
+     * @param itemData
+     */
+    public void addTopCollectListener(ArticleBean itemData) {
+    }
+
+
 
     /**
      * 改变数据
@@ -62,8 +76,10 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public int getItemLayout(HomeData itemData) {
         if (itemData.getBannerData() != null) {
             return R.layout.item_home_banner;
+        } else if (itemData.getTopArticleList() != null) {
+            return R.layout.item_home_top;
         } else {
-            return defaultLayout;
+            return R.layout.item_article;
         }
     }
 
@@ -83,22 +99,53 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder commonViewHolder, int position) {
-        if (position >= mList.size()) {
-            return;
-        }
         HomeData homeData = mList.get(position);
-        if (homeData == null) {
-            return;
-        }
+
         if (homeData.getArticleList() != null) {
             //绑定数据
-            ((CommonViewHolder) commonViewHolder).binding.setVariable(brId, homeData.getArticleList());
-        } else {
-            ((CommonViewHolder) commonViewHolder).binding.setVariable(com.example.myapplication.BR.bannerData, homeData.getBannerData());
+            ((CommonViewHolder) commonViewHolder).binding.setVariable(BR.articleBean, homeData.getArticleList());
+        } else if (homeData.getTopArticleList() != null){
+            ((CommonViewHolder) commonViewHolder).binding.setVariable(BR.topArticle, homeData.getTopArticleList());
+            showTopArticle(((CommonViewHolder) commonViewHolder).binding.getRoot().findViewById(R.id.recycler_view),homeData.getTopArticleList());
+        }else {
+            ((CommonViewHolder) commonViewHolder).binding.setVariable(BR.bannerData, homeData.getBannerData());
         }
         addListener(((CommonViewHolder) commonViewHolder).binding.getRoot(), mList.get(position), position);
         //防止数据闪烁
         ((CommonViewHolder) commonViewHolder).binding.executePendingBindings();
+    }
+
+    private void showTopArticle(RecyclerView recyclerView, HomeData.TopArticle topArticle){
+
+        CommonAdapter commonAdapter = new CommonAdapter<ArticleBean>(topArticle.getArticleBeanList(),R.layout.item_article, BR.articleBean) {
+            @Override
+            public void addListener(View root, ArticleBean itemData, int position) {
+                super.addListener(root, itemData, position);
+                root.findViewById(R.id.card_view).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addTopClickListener(itemData);
+                    }
+                });
+
+                root.findViewById(R.id.iv_collect).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        itemData.setCollect(!itemData.isCollect());
+                        notifyDataSetChanged();
+                        addTopCollectListener(itemData);
+//                        mViewModel.changeArticleCollect(itemData.isCollect(), itemData.getId());
+                    }
+                });
+            }
+        };
+        recyclerView.setAdapter(commonAdapter);
+
+        StaggeredGridLayoutManager layoutManager =
+                new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        LinearLayoutManager linearLayoutManager =new LinearLayoutManager(getContext());
+//        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
     }
 
     @Override

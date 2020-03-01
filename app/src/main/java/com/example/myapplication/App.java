@@ -5,8 +5,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.widget.ImageView;
 
+import androidx.multidex.MultiDexApplication;
+
 import com.bumptech.glide.Glide;
+import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.http.data.HttpResponseInterface;
+import com.example.myapplication.http.httptool.HttpException;
 import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.ServerAddress;
 import com.example.myapplication.manager.MyActivityManager;
@@ -14,8 +18,6 @@ import com.google.gson.Gson;
 import com.guoxiaoxing.phoenix.core.listener.ImageLoader;
 import com.guoxiaoxing.phoenix.picker.Phoenix;
 import com.orhanobut.hawk.Hawk;
-
-import androidx.multidex.MultiDexApplication;
 
 
 /**
@@ -101,6 +103,8 @@ public class App extends MultiDexApplication {
                 });
     }
 
+    static boolean firstOpen = true;
+
     /**
      * 请求配置
      */
@@ -110,14 +114,17 @@ public class App extends MultiDexApplication {
         HttpFactory.httpResponseInterface = new HttpResponseInterface() {
             @Override
             public String getResponseData(Gson gson, String response) {
-                return response;
-//                HttpBaseResponse httpResponse = gson.fromJson(response, HttpBaseResponse.class);
-//                if (httpResponse.errorCode != 0 && httpResponse.errorCode != 104) {
-//                    throw new HttpException(httpResponse.errorMsg);
+
+//                if (firstOpen) {
+//                    firstOpen = false;
+//                    return response;
 //                }
-//                return gson.toJson(httpResponse.data);
+                HttpBaseResponse httpResponse = gson.fromJson(response, HttpBaseResponse.class);
+                if (httpResponse.errorCode != 0) {
+                    throw new HttpException(httpResponse.errorMsg);
+                }
+                return gson.toJson(httpResponse.data);
             }
         };
     }
-
 }

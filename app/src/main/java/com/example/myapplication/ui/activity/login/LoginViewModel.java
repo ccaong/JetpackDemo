@@ -1,16 +1,21 @@
 package com.example.myapplication.ui.activity.login;
 
+import android.widget.Toast;
+
+import com.example.myapplication.App;
 import com.example.myapplication.base.viewmodel.BaseViewModel;
 import com.example.myapplication.common.Code;
 import com.example.myapplication.http.bean.LoginBean;
 import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.http.data.HttpDisposable;
+import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.HttpRequest;
 import com.example.myapplication.util.CommonUtils;
 import com.orhanobut.hawk.Hawk;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -23,12 +28,12 @@ public class LoginViewModel extends BaseViewModel {
     /**
      * 登陆用户信息
      */
-    private MutableLiveData<HttpBaseResponse<LoginBean>> userBean;
+    private MutableLiveData<LoginBean> userBean;
 
     /**
      * 注册状态
      */
-    private MutableLiveData<HttpBaseResponse<Object>> registerStatus;
+    private MutableLiveData<Object> registerStatus;
 
     public MutableLiveData<String> userName;
     public MutableLiveData<String> userPwd;
@@ -49,11 +54,11 @@ public class LoginViewModel extends BaseViewModel {
         userRePwd.postValue("");
     }
 
-    public LiveData<HttpBaseResponse<LoginBean>> getUserBean() {
+    public LiveData<LoginBean> getUserBean() {
         return userBean;
     }
 
-    public LiveData<HttpBaseResponse<Object>> getRegisterStatus() {
+    public LiveData<Object> getRegisterStatus() {
         return registerStatus;
     }
 
@@ -67,17 +72,21 @@ public class LoginViewModel extends BaseViewModel {
             return;
         }
 
-
         HttpRequest.getInstance()
                 .Login(userName.getValue(), userPwd.getValue())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new HttpDisposable<HttpBaseResponse<LoginBean>>() {
+                .compose(HttpFactory.schedulers())
+                .subscribe(new HttpDisposable<LoginBean>() {
                     @Override
-                    public void success(HttpBaseResponse<LoginBean> bean) {
-                        // TODO: 2020/2/28 登录成功，保存用户信息
+                    public void success(LoginBean bean) {
+                        //登录成功，保存用户信息
                         userBean.postValue(bean);
-                        bean.data.setPassword(userPwd.getValue());
-                        Hawk.put(Code.HawkCode.LOGIN_DATA, bean.data);
+                        bean.setPassword(userPwd.getValue());
+                        Hawk.put(Code.HawkCode.LOGIN_DATA, bean);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(App.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -89,11 +98,17 @@ public class LoginViewModel extends BaseViewModel {
     public void register() {
         HttpRequest.getInstance()
                 .register(userName.getValue(), userPwd.getValue(), userRePwd.getValue())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new HttpDisposable<HttpBaseResponse<Object>>() {
+                .compose(HttpFactory.<Object>schedulers())
+                .subscribe(new HttpDisposable<Object>() {
                     @Override
-                    public void success(HttpBaseResponse<Object> bean) {
+                    public void success(Object bean) {
                         registerStatus.postValue(bean);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        clearUserPwd();
+                        Toast.makeText(App.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

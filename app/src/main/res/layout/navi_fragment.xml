@@ -13,16 +13,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="@color/color_white"
         android:orientation="horizontal"
-        tools:context=".ui.bottom.navi.NaviFragment">
+        tools:context=".ui.bottom.navi.NavigationFragment">
 
         <q.rorbin.verticaltablayout.VerticalTabLayout
             android:id="@+id/vertical_tab_layout"
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:background="@color/background"
-            app:indicator_color="@color/white"
+            app:indicator_color="@color/color_white"
             app:indicator_gravity="fill"
             app:tab_height="50dp"
             app:tab_margin="16dp"
@@ -35,7 +35,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/dimen_8"
             android:layout_weight="1"
-            android:background="@color/white" />
+            android:background="@color/color_white" />
 
     </LinearLayout>
 </layout>

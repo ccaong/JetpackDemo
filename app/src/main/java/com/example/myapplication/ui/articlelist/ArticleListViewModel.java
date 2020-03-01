@@ -7,6 +7,7 @@ import com.example.myapplication.http.bean.ArticleBean;
 import com.example.myapplication.http.bean.ArticleListBean;
 import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.http.data.HttpDisposable;
+import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.HttpRequest;
 import com.example.myapplication.util.NetworkUtils;
 
@@ -16,7 +17,10 @@ import java.util.List;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
+
 import io.reactivex.schedulers.Schedulers;
+
+import static com.example.myapplication.http.request.HttpFactory.schedulers;
 
 /**
  * @author devel
@@ -102,23 +106,24 @@ public class ArticleListViewModel extends BaseViewModel {
      * 加载微信公众号数据
      */
     private void loadWeChatArticleList() {
-
+        //微信公众号的页码是从1开始的
+        mPage++;
         HttpRequest.getInstance()
                 .getWechatArticleList(mId, mPage)
-                .subscribeOn(Schedulers.io())
-                .subscribe(new HttpDisposable<HttpBaseResponse<ArticleListBean>>() {
+                .compose(HttpFactory.<ArticleListBean>schedulers())
+                .subscribe(new HttpDisposable<ArticleListBean>() {
                     @Override
-                    public void success(HttpBaseResponse<ArticleListBean> mArticleListBean) {
+                    public void success(ArticleListBean mArticleListBean) {
 
-                        if (mArticleListBean != null && mArticleListBean.errorCode == 0) {
+                        if (mArticleListBean != null) {
                             loadState.postValue(LoadState.SUCCESS);
 
                             if (mPage == 0) {
                                 //第一次加载或刷新成功
                                 //清空列表，重新载入数据，设置刷新成功状态
                                 mList.clear();
-                                mList.addAll(mArticleListBean.data.getDatas());
-                                mArticleList.postValue(mArticleListBean.data);
+                                mList.addAll(mArticleListBean.getDatas());
+                                mArticleList.postValue(mArticleListBean);
 
                                 //设置刷新状态
                                 refreshState.postValue(RefreshState.REFRESH_END);
@@ -126,9 +131,9 @@ public class ArticleListViewModel extends BaseViewModel {
                             } else {
                                 //下拉加载更多成功
                                 //添加数据，设置下拉加载成功状态
-                                mList.addAll(mArticleListBean.data.getDatas());
-                                mArticleListBean.data.setDatas(mList);
-                                mArticleList.postValue(mArticleListBean.data);
+                                mList.addAll(mArticleListBean.getDatas());
+                                mArticleListBean.setDatas(mList);
+                                mArticleList.postValue(mArticleListBean);
                                 //设置刷新状态
                                 refreshState.postValue(RefreshState.LOAD_MORE_END);
                             }
@@ -151,20 +156,20 @@ public class ArticleListViewModel extends BaseViewModel {
 
         HttpRequest.getInstance()
                 .getWechatArticleList(mId, mPage)
-                .subscribeOn(Schedulers.io())
-                .subscribe(new HttpDisposable<HttpBaseResponse<ArticleListBean>>() {
+                .compose(HttpFactory.<ArticleListBean>schedulers())
+                .subscribe(new HttpDisposable<ArticleListBean>() {
                     @Override
-                    public void success(HttpBaseResponse<ArticleListBean> mArticleListBean) {
+                    public void success(ArticleListBean mArticleListBean) {
 
-                        if (mArticleListBean != null && mArticleListBean.errorCode == 0) {
+                        if (mArticleListBean != null) {
                             loadState.postValue(LoadState.SUCCESS);
 
                             if (mPage == 0) {
                                 //第一次加载或刷新成功
                                 //清空列表，重新载入数据，设置刷新成功状态
                                 mList.clear();
-                                mList.addAll(mArticleListBean.data.getDatas());
-                                mArticleList.postValue(mArticleListBean.data);
+                                mList.addAll(mArticleListBean.getDatas());
+                                mArticleList.postValue(mArticleListBean);
 
                                 //设置刷新状态
                                 refreshState.postValue(RefreshState.REFRESH_END);
@@ -172,9 +177,9 @@ public class ArticleListViewModel extends BaseViewModel {
                             } else {
                                 //下拉加载更多成功
                                 //添加数据，设置下拉加载成功状态
-                                mList.addAll(mArticleListBean.data.getDatas());
-                                mArticleListBean.data.setDatas(mList);
-                                mArticleList.postValue(mArticleListBean.data);
+                                mList.addAll(mArticleListBean.getDatas());
+                                mArticleListBean.setDatas(mList);
+                                mArticleList.postValue(mArticleListBean);
                                 //设置刷新状态
                                 refreshState.postValue(RefreshState.LOAD_MORE_END);
                             }

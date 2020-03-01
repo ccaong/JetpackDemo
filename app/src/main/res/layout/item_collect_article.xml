@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.example.myapplication.util.CommonUtils" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="collectArticle"
+            type="com.example.myapplication.http.bean.CollectArticleBean.CollectBean" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="6dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="3dp"
+        app:cardElevation="2dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingRight="@dimen/dimen_8"
+            android:paddingBottom="@dimen/dimen_8">
+
+            <LinearLayout
+                android:id="@+id/ll_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen_8"
+                android:layout_marginTop="@dimen/dimen_8"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="@{collectArticle.author}"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:text="CCAONG" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{collectArticle.niceDate}"
+                android:textSize="12sp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="时间" />
+
+
+            <ImageView
+                android:id="@+id/iv_pro_picture"
+                android:layout_width="80dp"
+                android:layout_height="0dp"
+                android:layout_marginLeft="@dimen/dimen_8"
+                android:layout_marginTop="@dimen/dimen_8"
+                android:visibility="@{!CommonUtils.isStringEmpty(collectArticle.envelopePic)? View.VISIBLE : View.GONE}"
+                app:layout_constraintDimensionRatio="h,1:2"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ll_label"
+                app:loadImage="@{collectArticle.envelopePic}" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen_8"
+                android:layout_marginTop="10dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="@{collectArticle.title}"
+                android:textColor="@color/text_black_87"
+                android:textSize="16sp"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintLeft_toRightOf="@+id/iv_pro_picture"
+                app:layout_constraintRight_toLeftOf="@+id/iv_collect"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ll_label"
+                tools:text="文章标题" />
+
+            <TextView
+                android:id="@+id/tv_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen_12"
+                android:layout_marginTop="10dp"
+                android:maxLines="3"
+                android:text="@{collectArticle.desc}"
+                android:textColor="@color/text_black_54"
+                android:textSize="12sp"
+                android:visibility="@{!CommonUtils.isStringEmpty(collectArticle.desc)? View.VISIBLE : View.GONE}"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintLeft_toRightOf="@+id/iv_pro_picture"
+                app:layout_constraintRight_toLeftOf="@+id/iv_collect"
+                app:layout_constraintTop_toBottomOf="@id/tv_title"
+                tools:text="介绍" />
+
+            <TextView
+                android:id="@+id/tv_super_chapterName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen_8"
+                android:layout_marginTop="10dp"
+                android:text="@{collectArticle.chapterName}"
+                android:textSize="12sp"
+                app:layout_constraintLeft_toRightOf="@+id/iv_pro_picture"
+                app:layout_constraintTop_toBottomOf="@id/tv_desc"
+                tools:text="章节名" />
+
+
+            <ImageView
+                android:id="@+id/iv_collect"
+                android:layout_width="@dimen/dimen_32"
+                android:layout_height="32dp"
+                android:padding="@dimen/dimen_4"
+                android:src="@mipmap/ic_collect_yes"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

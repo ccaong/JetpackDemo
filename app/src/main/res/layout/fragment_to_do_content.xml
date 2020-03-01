@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.myapplication.ui.nav.todo.ToDoViewModel" />
+            type="com.example.myapplication.ui.nav.todo.todocontent.ToDoContentViewModel" />
     </data>
 
 
@@ -83,7 +83,7 @@
                     android:paddingRight="@dimen/dimen_8"
                     android:paddingBottom="@dimen/dimen_4"
                     android:text="@string/delete"
-                    android:textColor="@color/white"
+                    android:textColor="@color/color_white"
                     android:onClick="@{()->viewModel.deleteToDo()}"
                     app:layout_constraintBottom_toBottomOf="@+id/checkbox"
                     app:layout_constraintRight_toRightOf="parent"

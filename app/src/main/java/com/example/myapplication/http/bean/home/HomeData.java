@@ -2,6 +2,8 @@ package com.example.myapplication.http.bean.home;
 
 import com.example.myapplication.http.bean.ArticleBean;
 
+import java.util.List;
+
 /**
  * @author : devel
  * @date : 2020/2/25 13:27
@@ -10,6 +12,7 @@ import com.example.myapplication.http.bean.ArticleBean;
 public class HomeData {
 
     private BannerData bannerData;
+    private TopArticle topArticleList;
     private ArticleBean articleList;
 
     public BannerData getBannerData() {
@@ -18,6 +21,14 @@ public class HomeData {
 
     public void setBannerData(BannerData bannerData) {
         this.bannerData = bannerData;
+    }
+
+    public void setTopArticleList(TopArticle topArticleList) {
+        this.topArticleList = topArticleList;
+    }
+
+    public TopArticle getTopArticleList() {
+        return topArticleList;
     }
 
     public ArticleBean getArticleList() {
@@ -29,4 +40,25 @@ public class HomeData {
     }
 
 
+    public static class TopArticle {
+        private String name;
+
+        private List<ArticleBean> articleBeanList;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public List<ArticleBean> getArticleBeanList() {
+            return articleBeanList;
+        }
+
+        public void setArticleBeanList(List<ArticleBean> articleBeanList) {
+            this.articleBeanList = articleBeanList;
+        }
+    }
 }

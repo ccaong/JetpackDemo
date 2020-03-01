@@ -5,11 +5,13 @@ import android.content.res.Resources;
 import android.util.Log;
 
 import com.example.myapplication.App;
+import com.example.myapplication.R;
 import com.example.myapplication.enums.LoadState;
 import com.example.myapplication.enums.RefreshState;
 import com.example.myapplication.http.bean.ArticleListBean;
 import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.http.data.HttpDisposable;
+import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.HttpRequest;
 import com.example.myapplication.util.CommonUtils;
 
@@ -19,6 +21,7 @@ import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -33,7 +36,7 @@ public abstract class BaseViewModel extends ViewModel implements DefaultLifecycl
     /**
      * 收藏文章
      */
-    public MutableLiveData<HttpBaseResponse<Object>> collect = new MutableLiveData<>();
+    public MutableLiveData<Object> collect = new MutableLiveData<>();
 
     /**
      * 刷新状态
@@ -44,6 +47,8 @@ public abstract class BaseViewModel extends ViewModel implements DefaultLifecycl
      * 加载状态
      */
     public MutableLiveData<LoadState> loadState = new MutableLiveData<>();
+
+    public MutableLiveData<String> errorMsg = new MutableLiveData<>(getResources().getString(R.string.load_error));
 
     /**
      * 是否为刷新数据
@@ -76,7 +81,7 @@ public abstract class BaseViewModel extends ViewModel implements DefaultLifecycl
         }
     }
 
-    public LiveData<HttpBaseResponse<Object>> getCollectStatus() {
+    public LiveData<Object> getCollectStatus() {
         return collect;
     }
 
@@ -89,10 +94,10 @@ public abstract class BaseViewModel extends ViewModel implements DefaultLifecycl
 
         HttpRequest.getInstance()
                 .collectArticle(id)
-                .subscribeOn(Schedulers.io())
-                .subscribe(new HttpDisposable<HttpBaseResponse<Object>>() {
+                .compose(HttpFactory.schedulers())
+                .subscribe(new HttpDisposable<Object>() {
                     @Override
-                    public void success(HttpBaseResponse<Object> mArticleListBean) {
+                    public void success(Object mArticleListBean) {
                         collect.postValue(mArticleListBean);
                     }
 
@@ -111,10 +116,10 @@ public abstract class BaseViewModel extends ViewModel implements DefaultLifecycl
     private void unCollectArticle(int id) {
         HttpRequest.getInstance()
                 .unCollectArticle(id)
-                .subscribeOn(Schedulers.io())
-                .subscribe(new HttpDisposable<HttpBaseResponse<Object>>() {
+                .compose(HttpFactory.schedulers())
+                .subscribe(new HttpDisposable<Object>() {
                     @Override
-                    public void success(HttpBaseResponse<Object> mArticleListBean) {
+                    public void success(Object mArticleListBean) {
                         collect.postValue(mArticleListBean);
                     }
                 });

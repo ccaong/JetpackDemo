@@ -7,6 +7,7 @@ import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
+import com.example.myapplication.base.ScrollToTop;
 import com.example.myapplication.common.Code;
 import com.example.myapplication.databinding.FragmentListBinding;
 import com.example.myapplication.http.bean.WeChatBean;
@@ -24,7 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 /**
  * @author devel
  */
-public class SystemFragment extends BaseFragment<FragmentListBinding, SystemViewModel> {
+public class SystemFragment extends BaseFragment<FragmentListBinding, SystemViewModel> implements ScrollToTop {
 
 
     @Override
@@ -108,5 +109,10 @@ public class SystemFragment extends BaseFragment<FragmentListBinding, SystemView
                 mDataBinding.mrlRefreshLayout.finishRefresh();
             }
         });
+    }
+
+    @Override
+    public void scrollToTop() {
+        mDataBinding.recycle.smoothScrollToPosition(0);
     }
 }

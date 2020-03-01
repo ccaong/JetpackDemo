@@ -42,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dimen_16"
                     android:background="@drawable/shape_label_green"
-                    android:textColor="@color/green"
+                    android:textColor="@color/color_78c257"
                     app:coinLeave="@{coinRank.level}"
                     app:layout_constraintLeft_toRightOf="@+id/tv_user_name"
                     app:layout_constraintTop_toTopOf="parent"

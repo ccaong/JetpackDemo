@@ -2,16 +2,23 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.myapplication.base.viewmodel.BaseViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/page_background">
+        android:background="@color/color_white">
 
         <ImageView
             android:id="@+id/img_load_error"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:src="@mipmap/ic_launcher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_load_error"
             app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/tv_load_error"
@@ -23,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="@string/load_error"
+            android:text="@{viewModel.errorMsg}"
             android:textSize="16sp"
             android:textColor="@color/colorPrimaryDark"
             app:layout_constraintTop_toBottomOf="@id/img_load_error"

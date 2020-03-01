@@ -51,11 +51,11 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MainViewMode
     }
 
     private void initData() {
-        mViewModel.getUserBean().observe(this, new Observer<HttpBaseResponse<LoginBean>>() {
+        mViewModel.getUserBean().observe(this, new Observer<LoginBean>() {
             @Override
-            public void onChanged(HttpBaseResponse<LoginBean> bean) {
-                if (bean.errorCode == 0) {
-                    mDataBinding.tvUserName.setText(bean.data.getNickname());
+            public void onChanged(LoginBean bean) {
+                if (bean != null) {
+                    mDataBinding.tvUserName.setText(bean.getNickname());
                 } else {
                     mDataBinding.tvUserName.setText(getResources().getString(R.string.no_login));
                     mDataBinding.tvUserIntegral.setText("");
