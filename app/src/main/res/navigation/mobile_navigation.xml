@@ -19,15 +19,15 @@
 
 
     <fragment
-        android:id="@+id/nav_tools"
-        android:name="com.example.myapplication.ui.nav.tools.ToolsFragment"
-        android:label="@string/menu_tools"
-        tools:layout="@layout/fragment_tools" />
+        android:id="@+id/nav_square"
+        android:name="com.example.myapplication.ui.nav.square.SquareFragment"
+        android:label="@string/menu_square"
+        tools:layout="@layout/fragment_list" />
 
     <fragment
         android:id="@+id/nav_share"
-        android:name="com.example.myapplication.ui.nav.share.ShareFragment"
-        android:label="@string/menu_update"
+        android:name="com.example.myapplication.ui.share.ShareFragment"
+        android:label="@string/share"
         tools:layout="@layout/fragment_share" />
 
     <fragment

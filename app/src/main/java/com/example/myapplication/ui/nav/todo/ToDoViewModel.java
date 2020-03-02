@@ -161,10 +161,10 @@ public class ToDoViewModel extends BaseViewModel {
      * 第一次加载数据
      */
     public void loadToDoList() {
+        loadState.postValue(LoadState.LOADING);
         mPage = 0;
         mRefresh = false;
         loadData();
-        loadState.postValue(LoadState.LOADING);
     }
 
     /**

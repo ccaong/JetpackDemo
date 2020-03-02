@@ -1,6 +1,7 @@
 package com.example.myapplication.ui.nav.mine;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
@@ -8,7 +9,6 @@ import com.example.myapplication.base.BaseFragment;
 import com.example.myapplication.common.Code;
 import com.example.myapplication.databinding.FragmentMineBinding;
 import com.example.myapplication.http.bean.LoginBean;
-import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.ui.activity.main.MainViewModel;
 import com.example.myapplication.util.ImageSelectUtil;
 import com.guoxiaoxing.phoenix.core.model.MediaEntity;
@@ -89,6 +89,16 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MainViewMode
      */
     public void startCollectFragment() {
         NavHostFragment.findNavController(MineFragment.this).navigate(R.id.nav_collect);
+    }
+
+    /**
+     * 跳转到我的分享界面
+     */
+    public void startShareFragment() {
+        Bundle bundle = new Bundle();
+        bundle.putInt(Code.ParamCode.PARAM1, mViewModel.getUserBean().getValue().getId());
+        bundle.putString(Code.ParamCode.PARAM2, mViewModel.getUserHeader().getValue());
+        NavHostFragment.findNavController(MineFragment.this).navigate(R.id.nav_share, bundle);
     }
 
     /**

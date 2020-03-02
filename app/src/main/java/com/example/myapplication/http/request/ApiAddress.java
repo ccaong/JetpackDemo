@@ -11,6 +11,7 @@ import com.example.myapplication.http.bean.ImageBean;
 import com.example.myapplication.http.bean.LoginBean;
 import com.example.myapplication.http.bean.NavigationBean;
 import com.example.myapplication.http.bean.ToDoListBean;
+import com.example.myapplication.http.bean.UserShareArticleBean;
 import com.example.myapplication.http.bean.WeChatBean;
 import com.example.myapplication.http.data.HttpBaseResponse;
 
@@ -71,8 +72,8 @@ public interface ApiAddress {
     @FormUrlEncoded
     @POST("user/register")
     Observable<Object> register(@Field("username") String username,
-                                                  @Field("password") String password,
-                                                  @Field("repassword") String repwd);
+                                @Field("password") String password,
+                                @Field("repassword") String repwd);
 
 
     /**
@@ -112,14 +113,24 @@ public interface ApiAddress {
 
 
     /**
-     * 获取体系文章
+     * 获取体系文章列表
      *
      * @param cid  id
      * @param page 页码
      * @return
      */
     @GET("article/list/{page}/json")
-    Observable<ArticleListBean> getSystemArticle(@Path("page") int page, @Query("cid") String cid);
+    Observable<ArticleListBean> getSystemArticle(@Path("page") int page, @Query("cid") int cid);
+
+    /**
+     * 获取项目文章列表
+     *
+     * @param cid  id
+     * @param page 页码
+     * @return
+     */
+    @GET("project/list/{page}/json")
+    Observable<ArticleListBean> getProjectArticle(@Path("page") int page, @Query("cid") int cid);
 
 
     /**
@@ -140,6 +151,24 @@ public interface ApiAddress {
      */
     @GET("wxarticle/list/{id}/{page}/json")
     Observable<ArticleListBean> getWechatArticleList(@Path("id") int id, @Path("page") int page);
+
+    /**
+     * 获取广场文章列表
+     *
+     * @param page 页码
+     * @return
+     */
+    @GET("user_article/list/{page}/json")
+    Observable<ArticleListBean> getSquareArticleList(@Path("page") int page);
+
+    /**
+     * 获取用户分享的文章列表
+     *
+     * @param page 页码
+     * @return
+     */
+    @GET("/user/{id}/share_articles/{page}/json")
+    Observable<UserShareArticleBean> getUserShareArticle(@Path("id") int id, @Path("page") int page);
 
 
     /**
@@ -179,7 +208,7 @@ public interface ApiAddress {
     Observable<Object> collectArticle(@Path("id") int id);
 
     /**
-     * 取消收藏文章
+     * 在文章界面取消收藏文章
      *
      * @param id 要取消收藏的文章id
      * @return
@@ -188,9 +217,10 @@ public interface ApiAddress {
     Observable<Object> unCollectArticle(@Path("id") int id);
 
     /**
-     * 取消收藏文章
+     * 在收藏界面取消收藏文章
      *
-     * @param id 要取消收藏的文章id
+     * @param id       要取消收藏的文章id
+     * @param originId 原始id
      * @return
      */
     @POST("lg/uncollect/{id}/json")
@@ -210,8 +240,8 @@ public interface ApiAddress {
      */
     @POST("lg/todo/add/json")
     Observable<Object> addToDoData(@Query("title") String title, @Query("content") String content,
-                                                     @Query("date") String date,
-                                                     @Query("type") int type, @Query("priority") int priority);
+                                   @Query("date") String date,
+                                   @Query("type") int type, @Query("priority") int priority);
 
 
     /**
@@ -225,7 +255,7 @@ public interface ApiAddress {
      */
     @POST("lg/todo/v2/list/{page}/json")
     Observable<ToDoListBean> getToDoList(@Path("page") int page,
-                                                           @Query("type") int type, @Query("priority") int priority);
+                                         @Query("type") int type, @Query("priority") int priority);
 
     /**
      * 更新一条待办
@@ -243,9 +273,9 @@ public interface ApiAddress {
     @FormUrlEncoded
     @POST("lg/todo/update/{id}/json")
     Observable<Object> updateToDoList(@Path("id") int page,
-                                                              @Field("title") String title, @Field("content") String content,
-                                                              @Field("date") String date, @Field("status") int status,
-                                                              @Field("type") int type, @Field("priority") int priority);
+                                      @Field("title") String title, @Field("content") String content,
+                                      @Field("date") String date, @Field("status") int status,
+                                      @Field("type") int type, @Field("priority") int priority);
 
     /**
      * 删除一条todo

@@ -10,10 +10,10 @@
     <string name="menu_home">主页</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_todo">待办</string>
-    <string name="menu_tools">Tools</string>
     <string name="menu_qa">问答</string>
     <string name="menu_square">广场</string>
 
+    <string name="share">分享</string>
     <string name="menu_update">更新</string>
     <string name="menu_about">关于</string>
 

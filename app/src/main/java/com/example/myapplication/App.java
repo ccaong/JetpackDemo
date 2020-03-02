@@ -5,8 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.widget.ImageView;
 
-import androidx.multidex.MultiDexApplication;
-
 import com.bumptech.glide.Glide;
 import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.http.data.HttpResponseInterface;
@@ -19,6 +17,8 @@ import com.guoxiaoxing.phoenix.core.listener.ImageLoader;
 import com.guoxiaoxing.phoenix.picker.Phoenix;
 import com.orhanobut.hawk.Hawk;
 
+import androidx.multidex.MultiDexApplication;
+
 
 /**
  * @author : devel
@@ -28,10 +28,12 @@ import com.orhanobut.hawk.Hawk;
 
 public class App extends MultiDexApplication {
     private static Context context;
+    public static boolean firstOpen;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        firstOpen = true;
         context = this;
         initActivityManager();
         init();
@@ -48,12 +50,10 @@ public class App extends MultiDexApplication {
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-
             }
 
             @Override
             public void onActivityStarted(Activity activity) {
-
             }
 
             @Override
@@ -63,22 +63,18 @@ public class App extends MultiDexApplication {
 
             @Override
             public void onActivityPaused(Activity activity) {
-
             }
 
             @Override
             public void onActivityStopped(Activity activity) {
-
             }
 
             @Override
             public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-
             }
 
             @Override
             public void onActivityDestroyed(Activity activity) {
-
             }
         });
     }
@@ -94,16 +90,13 @@ public class App extends MultiDexApplication {
         Phoenix.config()
                 .imageLoader(new ImageLoader() {
                     @Override
-                    public void loadImage(Context mContext, ImageView imageView
-                            , String imagePath, int type) {
+                    public void loadImage(Context mContext, ImageView imageView, String imagePath, int type) {
                         Glide.with(mContext)
                                 .load(imagePath)
                                 .into(imageView);
                     }
                 });
     }
-
-    static boolean firstOpen = true;
 
     /**
      * 请求配置
@@ -115,10 +108,11 @@ public class App extends MultiDexApplication {
             @Override
             public String getResponseData(Gson gson, String response) {
 
-//                if (firstOpen) {
-//                    firstOpen = false;
-//                    return response;
-//                }
+                if (firstOpen) {
+                    firstOpen = false;
+                    return response;
+                }
+
                 HttpBaseResponse httpResponse = gson.fromJson(response, HttpBaseResponse.class);
                 if (httpResponse.errorCode != 0) {
                     throw new HttpException(httpResponse.errorMsg);

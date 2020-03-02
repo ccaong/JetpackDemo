@@ -23,7 +23,7 @@
 
         <menu>
         <item
-            android:id="@+id/nav_tools"
+            android:id="@+id/nav_square"
             android:icon="@mipmap/ic_nav_square"
             android:title="@string/menu_square" />
 

@@ -14,7 +14,6 @@ import com.example.myapplication.base.ScrollToTop;
 import com.example.myapplication.common.Code;
 import com.example.myapplication.databinding.ActivityMainBinding;
 import com.example.myapplication.http.bean.LoginBean;
-import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.ui.activity.login.LoginActivity;
 import com.example.myapplication.ui.view.CircleImageView;
 import com.example.myapplication.util.GlideUtil;
@@ -27,7 +26,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -105,8 +103,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         drawer = mDataBinding.drawerLayout;
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_collect,
-                R.id.nav_tools, R.id.nav_share, R.id.nav_send)
+                R.id.nav_home, R.id.nav_square, R.id.nav_send)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -209,8 +206,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                     case R.id.toDoFragment:
                         Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment).navigate(R.id.toDoFragment);
                         break;
-                    case R.id.nav_tools:
-                        Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment).navigate(R.id.nav_tools);
+                    case R.id.nav_square:
+                        Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment).navigate(R.id.nav_square);
                         break;
                     case R.id.nav_share:
                         Toast.makeText(MainActivity.this, "nav_share", Toast.LENGTH_SHORT).show();

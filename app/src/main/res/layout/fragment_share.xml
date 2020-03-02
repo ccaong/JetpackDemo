@@ -1,19 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/text_share"
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.myapplication.ui.share.ShareViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_bg"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/colorPrimary"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toTopOf="@+id/guideline_1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:loadImageGoss="@{viewModel.userHeader}" />
+
+        <com.example.myapplication.ui.view.CircleImageView
+            android:id="@+id/iv_header"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginBottom="@dimen/margin"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_logo"
+            app:layout_constraintBottom_toTopOf="@+id/tv_user_name"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:loadImageWithError="@{viewModel.userHeader}" />
+
+        <TextView
+            android:id="@+id/tv_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen_8"
+            android:text="@{viewModel.userInfo.username}"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/text_18"
+            app:layout_constraintBottom_toTopOf="@+id/tv_integral"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:text="@string/user_name" />
+
+        <TextView
+            android:id="@+id/tv_user_leave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_8"
+            android:layout_marginBottom="@dimen/dimen_8"
+            android:background="@drawable/shape_label_green"
+            android:textColor="@color/color_78c257"
+            android:textSize="@dimen/text_10"
+            app:coinLeave="@{viewModel.userInfo.level}"
+            app:layout_constraintBottom_toTopOf="@+id/tv_integral"
+            app:layout_constraintLeft_toRightOf="@+id/tv_user_name"
+            tools:text="LV 8" />
+
+
+        <TextView
+            android:id="@+id/tv_integral"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin"
+            android:layout_marginBottom="@dimen/margin"
+            android:text="@string/integral"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/text_12"
+            app:layout_constraintBottom_toTopOf="@+id/guideline"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/tv_user_integral" />
+
+        <TextView
+            android:id="@+id/tv_user_integral"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_8"
+            android:layout_marginBottom="@dimen/margin"
+            android:text="@{viewModel.userInfo.coinCount}"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/text_12"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_integral"
+            app:layout_constraintBottom_toTopOf="@+id/guideline"
+            app:layout_constraintLeft_toRightOf="@+id/tv_integral"
+            app:layout_constraintRight_toLeftOf="@+id/tv_rank"
+            tools:text="20分" />
+
+        <TextView
+            android:id="@+id/tv_rank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_8"
+            android:text="@string/rank"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/text_12"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_integral"
+            app:layout_constraintLeft_toRightOf="@+id/tv_user_integral"
+            app:layout_constraintRight_toLeftOf="@+id/tv_user_rank" />
+
+        <TextView
+            android:id="@+id/tv_user_rank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_8"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/text_12"
+            app:int2String="@{viewModel.userInfo.rank}"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_integral"
+            app:layout_constraintLeft_toRightOf="@+id/tv_rank"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:text="202" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_constraintGuide_percent="0.3" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.38" />
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginLeft="@dimen/dimen_16"
+            android:layout_marginRight="@dimen/dimen_16"
+            app:layout_constraintTop_toBottomOf="@+id/guideline">
+
+            <com.cjj.MaterialRefreshLayout
+                android:id="@+id/mrl_refresh_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:isLoadMore="true"
+                app:refreshState="@{viewModel.refreshState}">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </com.cjj.MaterialRefreshLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -107,6 +107,10 @@ public abstract class BaseFragment<DB extends ViewDataBinding, VM extends BaseVi
                     switchLoadView(loadState);
                 }
             });
+            Activity activity = MyActivityManager.getInstance().getCurrentActivity();
+            if (activity instanceof MainActivity) {
+                ((MainActivity) activity).mDataBinding.fabTop.setVisibility(View.VISIBLE);
+            }
         } else {
             Activity activity = MyActivityManager.getInstance().getCurrentActivity();
             if (activity instanceof MainActivity) {

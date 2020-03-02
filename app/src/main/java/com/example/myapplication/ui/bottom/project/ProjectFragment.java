@@ -86,7 +86,7 @@ public class ProjectFragment extends BaseFragment<FragmentProjectViewPagerBindin
         for (WeChatBean system : mList) {
             mDataBinding.tabLayout.addTab(mDataBinding.tabLayout.newTab().setText(system.getName()));
             sTitle.add(system.getName());
-            fragments.add(ArticleListFragment.newInstance(1, system.getId()));
+            fragments.add(ArticleListFragment.newInstance(2, system.getId()));
         }
         mDataBinding.tabLayout.setupWithViewPager(mDataBinding.viewPager);
 

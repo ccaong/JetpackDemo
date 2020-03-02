@@ -4,7 +4,6 @@ import com.example.myapplication.base.viewmodel.BaseViewModel;
 import com.example.myapplication.common.Code;
 import com.example.myapplication.http.bean.Coin;
 import com.example.myapplication.http.bean.LoginBean;
-import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.http.data.HttpDisposable;
 import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.HttpRequest;
@@ -14,7 +13,6 @@ import com.orhanobut.hawk.Hawk;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import io.reactivex.schedulers.Schedulers;
 
 public class MainViewModel extends BaseViewModel {
 

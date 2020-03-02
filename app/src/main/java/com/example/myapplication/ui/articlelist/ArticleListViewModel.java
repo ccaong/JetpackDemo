@@ -81,12 +81,11 @@ public class ArticleListViewModel extends BaseViewModel {
         mPage = 0;
         mRefresh = false;
         loadArticleList();
-        loadState.postValue(LoadState.LOADING);
     }
 
 
     /**
-     * 加载微信文章数据
+     * 加载文章列表
      */
     private void loadArticleList() {
         //判断网络
@@ -94,11 +93,14 @@ public class ArticleListViewModel extends BaseViewModel {
             loadState.postValue(LoadState.NO_NETWORK);
             return;
         }
+        loadState.postValue(LoadState.LOADING);
 
         if (mType == 0) {
             loadWeChatArticleList();
-        } else {
+        } else if (mType == 1){
             loadSystemArticleList();
+        }else {
+            loadProjectArticleList();
         }
     }
 
@@ -155,7 +157,53 @@ public class ArticleListViewModel extends BaseViewModel {
     private void loadSystemArticleList() {
 
         HttpRequest.getInstance()
-                .getWechatArticleList(mId, mPage)
+                .getSystemArticle(mPage, mId)
+                .compose(HttpFactory.<ArticleListBean>schedulers())
+                .subscribe(new HttpDisposable<ArticleListBean>() {
+                    @Override
+                    public void success(ArticleListBean mArticleListBean) {
+
+                        if (mArticleListBean != null) {
+                            loadState.postValue(LoadState.SUCCESS);
+
+                            if (mPage == 0) {
+                                //第一次加载或刷新成功
+                                //清空列表，重新载入数据，设置刷新成功状态
+                                mList.clear();
+                                mList.addAll(mArticleListBean.getDatas());
+                                mArticleList.postValue(mArticleListBean);
+
+                                //设置刷新状态
+                                refreshState.postValue(RefreshState.REFRESH_END);
+
+                            } else {
+                                //下拉加载更多成功
+                                //添加数据，设置下拉加载成功状态
+                                mList.addAll(mArticleListBean.getDatas());
+                                mArticleListBean.setDatas(mList);
+                                mArticleList.postValue(mArticleListBean);
+                                //设置刷新状态
+                                refreshState.postValue(RefreshState.LOAD_MORE_END);
+                            }
+                        } else {
+                            loadState.postValue(LoadState.NO_DATA);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        loadState.postValue(LoadState.ERROR);
+                    }
+                });
+    }
+
+    /**
+     * 加载项目文章数据
+     */
+    private void loadProjectArticleList() {
+        mPage++;
+        HttpRequest.getInstance()
+                .getProjectArticle(mPage, mId)
                 .compose(HttpFactory.<ArticleListBean>schedulers())
                 .subscribe(new HttpDisposable<ArticleListBean>() {
                     @Override

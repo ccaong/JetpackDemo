@@ -1,6 +1,9 @@
 package com.example.myapplication.ui.activity.splash;
 
+import android.os.Bundle;
+
 import com.bumptech.glide.Glide;
+import com.example.myapplication.App;
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseActivity;
 import com.example.myapplication.databinding.ActivitySplashBinding;
@@ -11,6 +14,7 @@ import com.example.myapplication.ui.activity.main.MainActivity;
 import com.example.myapplication.ui.activity.web.DetailsActivity;
 import com.example.myapplication.util.CommonUtils;
 
+import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -20,6 +24,12 @@ import androidx.lifecycle.ViewModelProviders;
  * @desc : 闪屏页
  */
 public class SplashActivity extends BaseActivity<ActivitySplashBinding, SplashViewModel> {
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        App.firstOpen = true;
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     protected boolean isNoActionBar() {
@@ -73,11 +83,11 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding, SplashVi
                                 activitySkip.getParam1(), true);
                         finish();
                     } else {
-                        MainActivity.start(SplashActivity.this,false);
+                        MainActivity.start(SplashActivity.this, false);
                         finish();
                     }
                 } else if ("MainActivity".equals(activitySkip.getmActivity())) {
-                    MainActivity.start(SplashActivity.this,false);
+                    MainActivity.start(SplashActivity.this, false);
                     finish();
                 }
             }

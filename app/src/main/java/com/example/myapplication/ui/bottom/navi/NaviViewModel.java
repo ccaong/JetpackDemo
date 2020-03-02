@@ -8,6 +8,7 @@ import com.example.myapplication.http.data.HttpDisposable;
 import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.HttpRequest;
 import com.example.myapplication.util.CommonUtils;
+import com.example.myapplication.util.NetworkUtils;
 
 import java.util.List;
 
@@ -39,7 +40,11 @@ public class NaviViewModel extends BaseViewModel {
     }
 
     public void loadNavigationData() {
-
+        //判断网络
+        if (!NetworkUtils.isConnected()) {
+            loadState.postValue(LoadState.NO_NETWORK);
+            return;
+        }
         loadState.postValue(LoadState.LOADING);
         HttpRequest.getInstance()
                 .getNavigationBean()

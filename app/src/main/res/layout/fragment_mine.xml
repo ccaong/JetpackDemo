@@ -166,7 +166,7 @@
                     android:layout_height="wrap_content"
                     android:drawableLeft="@mipmap/ic_mine_share"
                     android:drawablePadding="@dimen/dimen_16"
-                    android:onClick="@{()->mineFragment.startCollectFragment()}"
+                    android:onClick="@{()->mineFragment.startShareFragment()}"
                     android:text="@string/my_share" />
 
                 <TextView
