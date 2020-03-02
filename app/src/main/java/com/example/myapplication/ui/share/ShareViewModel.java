@@ -86,6 +86,8 @@ public class ShareViewModel extends BaseViewModel {
      * 第一次加载数据
      */
     public void loadData() {
+        loadState.postValue(LoadState.LOADING);
+
         mPage = 0;
         mRefresh = false;
         loadArticleList();
@@ -101,7 +103,6 @@ public class ShareViewModel extends BaseViewModel {
             loadState.postValue(LoadState.NO_NETWORK);
             return;
         }
-        loadState.postValue(LoadState.LOADING);
 
         loadWeChatArticleList();
     }

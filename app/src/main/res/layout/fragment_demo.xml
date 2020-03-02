@@ -1,43 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:material="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar_layout"
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.myapplication.ui.share.ShareViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            material:contentScrim="?attr/colorPrimary"
-            material:layout_scrollFlags="scroll|exitUntilCollapsed">
+            android:layout_height="250dp">
 
-            <ImageView
-                android:id="@+id/cat_image_view"
+            <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                material:layout_collapseMode="parallax" />
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:contentScrim="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    app:layout_collapseMode="parallax">
+
+                    <com.example.myapplication.ui.view.CircleImageView
+                        android:id="@+id/iv_header"
+                        android:layout_width="@dimen/dimen_100"
+                        android:layout_height="@dimen/dimen_100"
+                        android:scaleType="fitXY"
+                        android:src="@mipmap/ic_logo"
+                        android:layout_marginTop="@dimen/dimen_24"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="parent"
+                        app:loadImageWithError="@{viewModel.userHeader}" />
+
+                    <TextView
+                        android:id="@+id/tv_user_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin"
+                        android:text="@{viewModel.userInfo.username}"
+                        android:textColor="@color/color_white"
+                        android:textSize="@dimen/text_18"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/iv_header"
+                        tools:text="@string/user_name" />
+
+                    <TextView
+                        android:id="@+id/tv_user_leave"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dimen_8"
+                        android:background="@drawable/shape_label_green"
+                        android:textColor="@color/color_78c257"
+                        android:textSize="@dimen/text_10"
+                        app:coinLeave="@{viewModel.userInfo.level}"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_user_name"
+                        app:layout_constraintLeft_toRightOf="@+id/tv_user_name"
+                        tools:text="LV 8" />
+
+
+                    <TextView
+                        android:id="@+id/tv_integral"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin"
+                        android:text="@string/integral"
+                        android:textColor="@color/color_white"
+                        android:textSize="@dimen/text_12"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toLeftOf="@+id/tv_user_integral"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_user_name" />
+
+                    <TextView
+                        android:id="@+id/tv_user_integral"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dimen_8"
+                        android:text="@{viewModel.userInfo.coinCount}"
+                        android:textColor="@color/color_white"
+                        android:textSize="@dimen/text_12"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_integral"
+                        app:layout_constraintLeft_toRightOf="@+id/tv_integral"
+                        app:layout_constraintRight_toLeftOf="@+id/tv_rank"
+                        tools:text="20分" />
+
+                    <TextView
+                        android:id="@+id/tv_rank"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dimen_8"
+                        android:text="@string/rank"
+                        android:textColor="@color/color_white"
+                        android:textSize="@dimen/text_12"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_integral"
+                        app:layout_constraintLeft_toRightOf="@+id/tv_user_integral"
+                        app:layout_constraintRight_toLeftOf="@+id/tv_user_rank" />
+
+                    <TextView
+                        android:id="@+id/tv_user_rank"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dimen_8"
+                        android:textColor="@color/color_white"
+                        android:textSize="@dimen/text_12"
+                        app:int2String="@{viewModel.userInfo.rank}"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_integral"
+                        app:layout_constraintLeft_toRightOf="@+id/tv_rank"
+                        app:layout_constraintRight_toRightOf="parent"
+                        tools:text="202" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <com.cjj.MaterialRefreshLayout
+            android:id="@+id/mrl_refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:isLoadMore="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:refreshState="@{viewModel.refreshState}">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycle"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                material:layout_collapseMode="pin" />
+                android:layout_height="match_parent" />
+        </com.cjj.MaterialRefreshLayout>
 
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        material:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

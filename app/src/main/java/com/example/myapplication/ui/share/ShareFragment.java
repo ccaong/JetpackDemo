@@ -9,17 +9,19 @@ import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
 import com.example.myapplication.base.ScrollToTop;
 import com.example.myapplication.common.Code;
+import com.example.myapplication.databinding.FragmentDemoBinding;
 import com.example.myapplication.databinding.FragmentShareBinding;
 import com.example.myapplication.http.bean.ArticleBean;
 import com.example.myapplication.http.bean.ArticleListBean;
 import com.example.myapplication.ui.activity.web.DetailsActivity;
 import com.example.myapplication.ui.adapter.CommonAdapter;
+import com.google.android.material.appbar.AppBarLayout;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-public class ShareFragment extends BaseFragment<FragmentShareBinding, ShareViewModel> implements ScrollToTop {
+public class ShareFragment extends BaseFragment<FragmentDemoBinding, ShareViewModel> implements ScrollToTop {
 
     private String headerPath;
     private int id;
@@ -38,7 +40,7 @@ public class ShareFragment extends BaseFragment<FragmentShareBinding, ShareViewM
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.fragment_share;
+        return R.layout.fragment_demo;
     }
 
     @Override
@@ -64,9 +66,25 @@ public class ShareFragment extends BaseFragment<FragmentShareBinding, ShareViewM
 
         mViewModel.loadData();
 
+        setAppBarLayoutListener();
         initRefreshLayout();
 
         initRecyclerView();
+    }
+
+    private void setAppBarLayoutListener() {
+        mDataBinding.appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (verticalOffset == 0) {
+                    //没有滚动，打开下拉刷新功能
+                    mDataBinding.mrlRefreshLayout.setEnabled(true);
+                } else {
+                    //关闭下拉刷新功能
+                    mDataBinding.mrlRefreshLayout.setEnabled(false);
+                }
+            }
+        });
     }
 
     /**
@@ -118,6 +136,9 @@ public class ShareFragment extends BaseFragment<FragmentShareBinding, ShareViewM
             public void onChanged(ArticleListBean articleListBean) {
                 if (articleListBean.getCurPage() >= articleListBean.getPageCount()) {
                     mDataBinding.mrlRefreshLayout.setLoadMore(false);
+                    View view = View.inflate(getContext(), R.layout.layout_no_more_data, null);
+                    mDataBinding.mrlRefreshLayout.setFooderView(view);
+
                 }
                 commonAdapter.onItemDatasChanged(articleListBean.getDatas());
             }

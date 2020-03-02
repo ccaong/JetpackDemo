@@ -99,5 +99,6 @@
     <string name="author">作者：</string>
 
     <string name="article">文章</string>
+    <string name="no_more_data">--  没有更多数据了  --</string>
 
 </resources>

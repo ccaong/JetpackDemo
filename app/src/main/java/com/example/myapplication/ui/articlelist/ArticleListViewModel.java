@@ -78,6 +78,8 @@ public class ArticleListViewModel extends BaseViewModel {
      * 第一次加载数据
      */
     public void loadData() {
+        loadState.postValue(LoadState.LOADING);
+
         mPage = 0;
         mRefresh = false;
         loadArticleList();
@@ -93,7 +95,6 @@ public class ArticleListViewModel extends BaseViewModel {
             loadState.postValue(LoadState.NO_NETWORK);
             return;
         }
-        loadState.postValue(LoadState.LOADING);
 
         if (mType == 0) {
             loadWeChatArticleList();
