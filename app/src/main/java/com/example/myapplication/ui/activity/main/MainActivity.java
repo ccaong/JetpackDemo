@@ -103,7 +103,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         drawer = mDataBinding.drawerLayout;
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_square, R.id.nav_send)
+                R.id.nav_home, R.id.nav_square, R.id.nav_about, R.id.nav_update)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

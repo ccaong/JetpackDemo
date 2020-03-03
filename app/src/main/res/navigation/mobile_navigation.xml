@@ -31,11 +31,17 @@
         tools:layout="@layout/fragment_share" />
 
     <fragment
-        android:id="@+id/nav_send"
+        android:id="@+id/nav_about"
         android:name="com.example.myapplication.ui.nav.about.AboutFragment"
         android:label="@string/menu_about"
         tools:layout="@layout/fragment_about" />
 
+
+    <fragment
+        android:id="@+id/nav_update"
+        android:name="com.example.myapplication.ui.nav.update.UpdateFragment"
+        android:label="@string/menu_update"
+        tools:layout="@layout/update_fragment" />
 
     <fragment
         android:id="@+id/navigation_dashboard"

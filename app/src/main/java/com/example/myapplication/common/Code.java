@@ -25,6 +25,7 @@ public final class Code {
         public static final String LOGIN_DATA = "login_data";
         public static final String COOKIE = "cookie";
         public static final String HEADER_IMAGE = "header_image";
+        public static final String SPLASH_IMAGE_URL = "splash_image_url";
 
     }
 

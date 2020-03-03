@@ -114,13 +114,14 @@
     <string name="project_address">项目地址</string>
     <string name="github_address">https://github.com/ccaong/JetpackDemo</string>
 
+    <string name="check_update">检查更新</string>
     <string name="update_plan">更新计划</string>
     <string name="update_plan_1">添加room数据库，实现部分数据的离线存储功能；</string>
-    <string name="update_plan_2">使用paging，完善列表分页功能</string>
-    <string name="update_plan_3">使用paging，实现列表分页功能</string>
-    <string name="update_plan_4">使用paging，实现列表分页功能</string>
-    <string name="update_plan_5">使用paging，实现列表分页功能</string>
-    <string name="update_plan_6">使用paging，实现列表分页功能</string>
+    <string name="update_plan_2">使用paging，完善列表分页功能；</string>
+    <string name="update_plan_3">实现WanAndroid提供的所有API；</string>
+    <string name="update_plan_4">完成系统设置功能；</string>
+    <string name="update_plan_5">优化程序界面，完善app动画效果；</string>
+    <string name="update_plan_6">提供更换主题功能；</string>
 
     <string name="update_record">更新记录</string>
     <string name="update_record_1">2020-03-03 V1.0 第一版本；</string>

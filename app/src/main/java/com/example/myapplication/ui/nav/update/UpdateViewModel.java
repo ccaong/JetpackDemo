@@ -1,14 +1,14 @@
 package com.example.myapplication.ui.nav.update;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import com.example.myapplication.R;
 import com.example.myapplication.base.viewmodel.BaseViewModel;
 import com.example.myapplication.entity.UpdatePlan;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 
 public class UpdateViewModel extends BaseViewModel {
@@ -24,7 +24,6 @@ public class UpdateViewModel extends BaseViewModel {
     public LiveData<List<UpdatePlan>> getUpdateList() {
         return updatePlanList;
     }
-
 
     private void initUpdatePlanList() {
         List<UpdatePlan> mList = new ArrayList<>();

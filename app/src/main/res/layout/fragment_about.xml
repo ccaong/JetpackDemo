@@ -54,6 +54,13 @@
                 android:layout_height="match_parent"
                 android:paddingHorizontal="@dimen/dimen_16">
 
+                <ImageView
+                    android:id="@+id/iv_bg"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY" />
 
                 <ImageView
                     android:id="@+id/iv_header"
@@ -66,11 +73,11 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_app"
+                    android:id="@+id/tv_author"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin"
-                    android:text="@string/app_name"
+                    android:text="@string/author"
                     android:textColor="@color/text_black_87"
                     android:textSize="@dimen/text_18"
                     app:layout_constraintHorizontal_chainStyle="packed"
@@ -83,15 +90,11 @@
                     android:id="@+id/tv_version"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dimen_8"
-                    android:background="@drawable/shape_label_blue"
-                    android:text="V1.0"
-                    android:textColor="@color/color_1452a8"
-                    android:textSize="@dimen/text_12"
-                    app:layout_constraintBottom_toBottomOf="@+id/tv_app"
-                    app:layout_constraintLeft_toRightOf="@+id/tv_app"
+                    android:text="CCAONG"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_author"
+                    app:layout_constraintLeft_toRightOf="@+id/tv_author"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tv_app" />
+                    app:layout_constraintTop_toTopOf="@+id/tv_author" />
 
 
                 <TextView
@@ -110,7 +113,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/brief_introduction"
-
                     android:textColor="@color/text_black_54"
                     app:layout_constraintBottom_toBottomOf="@+id/project_introduction"
                     app:layout_constraintRight_toRightOf="parent"
@@ -162,18 +164,27 @@
                     android:id="@+id/tv_thank"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin"
+                    android:layout_marginTop="@dimen/dimen_24"
                     android:text="@string/thank"
                     android:textColor="@color/text_black_87"
                     android:textSize="@dimen/text_16"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/project_address" />
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin"
+                    android:src="@mipmap/ic_github"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_thank"
+                    app:layout_constraintLeft_toRightOf="@+id/tv_thank"
+                    app:layout_constraintTop_toTopOf="@+id/tv_thank" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_thank" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

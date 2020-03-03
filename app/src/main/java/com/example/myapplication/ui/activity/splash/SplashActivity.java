@@ -6,12 +6,14 @@ import com.bumptech.glide.Glide;
 import com.example.myapplication.App;
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseActivity;
+import com.example.myapplication.common.Code;
 import com.example.myapplication.databinding.ActivitySplashBinding;
 import com.example.myapplication.entity.livedata.ActivitySkip;
 import com.example.myapplication.http.bean.ImageBean;
 import com.example.myapplication.ui.activity.main.MainActivity;
 import com.example.myapplication.ui.activity.web.DetailsActivity;
 import com.example.myapplication.util.CommonUtils;
+import com.orhanobut.hawk.Hawk;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
@@ -58,11 +60,14 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding, SplashVi
             @Override
             public void onChanged(ImageBean imageBean) {
 
+                String url = imageBean.getImages().get(0).getBaseUrl()
+                        + imageBean.getImages().get(0).getUrl();
                 if (imageBean != null) {
                     Glide.with(SplashActivity.this)
-                            .load(imageBean.getImages().get(0).getBaseUrl()
-                                    + imageBean.getImages().get(0).getUrl())
+                            .load(url)
                             .into(mDataBinding.ivSplash);
+
+                    Hawk.put(Code.HawkCode.SPLASH_IMAGE_URL, url);
                 } else {
                     //从网络获取图片失败，加载本地默认图片
                     Glide.with(SplashActivity.this)

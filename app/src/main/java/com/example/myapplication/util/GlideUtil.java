@@ -8,6 +8,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.myapplication.App;
 import com.example.myapplication.R;
 
+import jp.wasabeef.glide.transformations.BlurTransformation;
+
 /**
  * @author : devel
  * @date : 2020/2/28 16:50
@@ -25,6 +27,14 @@ public class GlideUtil {
         Glide.with(App.getContext())
                 .load(url)
                 .apply(options)
+                .into(imageView);
+    }
+
+
+    public static void loadImageWithGoss(ImageView imageView, String url) {
+        Glide.with(App.getContext())
+                .load(url)
+                .apply(RequestOptions.bitmapTransform(new BlurTransformation(25, 3)))
                 .into(imageView);
     }
 }

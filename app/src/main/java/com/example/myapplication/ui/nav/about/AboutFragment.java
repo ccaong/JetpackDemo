@@ -5,10 +5,13 @@ import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
+import com.example.myapplication.common.Code;
 import com.example.myapplication.databinding.FragmentAboutBinding;
 import com.example.myapplication.entity.GitHubProject;
 import com.example.myapplication.ui.activity.web.DetailsActivity;
 import com.example.myapplication.ui.adapter.CommonAdapter;
+import com.example.myapplication.util.GlideUtil;
+import com.orhanobut.hawk.Hawk;
 import com.scwang.smart.refresh.header.listener.OnTwoLevelListener;
 import com.scwang.smart.refresh.layout.api.RefreshFooter;
 import com.scwang.smart.refresh.layout.api.RefreshHeader;
@@ -45,6 +48,8 @@ public class AboutFragment extends BaseFragment<FragmentAboutBinding, AboutViewM
     protected void init() {
         initRefreshLayout();
         initRecyclerView();
+
+//        GlideUtil.loadImageWithGoss(mDataBinding.ivBg, Hawk.get(Code.HawkCode.SPLASH_IMAGE_URL));
     }
 
 
@@ -56,7 +61,7 @@ public class AboutFragment extends BaseFragment<FragmentAboutBinding, AboutViewM
         mDataBinding.refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                mDataBinding.refreshLayout.finishRefresh(2000);
+                mDataBinding.refreshLayout.finishRefresh(1000);
             }
         });
 
@@ -129,7 +134,6 @@ public class AboutFragment extends BaseFragment<FragmentAboutBinding, AboutViewM
                 return true;
             }
         });
-
     }
 
     private void initRecyclerView() {
