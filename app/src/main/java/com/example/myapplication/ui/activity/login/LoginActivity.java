@@ -8,7 +8,6 @@ import com.example.myapplication.R;
 import com.example.myapplication.base.BaseActivity;
 import com.example.myapplication.databinding.ActivityLoginBinding;
 import com.example.myapplication.http.bean.LoginBean;
-import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.ui.activity.main.MainActivity;
 import com.example.myapplication.ui.adapter.FmPagerAdapter;
 

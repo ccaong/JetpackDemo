@@ -8,11 +8,11 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
 
-import com.example.myapplication.ui.activity.main.MainActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseActivity;
 import com.example.myapplication.common.Code;
 import com.example.myapplication.databinding.ActivityDetailsBinding;
+import com.example.myapplication.ui.activity.main.MainActivity;
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.WebChromeClient;
 

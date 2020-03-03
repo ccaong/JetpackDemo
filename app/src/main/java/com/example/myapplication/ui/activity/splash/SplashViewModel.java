@@ -4,7 +4,6 @@ import com.example.myapplication.R;
 import com.example.myapplication.base.viewmodel.BaseViewModel;
 import com.example.myapplication.entity.livedata.ActivitySkip;
 import com.example.myapplication.http.bean.ImageBean;
-import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.http.data.HttpDisposable;
 import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.HttpRequest;
@@ -22,7 +21,6 @@ import androidx.lifecycle.MutableLiveData;
 import io.reactivex.Observable;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author : devel

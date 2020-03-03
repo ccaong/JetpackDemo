@@ -22,22 +22,22 @@
     <item android:title="@string/todo_other">
 
         <menu>
-        <item
-            android:id="@+id/nav_square"
-            android:icon="@mipmap/ic_nav_square"
-            android:title="@string/menu_square" />
+            <item
+                android:id="@+id/nav_square"
+                android:icon="@mipmap/ic_nav_square"
+                android:title="@string/menu_square" />
 
-        <item
-            android:id="@+id/nav_qa"
-            android:icon="@mipmap/ic_nav_qa"
-            android:title="@string/menu_qa" />
+            <item
+                android:id="@+id/nav_qa"
+                android:icon="@mipmap/ic_nav_qa"
+                android:title="@string/menu_qa" />
         </menu>
     </item>
 
     <item android:title="Communicate">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/nav_update"
                 android:icon="@mipmap/ic_nav_update"
                 android:title="@string/menu_update" />
             <item

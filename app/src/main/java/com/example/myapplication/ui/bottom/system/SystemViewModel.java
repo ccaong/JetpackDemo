@@ -3,19 +3,16 @@ package com.example.myapplication.ui.bottom.system;
 import com.example.myapplication.base.viewmodel.BaseViewModel;
 import com.example.myapplication.enums.LoadState;
 import com.example.myapplication.http.bean.WeChatBean;
-import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.http.data.HttpDisposable;
 import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.HttpRequest;
 import com.example.myapplication.util.CommonUtils;
 import com.example.myapplication.util.NetworkUtils;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
 import java.util.List;
 
-import io.reactivex.schedulers.Schedulers;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 /**
  * @author devel

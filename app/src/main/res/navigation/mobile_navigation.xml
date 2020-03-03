@@ -9,7 +9,7 @@
         android:id="@+id/nav_home"
         android:name="com.example.myapplication.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_list" />
 
     <fragment
         android:id="@+id/nav_collect"
@@ -32,9 +32,9 @@
 
     <fragment
         android:id="@+id/nav_send"
-        android:name="com.example.myapplication.ui.nav.send.SendFragment"
+        android:name="com.example.myapplication.ui.nav.about.AboutFragment"
         android:label="@string/menu_about"
-        tools:layout="@layout/fragment_send" />
+        tools:layout="@layout/fragment_about" />
 
 
     <fragment

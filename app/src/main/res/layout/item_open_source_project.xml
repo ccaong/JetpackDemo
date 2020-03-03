@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="OpenSource"
+            type="com.example.myapplication.entity.GitHubProject" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen_16"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_16"
+            android:text="@{OpenSource.name}"
+            android:textColor="@color/text_black_87"
+            tools:text="@string/thank_AgentWeb" />
+
+        <TextView
+            android:id="@+id/tv_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_8"
+            android:layout_marginTop="@dimen/dimen_4"
+            android:layout_marginRight="@dimen/dimen_16"
+            android:text="@{OpenSource.info}"
+            android:textColor="@color/text_black_54"
+            android:textSize="@dimen/text_12"
+            tools:text="@string/thank_AgentWeb_info" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/dimen_4"
+            android:background="@color/background" />
+    </LinearLayout>
+</layout>

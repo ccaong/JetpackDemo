@@ -1,8 +1,5 @@
 package com.example.myapplication.ui.nav.mine.coinrank;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
 import com.example.myapplication.base.viewmodel.BaseViewModel;
 import com.example.myapplication.enums.LoadState;
 import com.example.myapplication.http.bean.CoinRankBean;
@@ -15,7 +12,8 @@ import com.example.myapplication.util.NetworkUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.schedulers.Schedulers;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 /**
  * @author : devel

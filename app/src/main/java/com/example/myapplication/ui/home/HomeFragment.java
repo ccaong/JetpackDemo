@@ -1,37 +1,36 @@
 package com.example.myapplication.ui.home;
 
 import android.view.View;
-import android.widget.ImageView;
+
+import com.example.myapplication.R;
+import com.example.myapplication.base.BaseFragment;
+import com.example.myapplication.base.ScrollToTop;
+import com.example.myapplication.databinding.FragmentListBinding;
+import com.example.myapplication.http.bean.ArticleBean;
+import com.example.myapplication.http.bean.home.HomeData;
+import com.example.myapplication.ui.activity.web.DetailsActivity;
+import com.example.myapplication.ui.adapter.HomeAdapter;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
+import com.zhouwei.mzbanner.MZBannerView;
+
+import java.util.List;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.cjj.MaterialRefreshLayout;
-import com.cjj.MaterialRefreshListener;
-import com.example.myapplication.BR;
-import com.example.myapplication.R;
-import com.example.myapplication.base.BaseFragment;
-import com.example.myapplication.base.ScrollToTop;
-import com.example.myapplication.databinding.FragmentHomeBinding;
-import com.example.myapplication.http.bean.ArticleBean;
-import com.example.myapplication.http.bean.home.HomeData;
-import com.example.myapplication.ui.activity.web.DetailsActivity;
-import com.example.myapplication.ui.adapter.HomeAdapter;
-import com.zhouwei.mzbanner.MZBannerView;
-
-import java.util.List;
-
 /**
  * @author devel
  */
-public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewModel> implements ScrollToTop {
+public class HomeFragment extends BaseFragment<FragmentListBinding, HomeViewModel> implements ScrollToTop {
 
     HomeAdapter commonAdapter;
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.fragment_home;
+        return R.layout.fragment_list;
     }
 
     @Override
@@ -43,7 +42,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
     @Override
     protected void bindViewModel() {
-        mDataBinding.setViewModel(mViewModel);
     }
 
     @Override
@@ -60,15 +58,15 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     }
 
     private void initRefreshLayout() {
-        mDataBinding.mrlRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
-
+        mDataBinding.refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
+            public void onRefresh(RefreshLayout refreshlayout) {
                 mViewModel.refreshData(true);
             }
-
+        });
+        mDataBinding.refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
-            public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
+            public void onLoadMore(RefreshLayout refreshlayout) {
                 mViewModel.refreshData(false);
             }
         });
@@ -127,8 +125,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
             }
         };
-        mDataBinding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mDataBinding.recyclerView.setAdapter(commonAdapter);
+        mDataBinding.recycle.setLayoutManager(new LinearLayoutManager(getContext()));
+        mDataBinding.recycle.setAdapter(commonAdapter);
     }
 
     private void initDataChange() {
@@ -136,14 +134,14 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             @Override
             public void onChanged(List<HomeData> homeDataList) {
                 commonAdapter.onItemDatasChanged(homeDataList);
-                mDataBinding.mrlRefreshLayout.finishRefreshLoadMore();
-                mDataBinding.mrlRefreshLayout.finishRefresh();
+                mDataBinding.refreshLayout.finishRefresh();
+                mDataBinding.refreshLayout.finishLoadMore();
             }
         });
     }
 
     @Override
     public void scrollToTop() {
-        mDataBinding.recyclerView.smoothScrollToPosition(0);
+        mDataBinding.recycle.smoothScrollToPosition(0);
     }
 }

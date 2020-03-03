@@ -9,7 +9,6 @@ import com.example.myapplication.base.BaseActivity;
 import com.example.myapplication.databinding.ActivitySplashBinding;
 import com.example.myapplication.entity.livedata.ActivitySkip;
 import com.example.myapplication.http.bean.ImageBean;
-import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.ui.activity.main.MainActivity;
 import com.example.myapplication.ui.activity.web.DetailsActivity;
 import com.example.myapplication.util.CommonUtils;

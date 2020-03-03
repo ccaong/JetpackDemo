@@ -1,13 +1,7 @@
 package com.example.myapplication.ui.nav.collect;
 
-import android.util.Log;
-
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
 import com.example.myapplication.base.viewmodel.BaseViewModel;
 import com.example.myapplication.enums.LoadState;
-import com.example.myapplication.enums.RefreshState;
 import com.example.myapplication.http.bean.CollectArticleBean;
 import com.example.myapplication.http.data.HttpDisposable;
 import com.example.myapplication.http.request.HttpFactory;
@@ -18,6 +12,8 @@ import com.example.myapplication.util.NetworkUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import retrofit2.Response;
 
 /**
@@ -107,8 +103,6 @@ public class CollectViewModel extends BaseViewModel {
                                 mList.addAll(mArticleListBean.getDatas());
                                 mArticleList.postValue(mArticleListBean);
 
-                                //设置刷新状态
-                                refreshState.postValue(RefreshState.REFRESH_END);
 
                             } else {
                                 //下拉加载更多成功
@@ -116,8 +110,6 @@ public class CollectViewModel extends BaseViewModel {
                                 mList.addAll(mArticleListBean.getDatas());
                                 mArticleListBean.setDatas(mList);
                                 mArticleList.postValue(mArticleListBean);
-                                //设置刷新状态
-                                refreshState.postValue(RefreshState.LOAD_MORE_END);
                             }
                         } else {
                             loadState.postValue(LoadState.ERROR);

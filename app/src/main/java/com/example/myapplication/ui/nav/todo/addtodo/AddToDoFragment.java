@@ -6,7 +6,6 @@ import android.widget.Toast;
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
 import com.example.myapplication.databinding.AddToDoFragmentBinding;
-import com.example.myapplication.http.data.HttpBaseResponse;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;

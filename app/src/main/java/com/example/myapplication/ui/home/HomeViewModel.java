@@ -9,7 +9,6 @@ import com.example.myapplication.http.bean.ArticleListBean;
 import com.example.myapplication.http.bean.HomeBanner;
 import com.example.myapplication.http.bean.home.BannerData;
 import com.example.myapplication.http.bean.home.HomeData;
-import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.http.data.HttpDisposable;
 import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.HttpRequest;
@@ -20,8 +19,6 @@ import java.util.List;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author devel

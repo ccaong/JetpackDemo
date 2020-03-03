@@ -1,8 +1,6 @@
 package com.example.myapplication.ui.activity.web;
 
 
-import androidx.annotation.NonNull;
-
 import com.example.myapplication.base.viewmodel.BaseViewModel;
 
 /**

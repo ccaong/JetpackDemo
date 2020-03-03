@@ -2,7 +2,6 @@ package com.example.myapplication.ui.share;
 
 import com.example.myapplication.base.viewmodel.BaseViewModel;
 import com.example.myapplication.enums.LoadState;
-import com.example.myapplication.enums.RefreshState;
 import com.example.myapplication.http.bean.ArticleBean;
 import com.example.myapplication.http.bean.ArticleListBean;
 import com.example.myapplication.http.bean.UserShareArticleBean;
@@ -129,8 +128,6 @@ public class ShareViewModel extends BaseViewModel {
                                 mList.addAll(mArticleListBean.getShareArticles().getDatas());
                                 mArticleList.postValue(mArticleListBean.getShareArticles());
 
-                                //设置刷新状态
-                                refreshState.postValue(RefreshState.REFRESH_END);
 
                             } else {
                                 //下拉加载更多成功
@@ -138,8 +135,6 @@ public class ShareViewModel extends BaseViewModel {
                                 mList.addAll(mArticleListBean.getShareArticles().getDatas());
                                 mArticleListBean.getShareArticles().setDatas(mList);
                                 mArticleList.postValue(mArticleListBean.getShareArticles());
-                                //设置刷新状态
-                                refreshState.postValue(RefreshState.LOAD_MORE_END);
                             }
                         } else {
                             loadState.postValue(LoadState.NO_DATA);

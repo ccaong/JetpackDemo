@@ -3,12 +3,6 @@ package com.example.myapplication.ui.nav.collect;
 import android.view.View;
 import android.widget.ImageView;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
-import com.cjj.MaterialRefreshLayout;
-import com.cjj.MaterialRefreshListener;
 import com.example.myapplication.BR;
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
@@ -16,6 +10,13 @@ import com.example.myapplication.databinding.FragmentListBinding;
 import com.example.myapplication.http.bean.CollectArticleBean;
 import com.example.myapplication.ui.activity.web.DetailsActivity;
 import com.example.myapplication.ui.adapter.CommonAdapter;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
+
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 /**
  * @author devel
@@ -53,14 +54,15 @@ public class CollectFragment extends BaseFragment<FragmentListBinding, CollectVi
     }
 
     private void initRefreshLayout() {
-        mDataBinding.mrlRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
+        mDataBinding.refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
+            public void onRefresh(RefreshLayout refreshlayout) {
                 mViewModel.refreshData(true);
             }
-
+        });
+        mDataBinding.refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
-            public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
+            public void onLoadMore(RefreshLayout refreshlayout) {
                 mViewModel.refreshData(false);
             }
         });
@@ -98,14 +100,14 @@ public class CollectFragment extends BaseFragment<FragmentListBinding, CollectVi
             public void onChanged(CollectArticleBean collectArticleBean) {
 
                 if (collectArticleBean.getCurPage() >= collectArticleBean.getPageCount()) {
-                    mDataBinding.mrlRefreshLayout.setLoadMore(false);
+                    mDataBinding.refreshLayout.finishLoadMoreWithNoMoreData();
                 }
+                mDataBinding.refreshLayout.finishRefresh();
+                mDataBinding.refreshLayout.finishLoadMore();
 
                 if (commonAdapter != null) {
                     commonAdapter.onItemDatasChanged(collectArticleBean.getDatas());
                 }
-                mDataBinding.mrlRefreshLayout.finishRefresh();
-                mDataBinding.mrlRefreshLayout.finishRefreshLoadMore();
             }
         });
     }

@@ -71,7 +71,9 @@ android {
         implementation 'com.github.pinguo-zhouwei:MZBannerView:v2.0.0'
 
         //下拉刷新
-        implementation 'com.cjj.materialrefeshlayout:library:1.3.0'
+        implementation 'com.scwang.smart:refresh-layout-kernel:2.0.0-alpha-1'      //核心必须依赖
+        implementation 'com.scwang.smart:refresh-header-classics:2.0.0-alpha-1'
+        implementation  'com.scwang.smart:refresh-header-two-level:2.0.0-alpha-1'   //二级刷新头
 
         //agentweb (WebView)
         implementation 'com.just.agentweb:agentweb:4.1.2'
@@ -82,8 +84,6 @@ android {
         //PopTabView 条件筛选view
         implementation 'me.ccj.PopsTabView:poptabview_lib:1.5.0'
 
-        //FlowLayout 标签布局
-        implementation 'com.hyman:flowlayout-lib:1.1.2'
         // 流式布局
         implementation 'com.google.android:flexbox:2.0.1'
         //竖向TabLayout

@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
-import com.cjj.MaterialRefreshLayout;
 import com.example.myapplication.App;
 import com.example.myapplication.R;
 import com.example.myapplication.base.adapter.BasePagerAdapter;
@@ -29,7 +28,6 @@ import androidx.annotation.RequiresApi;
 import androidx.databinding.BindingAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import q.rorbin.verticaltablayout.VerticalTabLayout;
 import q.rorbin.verticaltablayout.adapter.SimpleTabAdapter;
@@ -57,45 +55,6 @@ public class BindingAdapterUtil {
         if (adapter instanceof BasePagerAdapter) {
             BasePagerAdapter basePagerAdapter = (BasePagerAdapter) adapter;
             basePagerAdapter.setDataList(dataList);
-        }
-    }
-
-    /**
-     * 设置RefreshLayout的刷新状态
-     *
-     * @param refreshLayout RefreshLayout
-     * @param refreshState  刷新状态
-     */
-    @BindingAdapter("refreshState")
-    public static void setRefreshState(MaterialRefreshLayout refreshLayout, RefreshState refreshState) {
-        if (refreshState == null) {
-            return;
-        }
-        switch (refreshState) {
-            case REFRESH_END:
-                refreshLayout.finishRefresh();
-                break;
-
-            case LOAD_MORE_END:
-                refreshLayout.finishRefreshLoadMore();
-                break;
-
-            default:
-                break;
-        }
-    }
-
-
-    /**
-     * 设置RefreshLayout的加载更多
-     *
-     * @param refreshLayout RefreshLayout
-     * @param hasMore       true表示还有更多，false表示没有更多了
-     */
-    @BindingAdapter("hasMore")
-    public static void setHasMore(MaterialRefreshLayout refreshLayout, Boolean hasMore) {
-        if (hasMore != null) {
-            refreshLayout.setLoadMore(hasMore);
         }
     }
 

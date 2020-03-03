@@ -2,26 +2,10 @@ package com.example.myapplication.base;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
-
-import com.cjj.MaterialRefreshLayout;
 import com.example.myapplication.R;
 import com.example.myapplication.base.viewmodel.BaseViewModel;
 import com.example.myapplication.databinding.FragmentBaseBinding;
@@ -30,11 +14,16 @@ import com.example.myapplication.databinding.ViewLoadingBinding;
 import com.example.myapplication.databinding.ViewNoDataBinding;
 import com.example.myapplication.databinding.ViewNoNetworkBinding;
 import com.example.myapplication.enums.LoadState;
-import com.example.myapplication.enums.RefreshState;
-import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.manager.MyActivityManager;
 import com.example.myapplication.ui.activity.login.LoginActivity;
 import com.example.myapplication.ui.activity.main.MainActivity;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 
 
 /**
@@ -47,7 +36,6 @@ import com.example.myapplication.ui.activity.main.MainActivity;
 public abstract class BaseFragment<DB extends ViewDataBinding, VM extends BaseViewModel>
         extends Fragment {
 
-    public MaterialRefreshLayout refreshLayout;
 
     protected DB mDataBinding;
 
@@ -89,8 +77,6 @@ public abstract class BaseFragment<DB extends ViewDataBinding, VM extends BaseVi
         bindViewModel();
         mDataBinding.setLifecycleOwner(this);
         initLoadState();
-
-        initRefreshState();
 
         initCollectState();
 
@@ -174,31 +160,6 @@ public abstract class BaseFragment<DB extends ViewDataBinding, VM extends BaseVi
         if (childCount > 1) {
             mFragmentBaseBinding.flContentContainer.removeViews(1, childCount - 1);
         }
-    }
-
-    private void initRefreshState() {
-        if (mViewModel == null) {
-            return;
-        }
-        mViewModel.refreshState.observe(getViewLifecycleOwner(), new Observer<RefreshState>() {
-            @Override
-            public void onChanged(RefreshState refreshState) {
-                // TODO: 2020/2/25  更新下拉刷新状态
-                if (refreshLayout == null) {
-                    return;
-                }
-                switch (refreshState) {
-                    case LOAD_MORE_END:
-                        refreshLayout.finishRefreshLoadMore();
-                        break;
-                    case REFRESH_END:
-                        refreshLayout.finishRefresh();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
     }
 
     private void initCollectState() {

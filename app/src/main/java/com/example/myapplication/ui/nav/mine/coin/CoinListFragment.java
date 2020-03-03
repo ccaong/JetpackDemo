@@ -1,14 +1,13 @@
 package com.example.myapplication.ui.nav.mine.coin;
 
-import android.widget.Toast;
-
-import com.cjj.MaterialRefreshLayout;
-import com.cjj.MaterialRefreshListener;
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
 import com.example.myapplication.databinding.FragmentListBinding;
 import com.example.myapplication.http.bean.CoinBean;
 import com.example.myapplication.ui.adapter.CommonAdapter;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -51,15 +50,15 @@ public class CoinListFragment extends BaseFragment<FragmentListBinding, CoinView
      * 下拉刷新
      */
     private void initRefreshLayout() {
-        mDataBinding.mrlRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
+        mDataBinding.refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
-                mDataBinding.mrlRefreshLayout.setLoadMore(true);
+            public void onRefresh(RefreshLayout refreshlayout) {
                 mViewModel.refreshData(true);
             }
-
+        });
+        mDataBinding.refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
-            public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
+            public void onLoadMore(RefreshLayout refreshlayout) {
                 mViewModel.refreshData(false);
             }
         });
@@ -75,14 +74,12 @@ public class CoinListFragment extends BaseFragment<FragmentListBinding, CoinView
             @Override
             public void onChanged(CoinBean coinBean) {
                 if (coinBean.getCurPage() >= coinBean.getPageCount()) {
-                    mDataBinding.mrlRefreshLayout.setLoadMore(false);
-                    mDataBinding.mrlRefreshLayout.finishRefreshLoadMore();
-                    Toast.makeText(getContext(), "没有更多数据了", Toast.LENGTH_SHORT).show();
-                    return;
+                    mDataBinding.refreshLayout.finishLoadMoreWithNoMoreData();
                 }
+                mDataBinding.refreshLayout.finishRefresh();
+                mDataBinding.refreshLayout.finishLoadMore();
+
                 commonAdapter.onItemDatasChanged(coinBean.getDatas());
-                mDataBinding.mrlRefreshLayout.finishRefresh();
-                mDataBinding.mrlRefreshLayout.finishRefreshLoadMore();
             }
         });
 

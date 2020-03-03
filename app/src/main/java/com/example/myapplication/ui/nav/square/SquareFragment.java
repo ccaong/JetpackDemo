@@ -3,8 +3,6 @@ package com.example.myapplication.ui.nav.square;
 import android.os.Bundle;
 import android.view.View;
 
-import com.cjj.MaterialRefreshLayout;
-import com.cjj.MaterialRefreshListener;
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
 import com.example.myapplication.base.ScrollToTop;
@@ -14,6 +12,9 @@ import com.example.myapplication.http.bean.ArticleBean;
 import com.example.myapplication.http.bean.ArticleListBean;
 import com.example.myapplication.ui.activity.web.DetailsActivity;
 import com.example.myapplication.ui.adapter.CommonAdapter;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -44,8 +45,6 @@ public class SquareFragment extends BaseFragment<FragmentListBinding, SquareView
 
     @Override
     protected void init() {
-        refreshLayout = mDataBinding.mrlRefreshLayout;
-
         mViewModel.loadData();
 
         initRefreshLayout();
@@ -57,15 +56,15 @@ public class SquareFragment extends BaseFragment<FragmentListBinding, SquareView
      * 下拉刷新
      */
     private void initRefreshLayout() {
-        mDataBinding.mrlRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
+        mDataBinding.refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
-                mDataBinding.mrlRefreshLayout.setLoadMore(true);
+            public void onRefresh(RefreshLayout refreshlayout) {
                 mViewModel.refreshData(true);
             }
-
+        });
+        mDataBinding.refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
-            public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
+            public void onLoadMore(RefreshLayout refreshlayout) {
                 mViewModel.refreshData(false);
             }
         });
@@ -109,8 +108,10 @@ public class SquareFragment extends BaseFragment<FragmentListBinding, SquareView
             @Override
             public void onChanged(ArticleListBean articleListBean) {
                 if (articleListBean.getCurPage() >= articleListBean.getPageCount()) {
-                    mDataBinding.mrlRefreshLayout.setLoadMore(false);
+                    mDataBinding.refreshLayout.finishLoadMoreWithNoMoreData();
                 }
+                mDataBinding.refreshLayout.finishRefresh();
+                mDataBinding.refreshLayout.finishLoadMore();
                 commonAdapter.onItemDatasChanged(articleListBean.getDatas());
             }
         });

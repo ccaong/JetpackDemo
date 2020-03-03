@@ -4,16 +4,15 @@ import android.os.Bundle;
 import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.fragment.NavHostFragment;
-
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
 import com.example.myapplication.common.Code;
 import com.example.myapplication.databinding.FragmentToDoContentBinding;
 import com.example.myapplication.http.bean.ToDoListBean;
+
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 
 /**
  * @author devel

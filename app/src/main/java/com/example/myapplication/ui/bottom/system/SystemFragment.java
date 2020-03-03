@@ -3,8 +3,6 @@ package com.example.myapplication.ui.bottom.system;
 import android.os.Bundle;
 import android.view.View;
 
-import com.cjj.MaterialRefreshLayout;
-import com.cjj.MaterialRefreshListener;
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
 import com.example.myapplication.base.ScrollToTop;
@@ -12,6 +10,8 @@ import com.example.myapplication.common.Code;
 import com.example.myapplication.databinding.FragmentListBinding;
 import com.example.myapplication.http.bean.WeChatBean;
 import com.example.myapplication.ui.adapter.SystemAdapter;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import java.io.Serializable;
 import java.util.List;
@@ -50,7 +50,6 @@ public class SystemFragment extends BaseFragment<FragmentListBinding, SystemView
 
     @Override
     protected void init() {
-        mDataBinding.mrlRefreshLayout.setLoadMore(false);
 
         mViewModel.loadData();
 
@@ -62,9 +61,11 @@ public class SystemFragment extends BaseFragment<FragmentListBinding, SystemView
      * 下拉刷新
      */
     private void initRefreshLayout() {
-        mDataBinding.mrlRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
+        mDataBinding.refreshLayout.setEnableLoadMore(false);
+
+        mDataBinding.refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
+            public void onRefresh(RefreshLayout refreshlayout) {
                 mViewModel.refreshData();
             }
         });
@@ -106,7 +107,7 @@ public class SystemFragment extends BaseFragment<FragmentListBinding, SystemView
             @Override
             public void onChanged(List<WeChatBean> systemList) {
                 commonAdapter.onItemDatasChanged(systemList);
-                mDataBinding.mrlRefreshLayout.finishRefresh();
+                mDataBinding.refreshLayout.finishRefresh();
             }
         });
     }

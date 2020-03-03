@@ -1,9 +1,8 @@
 package com.example.myapplication.ui.bottom.wechat;
 
 import com.example.myapplication.base.viewmodel.BaseViewModel;
-import com.example.myapplication.http.bean.WeChatBean;
 import com.example.myapplication.enums.LoadState;
-import com.example.myapplication.http.data.HttpBaseResponse;
+import com.example.myapplication.http.bean.WeChatBean;
 import com.example.myapplication.http.data.HttpDisposable;
 import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.HttpRequest;
@@ -14,7 +13,6 @@ import java.util.List;
 
 import androidx.databinding.ObservableArrayList;
 import androidx.databinding.ObservableList;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author devel

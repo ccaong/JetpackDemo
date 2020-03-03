@@ -6,7 +6,6 @@ import android.widget.Toast;
 
 import com.example.myapplication.App;
 import com.example.myapplication.base.viewmodel.BaseViewModel;
-import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.http.data.HttpDisposable;
 import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.HttpRequest;
@@ -17,8 +16,6 @@ import java.util.Calendar;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-
-import io.reactivex.schedulers.Schedulers;
 
 
 /**

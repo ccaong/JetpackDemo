@@ -13,13 +13,6 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="RefreshLayoutStyle">
-        <item name="overlay">true</item>
-        <item name="wave_show">true</item>
-        <item name="wave_color">@android:color/transparent</item>
-        <item name="progress_colors">@array/progress_colors</item>
-    </style>
-
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

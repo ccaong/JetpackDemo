@@ -1,33 +1,22 @@
 package com.example.myapplication.ui.bottom.project;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
 import com.example.myapplication.base.ScrollToTop;
 import com.example.myapplication.common.Code;
-import com.example.myapplication.databinding.FragmentListBinding;
 import com.example.myapplication.databinding.FragmentProjectViewPagerBinding;
-import com.example.myapplication.databinding.FragmentViewPagerBinding;
 import com.example.myapplication.http.bean.WeChatBean;
-import com.example.myapplication.ui.adapter.ArticleListPagerAdapter;
 import com.example.myapplication.ui.adapter.FmPagerAdapter;
 import com.example.myapplication.ui.articlelist.ArticleListFragment;
-import com.example.myapplication.ui.bottom.wechat.WeChatViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 /**
  * @author devel

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.example.myapplication.ui.nav.todo.ToDoViewModel" />
@@ -16,22 +17,23 @@
 
         <com.ccj.poptabview.PopTabView
             android:id="@+id/pop_view"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_48"
             android:background="@drawable/bg_pop_view"
-            android:elevation="4dip"
-            android:layout_width="match_parent" />
+            android:elevation="4dip" />
 
-        <com.cjj.MaterialRefreshLayout
-            android:id="@+id/mrl_refresh_layout"
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:isLoadMore="true">
+            app:srlEnableLoadMore="true">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-        </com.cjj.MaterialRefreshLayout>
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
 
     </LinearLayout>
 </layout>

@@ -192,40 +192,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         return null;
     }
 
-    private void setNavigationView(NavigationView navigationView) {
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case R.id.nav_home:
-                        Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment).navigate(R.id.nav_home);
-                        break;
-                    case R.id.nav_collect:
-                        Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment).navigate(R.id.nav_collect);
-                        break;
-                    case R.id.toDoFragment:
-                        Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment).navigate(R.id.toDoFragment);
-                        break;
-                    case R.id.nav_square:
-                        Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment).navigate(R.id.nav_square);
-                        break;
-                    case R.id.nav_share:
-                        Toast.makeText(MainActivity.this, "nav_share", Toast.LENGTH_SHORT).show();
-                        break;
-                    case R.id.nav_send:
-                        Toast.makeText(MainActivity.this, "nav_send", Toast.LENGTH_SHORT).show();
-                        break;
-                    default:
-
-                        break;
-                }
-                return false;
-            }
-        });
-
-    }
-
-
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

@@ -1,12 +1,8 @@
 package com.example.myapplication.ui.bottom.project;
 
-import androidx.databinding.ObservableArrayList;
-import androidx.databinding.ObservableList;
-
 import com.example.myapplication.base.viewmodel.BaseViewModel;
 import com.example.myapplication.enums.LoadState;
 import com.example.myapplication.http.bean.WeChatBean;
-import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.http.data.HttpDisposable;
 import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.HttpRequest;
@@ -17,7 +13,6 @@ import java.util.List;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author devel

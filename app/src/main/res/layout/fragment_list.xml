@@ -17,18 +17,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.cjj.MaterialRefreshLayout
-            android:id="@+id/mrl_refresh_layout"
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:refreshState="@{viewModel.refreshState}"
-            app:isLoadMore="true">
+            app:srlEnableLoadMore="true">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-        </com.cjj.MaterialRefreshLayout>
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

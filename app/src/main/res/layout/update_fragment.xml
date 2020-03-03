@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.myapplication.ui.nav.update.UpdateViewModel" />
+
+        <variable
+            name="fragment"
+            type="com.example.myapplication.ui.nav.update.UpdateFragment" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background"
+        android:paddingHorizontal="@dimen/dimen_16">
+
+        <ImageView
+            android:id="@+id/iv_header"
+            android:layout_width="@dimen/dimen_80"
+            android:layout_height="@dimen/dimen_80"
+            android:layout_marginTop="@dimen/dimen_24"
+            android:src="@mipmap/ic_logo"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_app"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin"
+            android:text="@string/app_name"
+            android:textColor="@color/text_black_87"
+            android:textSize="@dimen/text_18"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/tv_version"
+            app:layout_constraintTop_toBottomOf="@+id/iv_header" />
+
+
+        <TextView
+            android:id="@+id/tv_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_8"
+            android:background="@drawable/shape_label_blue"
+            android:text="V1.0"
+            android:textColor="@color/color_1452a8"
+            android:textSize="@dimen/text_12"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_app"
+            app:layout_constraintLeft_toRightOf="@+id/tv_app"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_app" />
+
+
+        <TextView
+            android:id="@+id/project_introduction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_48"
+            android:text="@string/project_introduction"
+            android:textColor="@color/text_black_87"
+            android:textSize="@dimen/text_16"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_version" />
+
+        <TextView
+            android:id="@+id/introduction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/brief_introduction"
+            android:textColor="@color/text_black_54"
+            app:layout_constraintBottom_toBottomOf="@+id/project_introduction"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/project_introduction" />
+
+
+        <TextView
+            android:id="@+id/project_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin"
+            android:text="@string/project_address"
+            android:textColor="@color/text_black_87"
+            android:textSize="@dimen/text_16"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/introduction" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/github_address"
+            android:textColor="@color/text_black_54"
+            android:textSize="@dimen/text_12"
+            app:layout_constraintBottom_toBottomOf="@+id/project_address"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/project_address" />
+
+
+        <TextView
+            android:id="@+id/tv_update_plan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin"
+            android:onClick="@{()->fragment.showUpdatePlan()}"
+            android:text="@string/update_plan"
+            android:textColor="@color/text_black_87"
+            android:textSize="@dimen/text_16"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/project_address" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_plan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_8"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_update_plan" />
+
+
+        <TextView
+            android:id="@+id/tv_update_record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin"
+            android:text="@string/update_record"
+            android:textColor="@color/text_black_87"
+            android:textSize="@dimen/text_16"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recycler_view_plan" />
+
+        <LinearLayout
+            android:id="@+id/ll_record"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_8"
+            android:layout_marginTop="@dimen/dimen_8"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_update_record"
+            app:layout_constraintTop_toBottomOf="@+id/tv_update_record">
+
+            <TextView
+                android:id="@+id/tv_plan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/update_record_1"
+                android:textColor="@color/text_black_54" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

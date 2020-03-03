@@ -2,7 +2,6 @@ package com.example.myapplication.ui.nav.square;
 
 import com.example.myapplication.base.viewmodel.BaseViewModel;
 import com.example.myapplication.enums.LoadState;
-import com.example.myapplication.enums.RefreshState;
 import com.example.myapplication.http.bean.ArticleBean;
 import com.example.myapplication.http.bean.ArticleListBean;
 import com.example.myapplication.http.data.HttpDisposable;
@@ -34,7 +33,6 @@ public class SquareViewModel extends BaseViewModel {
         return mArticleList;
     }
 
-
     /**
      * 刷新
      */
@@ -57,11 +55,12 @@ public class SquareViewModel extends BaseViewModel {
         loadData();
     }
 
-
     /**
      * 第一次加载数据
      */
     public void loadData() {
+        loadState.postValue(LoadState.LOADING);
+
         mPage = 0;
         mRefresh = false;
         loadArticleList();
@@ -72,20 +71,13 @@ public class SquareViewModel extends BaseViewModel {
      * 加载文章列表
      */
     private void loadArticleList() {
+
         //判断网络
         if (!NetworkUtils.isConnected()) {
             loadState.postValue(LoadState.NO_NETWORK);
             return;
         }
-        loadState.postValue(LoadState.LOADING);
 
-        loadWeChatArticleList();
-    }
-
-    /**
-     * 加载广场数据
-     */
-    private void loadWeChatArticleList() {
         HttpRequest.getInstance()
                 .getSquareArticleList(mPage)
                 .compose(HttpFactory.<ArticleListBean>schedulers())
@@ -102,18 +94,12 @@ public class SquareViewModel extends BaseViewModel {
                                 mList.clear();
                                 mList.addAll(mArticleListBean.getDatas());
                                 mArticleList.postValue(mArticleListBean);
-
-                                //设置刷新状态
-                                refreshState.postValue(RefreshState.REFRESH_END);
-
                             } else {
                                 //下拉加载更多成功
                                 //添加数据，设置下拉加载成功状态
                                 mList.addAll(mArticleListBean.getDatas());
                                 mArticleListBean.setDatas(mList);
                                 mArticleList.postValue(mArticleListBean);
-                                //设置刷新状态
-                                refreshState.postValue(RefreshState.LOAD_MORE_END);
                             }
                         } else {
                             loadState.postValue(LoadState.NO_DATA);

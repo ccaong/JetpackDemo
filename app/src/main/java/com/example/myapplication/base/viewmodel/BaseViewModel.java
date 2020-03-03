@@ -39,11 +39,6 @@ public abstract class BaseViewModel extends ViewModel implements DefaultLifecycl
     public MutableLiveData<Object> collect = new MutableLiveData<>();
 
     /**
-     * 刷新状态
-     */
-    public MutableLiveData<RefreshState> refreshState = new MutableLiveData<>();
-
-    /**
      * 加载状态
      */
     public MutableLiveData<LoadState> loadState = new MutableLiveData<>();

@@ -2,10 +2,8 @@ package com.example.myapplication.ui.articlelist;
 
 import com.example.myapplication.base.viewmodel.BaseViewModel;
 import com.example.myapplication.enums.LoadState;
-import com.example.myapplication.enums.RefreshState;
 import com.example.myapplication.http.bean.ArticleBean;
 import com.example.myapplication.http.bean.ArticleListBean;
-import com.example.myapplication.http.data.HttpBaseResponse;
 import com.example.myapplication.http.data.HttpDisposable;
 import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.HttpRequest;
@@ -17,10 +15,6 @@ import java.util.List;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
-
-import io.reactivex.schedulers.Schedulers;
-
-import static com.example.myapplication.http.request.HttpFactory.schedulers;
 
 /**
  * @author devel
@@ -121,15 +115,13 @@ public class ArticleListViewModel extends BaseViewModel {
                         if (mArticleListBean != null) {
                             loadState.postValue(LoadState.SUCCESS);
 
-                            if (mPage == 0) {
+                            if (mPage == 1) {
                                 //第一次加载或刷新成功
                                 //清空列表，重新载入数据，设置刷新成功状态
                                 mList.clear();
                                 mList.addAll(mArticleListBean.getDatas());
                                 mArticleList.postValue(mArticleListBean);
 
-                                //设置刷新状态
-                                refreshState.postValue(RefreshState.REFRESH_END);
 
                             } else {
                                 //下拉加载更多成功
@@ -137,8 +129,6 @@ public class ArticleListViewModel extends BaseViewModel {
                                 mList.addAll(mArticleListBean.getDatas());
                                 mArticleListBean.setDatas(mList);
                                 mArticleList.postValue(mArticleListBean);
-                                //设置刷新状态
-                                refreshState.postValue(RefreshState.LOAD_MORE_END);
                             }
                         } else {
                             loadState.postValue(LoadState.NO_DATA);
@@ -174,8 +164,6 @@ public class ArticleListViewModel extends BaseViewModel {
                                 mList.addAll(mArticleListBean.getDatas());
                                 mArticleList.postValue(mArticleListBean);
 
-                                //设置刷新状态
-                                refreshState.postValue(RefreshState.REFRESH_END);
 
                             } else {
                                 //下拉加载更多成功
@@ -183,8 +171,6 @@ public class ArticleListViewModel extends BaseViewModel {
                                 mList.addAll(mArticleListBean.getDatas());
                                 mArticleListBean.setDatas(mList);
                                 mArticleList.postValue(mArticleListBean);
-                                //设置刷新状态
-                                refreshState.postValue(RefreshState.LOAD_MORE_END);
                             }
                         } else {
                             loadState.postValue(LoadState.NO_DATA);
@@ -213,15 +199,13 @@ public class ArticleListViewModel extends BaseViewModel {
                         if (mArticleListBean != null) {
                             loadState.postValue(LoadState.SUCCESS);
 
-                            if (mPage == 0) {
+                            if (mPage == 1) {
                                 //第一次加载或刷新成功
                                 //清空列表，重新载入数据，设置刷新成功状态
                                 mList.clear();
                                 mList.addAll(mArticleListBean.getDatas());
                                 mArticleList.postValue(mArticleListBean);
 
-                                //设置刷新状态
-                                refreshState.postValue(RefreshState.REFRESH_END);
 
                             } else {
                                 //下拉加载更多成功
@@ -229,8 +213,6 @@ public class ArticleListViewModel extends BaseViewModel {
                                 mList.addAll(mArticleListBean.getDatas());
                                 mArticleListBean.setDatas(mList);
                                 mArticleList.postValue(mArticleListBean);
-                                //设置刷新状态
-                                refreshState.postValue(RefreshState.LOAD_MORE_END);
                             }
                         } else {
                             loadState.postValue(LoadState.NO_DATA);

@@ -1,12 +1,8 @@
 package com.example.myapplication.ui.nav.todo;
 
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
 import com.example.myapplication.base.viewmodel.BaseViewModel;
 import com.example.myapplication.enums.LoadState;
-import com.example.myapplication.enums.RefreshState;
 import com.example.myapplication.http.bean.ToDoListBean;
 import com.example.myapplication.http.data.HttpDisposable;
 import com.example.myapplication.http.request.HttpFactory;
@@ -16,6 +12,9 @@ import com.example.myapplication.util.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 /**
  * @author devel
@@ -94,31 +93,15 @@ public class ToDoViewModel extends BaseViewModel {
 
     public void setQueryType(int i) {
         this.queryType = new MutableLiveData<>(i);
-        mPage = 0;
+        mPage = 1;
         loadToDoList();
     }
 
     public void setQueryPriority(int i) {
         this.queryPriority = new MutableLiveData<>(i);
-        mPage = 0;
+        mPage = 1;
         loadToDoList();
     }
-
-
-    /**
-     * 设置选中的数据
-     *
-     * @param data
-     */
-//    public void setToDoData(ToDoListBean.ToDoData data) {
-//        this.toDoData.postValue(data);
-//
-//        status.postValue(data.getStatus());
-//        type.postValue(data.getType());
-//        priority.postValue(data.getPriority());
-//        title.postValue(data.getTitle());
-//        content.postValue(data.getContent());
-//    }
 
 
     public LiveData<ToDoListBean.ToDoData> getData() {
@@ -144,7 +127,7 @@ public class ToDoViewModel extends BaseViewModel {
      */
     public void refreshData(Boolean refresh) {
         if (refresh) {
-            mPage = 0;
+            mPage = 1;
         } else {
             mPage++;
         }
@@ -162,7 +145,7 @@ public class ToDoViewModel extends BaseViewModel {
      */
     public void loadToDoList() {
         loadState.postValue(LoadState.LOADING);
-        mPage = 0;
+        mPage = 1;
         mRefresh = false;
         loadData();
     }
@@ -191,16 +174,12 @@ public class ToDoViewModel extends BaseViewModel {
                         }
                         //设置加载状态
                         loadState.postValue(LoadState.SUCCESS);
-                        if (mPage == 0) {
-                            //设置刷新状态
-                            refreshState.postValue(RefreshState.REFRESH_END);
+                        if (mPage == 1) {
 
                             mList.clear();
                             mList.addAll(bean.getDatas());
                             toDoListBean.postValue(bean);
                         } else {
-                            //设置刷新状态
-                            refreshState.postValue(RefreshState.LOAD_MORE_END);
 
                             mList.addAll(bean.getDatas());
                             bean.setDatas(mList);

@@ -1,7 +1,6 @@
 package com.example.myapplication.ui.bottom.system.systemchildren;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
@@ -14,7 +13,6 @@ import com.example.myapplication.ui.articlelist.ArticleListFragment;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;

@@ -1,14 +1,14 @@
 package com.example.myapplication.ui.nav.todo.todocontent;
 
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
 import com.example.myapplication.base.viewmodel.BaseViewModel;
 import com.example.myapplication.http.bean.ToDoListBean;
 import com.example.myapplication.http.data.HttpDisposable;
 import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.HttpRequest;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 /**
  * @author devel

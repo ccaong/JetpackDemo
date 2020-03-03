@@ -3,25 +3,24 @@ package com.example.myapplication.ui.share;
 import android.os.Bundle;
 import android.view.View;
 
-import com.cjj.MaterialRefreshLayout;
-import com.cjj.MaterialRefreshListener;
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
 import com.example.myapplication.base.ScrollToTop;
 import com.example.myapplication.common.Code;
-import com.example.myapplication.databinding.FragmentDemoBinding;
 import com.example.myapplication.databinding.FragmentShareBinding;
 import com.example.myapplication.http.bean.ArticleBean;
 import com.example.myapplication.http.bean.ArticleListBean;
 import com.example.myapplication.ui.activity.web.DetailsActivity;
 import com.example.myapplication.ui.adapter.CommonAdapter;
-import com.google.android.material.appbar.AppBarLayout;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-public class ShareFragment extends BaseFragment<FragmentDemoBinding, ShareViewModel> implements ScrollToTop {
+public class ShareFragment extends BaseFragment<FragmentShareBinding, ShareViewModel> implements ScrollToTop {
 
     private String headerPath;
     private int id;
@@ -40,7 +39,7 @@ public class ShareFragment extends BaseFragment<FragmentDemoBinding, ShareViewMo
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.fragment_demo;
+        return R.layout.fragment_share;
     }
 
     @Override
@@ -62,7 +61,7 @@ public class ShareFragment extends BaseFragment<FragmentDemoBinding, ShareViewMo
     @Override
     protected void init() {
 
-        refreshLayout = mDataBinding.mrlRefreshLayout;
+//        refreshLayout = mDataBinding.mrlRefreshLayout;
 
         mViewModel.loadData();
 
@@ -73,33 +72,22 @@ public class ShareFragment extends BaseFragment<FragmentDemoBinding, ShareViewMo
     }
 
     private void setAppBarLayoutListener() {
-        mDataBinding.appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (verticalOffset == 0) {
-                    //没有滚动，打开下拉刷新功能
-                    mDataBinding.mrlRefreshLayout.setEnabled(true);
-                } else {
-                    //关闭下拉刷新功能
-                    mDataBinding.mrlRefreshLayout.setEnabled(false);
-                }
-            }
-        });
+
     }
 
     /**
      * 下拉刷新
      */
     private void initRefreshLayout() {
-        mDataBinding.mrlRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
+        mDataBinding.smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
-                mDataBinding.mrlRefreshLayout.setLoadMore(true);
+            public void onRefresh(RefreshLayout refreshlayout) {
                 mViewModel.refreshData(true);
             }
-
+        });
+        mDataBinding.smartRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
-            public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
+            public void onLoadMore(RefreshLayout refreshlayout) {
                 mViewModel.refreshData(false);
             }
         });
@@ -135,11 +123,10 @@ public class ShareFragment extends BaseFragment<FragmentDemoBinding, ShareViewMo
             @Override
             public void onChanged(ArticleListBean articleListBean) {
                 if (articleListBean.getCurPage() >= articleListBean.getPageCount()) {
-                    mDataBinding.mrlRefreshLayout.setLoadMore(false);
-                    View view = View.inflate(getContext(), R.layout.layout_no_more_data, null);
-                    mDataBinding.mrlRefreshLayout.setFooderView(view);
-
+                    mDataBinding.smartRefreshLayout.finishLoadMoreWithNoMoreData();
                 }
+                mDataBinding.smartRefreshLayout.finishRefresh();
+                mDataBinding.smartRefreshLayout.finishLoadMore();
                 commonAdapter.onItemDatasChanged(articleListBean.getDatas());
             }
         });
