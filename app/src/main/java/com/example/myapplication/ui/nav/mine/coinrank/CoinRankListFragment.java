@@ -2,10 +2,10 @@ package com.example.myapplication.ui.nav.mine.coinrank;
 
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
-import com.example.myapplication.base.ScrollToTop;
+import com.example.myapplication.navinterface.ScrollToTop;
 import com.example.myapplication.databinding.FragmentListBinding;
-import com.example.myapplication.http.bean.CoinBean;
-import com.example.myapplication.http.bean.CoinRankBean;
+import com.example.myapplication.bean.responsebean.CoinBean;
+import com.example.myapplication.bean.responsebean.CoinRankBean;
 import com.example.myapplication.ui.adapter.CommonAdapter;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;

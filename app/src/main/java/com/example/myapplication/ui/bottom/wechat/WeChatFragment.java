@@ -4,10 +4,10 @@ import android.os.Bundle;
 
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
-import com.example.myapplication.base.ScrollToTop;
-import com.example.myapplication.common.Code;
+import com.example.myapplication.navinterface.ScrollToTop;
+import com.example.myapplication.config.Constants;
 import com.example.myapplication.databinding.FragmentViewPagerBinding;
-import com.example.myapplication.http.bean.WeChatBean;
+import com.example.myapplication.bean.responsebean.WeChatBean;
 import com.example.myapplication.ui.adapter.ArticleListPagerAdapter;
 
 import java.util.List;
@@ -28,8 +28,8 @@ public class WeChatFragment extends BaseFragment<FragmentViewPagerBinding, WeCha
     @Override
     protected void handleArguments(Bundle args) {
         super.handleArguments(args);
-        pos = args.getInt(Code.ParamCode.PARAM2, 0);
-        mList = (List<WeChatBean>) args.getSerializable(Code.ParamCode.PARAM1);
+        pos = args.getInt(Constants.ParamCode.PARAM2, 0);
+        mList = (List<WeChatBean>) args.getSerializable(Constants.ParamCode.PARAM1);
     }
 
 

@@ -6,7 +6,7 @@
 
         <variable
             name="bannerData"
-            type="com.example.myapplication.http.bean.home.BannerData" />
+            type="com.example.myapplication.bean.responsebean.home.BannerData" />
     </data>
 
     <FrameLayout

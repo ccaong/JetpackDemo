@@ -11,7 +11,7 @@
 
         <variable
             name="collectArticle"
-            type="com.example.myapplication.http.bean.CollectArticleBean.CollectBean" />
+            type="com.example.myapplication.bean.responsebean.CollectArticleBean.CollectBean" />
     </data>
 
     <androidx.cardview.widget.CardView

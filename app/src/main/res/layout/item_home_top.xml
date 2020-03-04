@@ -5,7 +5,7 @@
 
         <variable
             name="topArticle"
-            type="com.example.myapplication.http.bean.home.HomeData.TopArticle" />
+            type="com.example.myapplication.bean.responsebean.home.HomeData.TopArticle" />
     </data>
 
     <LinearLayout

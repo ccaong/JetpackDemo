@@ -1,9 +1,9 @@
 package com.example.myapplication.ui.nav.square;
 
 import com.example.myapplication.base.viewmodel.BaseViewModel;
-import com.example.myapplication.enums.LoadState;
-import com.example.myapplication.http.bean.ArticleBean;
-import com.example.myapplication.http.bean.ArticleListBean;
+import com.example.myapplication.config.LoadState;
+import com.example.myapplication.bean.responsebean.ArticleBean;
+import com.example.myapplication.bean.responsebean.ArticleListBean;
 import com.example.myapplication.http.data.HttpDisposable;
 import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.HttpRequest;

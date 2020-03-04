@@ -4,7 +4,7 @@ import android.app.DatePickerDialog;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
-import com.example.myapplication.App;
+import com.example.myapplication.config.App;
 import com.example.myapplication.base.viewmodel.BaseViewModel;
 import com.example.myapplication.http.data.HttpDisposable;
 import com.example.myapplication.http.request.HttpFactory;

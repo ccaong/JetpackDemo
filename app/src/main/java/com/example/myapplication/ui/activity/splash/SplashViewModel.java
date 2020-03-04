@@ -2,8 +2,8 @@ package com.example.myapplication.ui.activity.splash;
 
 import com.example.myapplication.R;
 import com.example.myapplication.base.viewmodel.BaseViewModel;
-import com.example.myapplication.entity.livedata.ActivitySkip;
-import com.example.myapplication.http.bean.ImageBean;
+import com.example.myapplication.bean.ActivitySkip;
+import com.example.myapplication.bean.responsebean.ImageBean;
 import com.example.myapplication.http.data.HttpDisposable;
 import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.HttpRequest;
@@ -108,7 +108,6 @@ public class SplashViewModel extends BaseViewModel {
 
         Observable<String> observable = Observable.fromIterable(list);
         Observable<Long> time = Observable.interval(1, TimeUnit.SECONDS);
-
         Observable.zip(observable, time, new BiFunction<String, Long, String>() {
             @Override
             public String apply(String s, Long aLong) throws Exception {

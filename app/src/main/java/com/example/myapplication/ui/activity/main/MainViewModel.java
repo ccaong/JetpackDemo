@@ -1,9 +1,9 @@
 package com.example.myapplication.ui.activity.main;
 
 import com.example.myapplication.base.viewmodel.BaseViewModel;
-import com.example.myapplication.common.Code;
-import com.example.myapplication.http.bean.Coin;
-import com.example.myapplication.http.bean.LoginBean;
+import com.example.myapplication.config.Constants;
+import com.example.myapplication.bean.responsebean.Coin;
+import com.example.myapplication.bean.responsebean.LoginBean;
 import com.example.myapplication.http.data.HttpDisposable;
 import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.HttpRequest;
@@ -60,7 +60,7 @@ public class MainViewModel extends BaseViewModel {
      */
     public void setUserBean() {
         //从缓存中读取用户信息
-        LoginBean data = Hawk.get(Code.HawkCode.LOGIN_DATA);
+        LoginBean data = Hawk.get(Constants.HawkCode.LOGIN_DATA);
         userBean.postValue(data);
 
         //读取本地缓存中的用户头像
@@ -71,7 +71,7 @@ public class MainViewModel extends BaseViewModel {
      * 获取缓存的用户信息
      */
     public void getUserData() {
-        LoginBean loginBean = Hawk.get(Code.HawkCode.LOGIN_DATA);
+        LoginBean loginBean = Hawk.get(Constants.HawkCode.LOGIN_DATA);
 
         if (loginBean != null) {
             //自动登录
@@ -99,7 +99,7 @@ public class MainViewModel extends BaseViewModel {
                         //自动登录成功
                         userBean.postValue(bean);
                         bean.setPassword(pwd);
-                        Hawk.put(Code.HawkCode.LOGIN_DATA, bean);
+                        Hawk.put(Constants.HawkCode.LOGIN_DATA, bean);
                         loadUserHeader(bean.getUsername());
                     }
                 });
@@ -109,7 +109,7 @@ public class MainViewModel extends BaseViewModel {
      * 从本地缓存中获取用户头像
      */
     private void loadUserHeader(String userName) {
-        String path = Hawk.get(Code.HawkCode.HEADER_IMAGE + userName);
+        String path = Hawk.get(Constants.HawkCode.HEADER_IMAGE + userName);
         if (!CommonUtils.isStringEmpty(path)) {
             userHeader.postValue(path);
         }
@@ -128,8 +128,8 @@ public class MainViewModel extends BaseViewModel {
                     @Override
                     public void success(Object integral) {
                         //清除本地缓存
-                        Hawk.delete(Code.HawkCode.LOGIN_DATA);
-                        Hawk.delete(Code.HawkCode.COOKIE);
+                        Hawk.delete(Constants.HawkCode.LOGIN_DATA);
+                        Hawk.delete(Constants.HawkCode.COOKIE);
 
                         userBean.postValue(null);
 
@@ -166,6 +166,6 @@ public class MainViewModel extends BaseViewModel {
      */
     public void updateUserHeader(String path) {
         userHeader.postValue(path);
-        Hawk.put(Code.HawkCode.HEADER_IMAGE + userBean.getValue().getUsername(), path);
+        Hawk.put(Constants.HawkCode.HEADER_IMAGE + userBean.getValue().getUsername(), path);
     }
 }

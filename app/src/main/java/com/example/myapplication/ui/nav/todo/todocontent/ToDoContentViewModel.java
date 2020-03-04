@@ -2,7 +2,7 @@ package com.example.myapplication.ui.nav.todo.todocontent;
 
 
 import com.example.myapplication.base.viewmodel.BaseViewModel;
-import com.example.myapplication.http.bean.ToDoListBean;
+import com.example.myapplication.bean.responsebean.ToDoListBean;
 import com.example.myapplication.http.data.HttpDisposable;
 import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.HttpRequest;

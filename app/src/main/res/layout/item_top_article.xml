@@ -11,7 +11,7 @@
 
         <variable
             name="articleBean"
-            type="com.example.myapplication.http.bean.ArticleBean" />
+            type="com.example.myapplication.bean.responsebean.ArticleBean" />
     </data>
 
     <androidx.cardview.widget.CardView

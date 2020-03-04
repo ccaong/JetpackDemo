@@ -1,19 +1,18 @@
 package com.example.myapplication.http.request;
 
-import com.example.myapplication.http.bean.ArticleBean;
-import com.example.myapplication.http.bean.ArticleListBean;
-import com.example.myapplication.http.bean.Coin;
-import com.example.myapplication.http.bean.CoinBean;
-import com.example.myapplication.http.bean.CoinRankBean;
-import com.example.myapplication.http.bean.CollectArticleBean;
-import com.example.myapplication.http.bean.HomeBanner;
-import com.example.myapplication.http.bean.ImageBean;
-import com.example.myapplication.http.bean.LoginBean;
-import com.example.myapplication.http.bean.NavigationBean;
-import com.example.myapplication.http.bean.ToDoListBean;
-import com.example.myapplication.http.bean.UserShareArticleBean;
-import com.example.myapplication.http.bean.WeChatBean;
-import com.example.myapplication.http.data.HttpBaseResponse;
+import com.example.myapplication.bean.responsebean.ArticleBean;
+import com.example.myapplication.bean.responsebean.ArticleListBean;
+import com.example.myapplication.bean.responsebean.Coin;
+import com.example.myapplication.bean.responsebean.CoinBean;
+import com.example.myapplication.bean.responsebean.CoinRankBean;
+import com.example.myapplication.bean.responsebean.CollectArticleBean;
+import com.example.myapplication.bean.responsebean.HomeBanner;
+import com.example.myapplication.bean.responsebean.ImageBean;
+import com.example.myapplication.bean.responsebean.LoginBean;
+import com.example.myapplication.bean.responsebean.NavigationBean;
+import com.example.myapplication.bean.responsebean.ToDoListBean;
+import com.example.myapplication.bean.responsebean.UserShareArticleBean;
+import com.example.myapplication.bean.responsebean.WeChatBean;
 
 import java.util.List;
 

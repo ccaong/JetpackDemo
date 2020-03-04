@@ -1,7 +1,7 @@
 package com.example.myapplication.ui.adapter;
 
 import com.example.myapplication.base.adapter.BasePagerAdapter;
-import com.example.myapplication.http.bean.WeChatBean;
+import com.example.myapplication.bean.responsebean.WeChatBean;
 import com.example.myapplication.ui.articlelist.ArticleListFragment;
 
 import androidx.annotation.Nullable;

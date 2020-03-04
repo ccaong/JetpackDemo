@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 
 import com.example.myapplication.BR;
 import com.example.myapplication.R;
-import com.example.myapplication.http.bean.ArticleBean;
-import com.example.myapplication.http.bean.home.HomeData;
+import com.example.myapplication.bean.responsebean.ArticleBean;
+import com.example.myapplication.bean.responsebean.home.HomeData;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import static com.example.myapplication.App.getContext;
+import static com.example.myapplication.config.App.getContext;
 
 /**
  * 主页的Adapter

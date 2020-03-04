@@ -7,7 +7,7 @@
 
         <variable
             name="toDoData"
-            type="com.example.myapplication.http.bean.ToDoListBean.ToDoData" />
+            type="com.example.myapplication.bean.responsebean.ToDoListBean.ToDoData" />
     </data>
 
 

@@ -5,10 +5,10 @@ import android.view.View;
 
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
-import com.example.myapplication.base.ScrollToTop;
-import com.example.myapplication.common.Code;
+import com.example.myapplication.navinterface.ScrollToTop;
+import com.example.myapplication.config.Constants;
 import com.example.myapplication.databinding.FragmentListBinding;
-import com.example.myapplication.http.bean.WeChatBean;
+import com.example.myapplication.bean.responsebean.WeChatBean;
 import com.example.myapplication.ui.adapter.SystemAdapter;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
@@ -81,8 +81,8 @@ public class SystemFragment extends BaseFragment<FragmentListBinding, SystemView
                     public void onClick(View v) {
 
                         Bundle bundle = new Bundle();
-                        bundle.putInt(Code.ParamCode.PARAM2, 0);
-                        bundle.putSerializable(Code.ParamCode.PARAM1, (Serializable) itemData.getChildren());
+                        bundle.putInt(Constants.ParamCode.PARAM2, 0);
+                        bundle.putSerializable(Constants.ParamCode.PARAM1, (Serializable) itemData.getChildren());
 
                         NavHostFragment.findNavController(SystemFragment.this).navigate(R.id.systemChildrenFragment, bundle);
                     }
@@ -94,8 +94,8 @@ public class SystemFragment extends BaseFragment<FragmentListBinding, SystemView
                 super.addChildrenListener(root, itemData, parentSystem, position);
 
                 Bundle bundle = new Bundle();
-                bundle.putInt(Code.ParamCode.PARAM2, position);
-                bundle.putSerializable(Code.ParamCode.PARAM1, (Serializable) parentSystem);
+                bundle.putInt(Constants.ParamCode.PARAM2, position);
+                bundle.putSerializable(Constants.ParamCode.PARAM1, (Serializable) parentSystem);
                 NavHostFragment.findNavController(SystemFragment.this).navigate(R.id.systemChildrenFragment, bundle);
 
             }

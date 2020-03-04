@@ -3,12 +3,12 @@ package com.example.myapplication.ui.home;
 import android.util.Log;
 
 import com.example.myapplication.base.viewmodel.BaseViewModel;
-import com.example.myapplication.enums.LoadState;
-import com.example.myapplication.http.bean.ArticleBean;
-import com.example.myapplication.http.bean.ArticleListBean;
-import com.example.myapplication.http.bean.HomeBanner;
-import com.example.myapplication.http.bean.home.BannerData;
-import com.example.myapplication.http.bean.home.HomeData;
+import com.example.myapplication.config.LoadState;
+import com.example.myapplication.bean.responsebean.ArticleBean;
+import com.example.myapplication.bean.responsebean.ArticleListBean;
+import com.example.myapplication.bean.responsebean.HomeBanner;
+import com.example.myapplication.bean.responsebean.home.BannerData;
+import com.example.myapplication.bean.responsebean.home.HomeData;
 import com.example.myapplication.http.data.HttpDisposable;
 import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.HttpRequest;

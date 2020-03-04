@@ -5,25 +5,25 @@ import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
-import com.example.myapplication.databinding.AddToDoFragmentBinding;
+import com.example.myapplication.databinding.FragmentToDoAddBinding;
 
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 /**
  * @author devel
  */
-public class AddToDoFragment extends BaseFragment<AddToDoFragmentBinding, AddToDoViewModel> {
+public class AddToDoFragment extends BaseFragment<FragmentToDoAddBinding, AddToDoViewModel> {
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.add_to_do_fragment;
+        return R.layout.fragment_to_do_add;
     }
 
     @Override
     protected void initViewModel() {
-        mViewModel = ViewModelProviders.of(this).get(AddToDoViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(AddToDoViewModel.class);
     }
 
     @Override
@@ -37,8 +37,8 @@ public class AddToDoFragment extends BaseFragment<AddToDoFragmentBinding, AddToD
         mViewModel.getAdddata().observe(this, new Observer<Object>() {
             @Override
             public void onChanged(Object object) {
-                    Toast.makeText(getActivity(), "新增待办事项成功！", Toast.LENGTH_SHORT).show();
-                    NavHostFragment.findNavController(AddToDoFragment.this).navigateUp();
+                Toast.makeText(getActivity(), "新增待办事项成功！", Toast.LENGTH_SHORT).show();
+                NavHostFragment.findNavController(AddToDoFragment.this).navigateUp();
             }
         });
 

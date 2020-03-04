@@ -15,10 +15,10 @@ import com.ccj.poptabview.loader.PopEntityLoaderImp;
 import com.ccj.poptabview.loader.ResultLoaderImp;
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
-import com.example.myapplication.base.ScrollToTop;
-import com.example.myapplication.common.Code;
+import com.example.myapplication.navinterface.ScrollToTop;
+import com.example.myapplication.config.Constants;
 import com.example.myapplication.databinding.FragmentTodoListBinding;
-import com.example.myapplication.http.bean.ToDoListBean;
+import com.example.myapplication.bean.responsebean.ToDoListBean;
 import com.example.myapplication.ui.adapter.CommonAdapter;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
@@ -115,7 +115,7 @@ public class ToDoFragment extends BaseFragment<FragmentTodoListBinding, ToDoView
                     public void onClick(View v) {
 //                        mViewModel.setToDoData(itemData);
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable(Code.ParamCode.PARAM1, itemData);
+                        bundle.putSerializable(Constants.ParamCode.PARAM1, itemData);
                         NavHostFragment.findNavController(ToDoFragment.this).navigate(R.id.toDoContentFragment, bundle);
                     }
                 });

@@ -2,8 +2,7 @@ package com.example.myapplication.ui.nav.about;
 
 import com.example.myapplication.R;
 import com.example.myapplication.base.viewmodel.BaseViewModel;
-import com.example.myapplication.entity.GitHubProject;
-import com.example.myapplication.entity.UpdatePlan;
+import com.example.myapplication.bean.GitHubProject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +11,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 /**
- *
+ * @author ccaong
  */
 public class AboutViewModel extends BaseViewModel {
 

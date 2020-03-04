@@ -3,24 +3,20 @@ package com.example.myapplication.ui.activity.main;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseActivity;
-import com.example.myapplication.base.ScrollToTop;
-import com.example.myapplication.common.Code;
+import com.example.myapplication.navinterface.ScrollToTop;
+import com.example.myapplication.config.Constants;
 import com.example.myapplication.databinding.ActivityMainBinding;
-import com.example.myapplication.http.bean.LoginBean;
+import com.example.myapplication.bean.responsebean.LoginBean;
 import com.example.myapplication.ui.activity.login.LoginActivity;
 import com.example.myapplication.ui.view.CircleImageView;
 import com.example.myapplication.util.GlideUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
 
-import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -39,19 +35,19 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     public static void start(Context context, Boolean isLogin) {
         Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(Code.ParamCode.PARAM1, isLogin);
+        intent.putExtra(Constants.ParamCode.PARAM1, isLogin);
         context.startActivity(intent);
     }
 
     @Override
     protected void handleIntent(Intent intent) {
-        isLogin = intent.getBooleanExtra(Code.ParamCode.PARAM1, false);
+        isLogin = intent.getBooleanExtra(Constants.ParamCode.PARAM1, false);
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        isLogin = intent.getBooleanExtra(Code.ParamCode.PARAM1, false);
+        isLogin = intent.getBooleanExtra(Constants.ParamCode.PARAM1, false);
     }
 
     @Override

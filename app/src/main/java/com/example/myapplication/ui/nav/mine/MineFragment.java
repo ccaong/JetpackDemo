@@ -6,9 +6,9 @@ import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
-import com.example.myapplication.common.Code;
+import com.example.myapplication.config.Constants;
 import com.example.myapplication.databinding.FragmentMineBinding;
-import com.example.myapplication.http.bean.LoginBean;
+import com.example.myapplication.bean.responsebean.LoginBean;
 import com.example.myapplication.ui.activity.main.MainViewModel;
 import com.example.myapplication.util.ImageSelectUtil;
 import com.guoxiaoxing.phoenix.core.model.MediaEntity;
@@ -65,14 +65,14 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MainViewMode
     }
 
     public void selectImage() {
-        ImageSelectUtil.selectPictureWithFragment(this, Code.RequestCoode.SELECT_PICTURE);
+        ImageSelectUtil.selectPictureWithFragment(this, Constants.RequestCode.SELECT_PICTURE);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (requestCode == Code.RequestCoode.SELECT_PICTURE) {
+            if (requestCode == Constants.RequestCode.SELECT_PICTURE) {
                 if (Phoenix.result(data) == null) {
                     Toast.makeText(getContext(), "图片选择失败", Toast.LENGTH_SHORT).show();
                     return;
@@ -96,8 +96,8 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MainViewMode
      */
     public void startShareFragment() {
         Bundle bundle = new Bundle();
-        bundle.putInt(Code.ParamCode.PARAM1, mViewModel.getUserBean().getValue().getId());
-        bundle.putString(Code.ParamCode.PARAM2, mViewModel.getUserHeader().getValue());
+        bundle.putInt(Constants.ParamCode.PARAM1, mViewModel.getUserBean().getValue().getId());
+        bundle.putString(Constants.ParamCode.PARAM2, mViewModel.getUserHeader().getValue());
         NavHostFragment.findNavController(MineFragment.this).navigate(R.id.nav_share, bundle);
     }
 

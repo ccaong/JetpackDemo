@@ -6,9 +6,9 @@ import android.widget.RadioGroup;
 
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
-import com.example.myapplication.common.Code;
+import com.example.myapplication.config.Constants;
 import com.example.myapplication.databinding.FragmentToDoContentBinding;
-import com.example.myapplication.http.bean.ToDoListBean;
+import com.example.myapplication.bean.responsebean.ToDoListBean;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -24,7 +24,7 @@ public class ToDoContentFragment extends BaseFragment<FragmentToDoContentBinding
     @Override
     protected void handleArguments(Bundle args) {
         super.handleArguments(args);
-        data = (ToDoListBean.ToDoData) args.getSerializable(Code.ParamCode.PARAM1);
+        data = (ToDoListBean.ToDoData) args.getSerializable(Constants.ParamCode.PARAM1);
     }
 
     @Override

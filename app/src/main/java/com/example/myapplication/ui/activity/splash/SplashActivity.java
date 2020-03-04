@@ -3,13 +3,13 @@ package com.example.myapplication.ui.activity.splash;
 import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
-import com.example.myapplication.App;
+import com.example.myapplication.config.App;
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseActivity;
-import com.example.myapplication.common.Code;
+import com.example.myapplication.config.Constants;
 import com.example.myapplication.databinding.ActivitySplashBinding;
-import com.example.myapplication.entity.livedata.ActivitySkip;
-import com.example.myapplication.http.bean.ImageBean;
+import com.example.myapplication.bean.ActivitySkip;
+import com.example.myapplication.bean.responsebean.ImageBean;
 import com.example.myapplication.ui.activity.main.MainActivity;
 import com.example.myapplication.ui.activity.web.DetailsActivity;
 import com.example.myapplication.util.CommonUtils;
@@ -67,7 +67,7 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding, SplashVi
                             .load(url)
                             .into(mDataBinding.ivSplash);
 
-                    Hawk.put(Code.HawkCode.SPLASH_IMAGE_URL, url);
+                    Hawk.put(Constants.HawkCode.SPLASH_IMAGE_URL, url);
                 } else {
                     //从网络获取图片失败，加载本地默认图片
                     Glide.with(SplashActivity.this)

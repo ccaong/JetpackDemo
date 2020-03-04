@@ -12,7 +12,7 @@ import android.util.Log;
 
 import androidx.annotation.RequiresPermission;
 
-import com.example.myapplication.App;
+import com.example.myapplication.config.App;
 
 import java.net.InetAddress;
 import java.net.InterfaceAddress;

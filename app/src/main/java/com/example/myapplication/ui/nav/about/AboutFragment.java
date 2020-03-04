@@ -5,9 +5,11 @@ import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
-import com.example.myapplication.common.Code;
+import com.example.myapplication.config.Constants;
 import com.example.myapplication.databinding.FragmentAboutBinding;
-import com.example.myapplication.entity.GitHubProject;
+import com.example.myapplication.bean.GitHubProject;
+import com.example.myapplication.manager.MyActivityManager;
+import com.example.myapplication.ui.activity.main.MainActivity;
 import com.example.myapplication.ui.activity.web.DetailsActivity;
 import com.example.myapplication.ui.adapter.CommonAdapter;
 import com.example.myapplication.util.GlideUtil;
@@ -18,7 +20,6 @@ import com.scwang.smart.refresh.layout.api.RefreshHeader;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.constant.RefreshState;
 import com.scwang.smart.refresh.layout.listener.OnMultiListener;
-import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import java.util.List;
 
@@ -27,7 +28,12 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+/**
+ * @author ccaong
+ */
 public class AboutFragment extends BaseFragment<FragmentAboutBinding, AboutViewModel> {
+
+    private MainActivity activity;
 
     @Override
     protected int getLayoutResId() {
@@ -46,10 +52,12 @@ public class AboutFragment extends BaseFragment<FragmentAboutBinding, AboutViewM
 
     @Override
     protected void init() {
+        activity = (MainActivity) MyActivityManager.getInstance().getCurrentActivity();
+
         initRefreshLayout();
         initRecyclerView();
 
-//        GlideUtil.loadImageWithGoss(mDataBinding.ivBg, Hawk.get(Code.HawkCode.SPLASH_IMAGE_URL));
+        GlideUtil.loadImageWithGoss(mDataBinding.ivSecondBg, Hawk.get(Constants.HawkCode.SPLASH_IMAGE_URL));
     }
 
 
@@ -57,18 +65,15 @@ public class AboutFragment extends BaseFragment<FragmentAboutBinding, AboutViewM
      * 下拉刷新
      */
     private void initRefreshLayout() {
+
         mDataBinding.refreshLayout.setEnableLoadMore(false);
-        mDataBinding.refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(RefreshLayout refreshlayout) {
-                mDataBinding.refreshLayout.finishRefresh(1000);
-            }
-        });
 
         mDataBinding.refreshLayout.setOnMultiListener(new OnMultiListener() {
             @Override
             public void onHeaderMoving(RefreshHeader header, boolean isDragging, float percent, int offset, int headerHeight, int maxDragHeight) {
-
+//                activity.mDataBinding.toolbar.setAlpha(1 - Math.min(percent, 1));
+//                mDataBinding.secondFloor.setTranslationY(
+//                        Math.min(offset - mDataBinding.secondFloor.getHeight() + activity.mDataBinding.toolbar.getHeight(), mDataBinding.refreshLayout.getLayout().getHeight() - mDataBinding.secondFloor.getHeight()));
             }
 
             @Override
@@ -113,22 +118,26 @@ public class AboutFragment extends BaseFragment<FragmentAboutBinding, AboutViewM
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-
+                refreshLayout.finishRefresh(1000);
             }
 
             @Override
             public void onStateChanged(@NonNull RefreshLayout refreshLayout, @NonNull RefreshState oldState, @NonNull RefreshState newState) {
 
                 if (newState == RefreshState.TwoLevelFinish) {
+//                    activity.mDataBinding.navViewBottom.setVisibility(View.VISIBLE);
+//                    activity.mDataBinding.toolbar.setVisibility(View.VISIBLE);
                     mDataBinding.secondFloorContent.animate().alpha(0).setDuration(1000);
                 }
             }
         });
 
-        mDataBinding.header.openTwoLevel(true);
         mDataBinding.header.setOnTwoLevelListener(new OnTwoLevelListener() {
             @Override
             public boolean onTwoLevel(@NonNull RefreshLayout refreshLayout) {
+//                activity.mDataBinding.navViewBottom.setVisibility(View.GONE);
+//                activity.mDataBinding.toolbar.setVisibility(View.GONE);
+
                 Toast.makeText(getActivity(), "发现了什么神奇的东西", Toast.LENGTH_SHORT).show();
                 mDataBinding.secondFloorContent.animate().alpha(1).setDuration(2000);
                 return true;

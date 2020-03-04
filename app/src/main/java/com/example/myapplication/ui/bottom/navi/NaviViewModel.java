@@ -1,8 +1,8 @@
 package com.example.myapplication.ui.bottom.navi;
 
 import com.example.myapplication.base.viewmodel.BaseViewModel;
-import com.example.myapplication.enums.LoadState;
-import com.example.myapplication.http.bean.NavigationBean;
+import com.example.myapplication.config.LoadState;
+import com.example.myapplication.bean.responsebean.NavigationBean;
 import com.example.myapplication.http.data.HttpDisposable;
 import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.HttpRequest;

@@ -2,27 +2,18 @@ package com.example.myapplication.base.viewmodel;
 
 
 import android.content.res.Resources;
-import android.util.Log;
 
-import com.example.myapplication.App;
+import com.example.myapplication.config.App;
 import com.example.myapplication.R;
-import com.example.myapplication.enums.LoadState;
-import com.example.myapplication.enums.RefreshState;
-import com.example.myapplication.http.bean.ArticleListBean;
-import com.example.myapplication.http.data.HttpBaseResponse;
+import com.example.myapplication.config.LoadState;
 import com.example.myapplication.http.data.HttpDisposable;
 import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.HttpRequest;
-import com.example.myapplication.util.CommonUtils;
-
-import java.util.Optional;
 
 import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * ViewModel的基类

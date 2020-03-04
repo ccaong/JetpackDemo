@@ -13,7 +13,7 @@ import com.example.myapplication.databinding.ViewLoadErrorBinding;
 import com.example.myapplication.databinding.ViewLoadingBinding;
 import com.example.myapplication.databinding.ViewNoDataBinding;
 import com.example.myapplication.databinding.ViewNoNetworkBinding;
-import com.example.myapplication.enums.LoadState;
+import com.example.myapplication.config.LoadState;
 import com.example.myapplication.manager.MyActivityManager;
 import com.example.myapplication.ui.activity.login.LoginActivity;
 import com.example.myapplication.ui.activity.main.MainActivity;

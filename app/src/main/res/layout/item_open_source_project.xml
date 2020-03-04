@@ -7,7 +7,7 @@
 
         <variable
             name="OpenSource"
-            type="com.example.myapplication.entity.GitHubProject" />
+            type="com.example.myapplication.bean.GitHubProject" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -2,10 +2,10 @@ package com.example.myapplication.ui.activity.login;
 
 import android.widget.Toast;
 
-import com.example.myapplication.App;
+import com.example.myapplication.config.App;
 import com.example.myapplication.base.viewmodel.BaseViewModel;
-import com.example.myapplication.common.Code;
-import com.example.myapplication.http.bean.LoginBean;
+import com.example.myapplication.config.Constants;
+import com.example.myapplication.bean.responsebean.LoginBean;
 import com.example.myapplication.http.data.HttpDisposable;
 import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.HttpRequest;
@@ -78,7 +78,7 @@ public class LoginViewModel extends BaseViewModel {
                         //登录成功，保存用户信息
                         userBean.postValue(bean);
                         bean.setPassword(userPwd.getValue());
-                        Hawk.put(Code.HawkCode.LOGIN_DATA, bean);
+                        Hawk.put(Constants.HawkCode.LOGIN_DATA, bean);
                     }
 
                     @Override

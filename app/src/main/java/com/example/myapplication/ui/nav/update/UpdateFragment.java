@@ -5,7 +5,7 @@ import android.view.View;
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
 import com.example.myapplication.databinding.UpdateFragmentBinding;
-import com.example.myapplication.entity.UpdatePlan;
+import com.example.myapplication.bean.UpdatePlan;
 import com.example.myapplication.ui.activity.web.DetailsActivity;
 import com.example.myapplication.ui.adapter.CommonAdapter;
 

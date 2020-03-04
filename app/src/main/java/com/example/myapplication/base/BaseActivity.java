@@ -15,7 +15,7 @@ import com.example.myapplication.databinding.ViewLoadErrorBinding;
 import com.example.myapplication.databinding.ViewLoadingBinding;
 import com.example.myapplication.databinding.ViewNoDataBinding;
 import com.example.myapplication.databinding.ViewNoNetworkBinding;
-import com.example.myapplication.enums.LoadState;
+import com.example.myapplication.config.LoadState;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,7 +34,7 @@ import androidx.lifecycle.Observer;
 public abstract class BaseActivity<DB extends ViewDataBinding, VM extends BaseViewModel>
         extends AppCompatActivity {
 
-    protected DB mDataBinding;
+    public DB mDataBinding;
 
     protected VM mViewModel;
 

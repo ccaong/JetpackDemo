@@ -5,7 +5,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.myapplication.App;
+import com.example.myapplication.config.App;
 import com.example.myapplication.R;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;

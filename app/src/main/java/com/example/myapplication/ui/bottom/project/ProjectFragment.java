@@ -4,10 +4,10 @@ import android.os.Bundle;
 
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
-import com.example.myapplication.base.ScrollToTop;
-import com.example.myapplication.common.Code;
+import com.example.myapplication.navinterface.ScrollToTop;
+import com.example.myapplication.config.Constants;
 import com.example.myapplication.databinding.FragmentProjectViewPagerBinding;
-import com.example.myapplication.http.bean.WeChatBean;
+import com.example.myapplication.bean.responsebean.WeChatBean;
 import com.example.myapplication.ui.adapter.FmPagerAdapter;
 import com.example.myapplication.ui.articlelist.ArticleListFragment;
 
@@ -29,7 +29,7 @@ public class ProjectFragment extends BaseFragment<FragmentProjectViewPagerBindin
     @Override
     protected void handleArguments(Bundle args) {
         super.handleArguments(args);
-        pos = args.getInt(Code.ParamCode.PARAM2, 0);
+        pos = args.getInt(Constants.ParamCode.PARAM2, 0);
     }
 
 

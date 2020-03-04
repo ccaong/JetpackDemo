@@ -20,24 +20,34 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <ImageView
+                android:id="@+id/second_floor"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/app_name"
+                android:src="@mipmap/splash_bg"
+                android:scaleType="centerCrop" />
+
+            <FrameLayout
                 android:id="@+id/second_floor_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:alpha="0"
-                android:orientation="vertical">
+                android:alpha="0">
 
                 <ImageView
                     android:id="@+id/iv_second_bg"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="fitXY"
-                    android:src="@mipmap/splash_bg" />
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="centerCrop" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view_second"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </FrameLayout>
 
             <com.scwang.smart.refresh.header.ClassicsHeader
-                android:id="@+id/classics"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -52,15 +62,9 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/white"
                 android:paddingHorizontal="@dimen/dimen_16">
 
-                <ImageView
-                    android:id="@+id/iv_bg"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitXY" />
 
                 <ImageView
                     android:id="@+id/iv_header"
@@ -189,7 +193,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
-
 
     </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 

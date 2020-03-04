@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.myapplication.R;
 import com.example.myapplication.base.viewmodel.BaseViewModel;
-import com.example.myapplication.entity.UpdatePlan;
+import com.example.myapplication.bean.UpdatePlan;
 
 import java.util.ArrayList;
 import java.util.List;

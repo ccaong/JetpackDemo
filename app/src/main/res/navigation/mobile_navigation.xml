@@ -26,7 +26,7 @@
 
     <fragment
         android:id="@+id/nav_share"
-        android:name="com.example.myapplication.ui.share.ShareFragment"
+        android:name="com.example.myapplication.ui.nav.mine.share.ShareFragment"
         android:label="@string/share"
         tools:layout="@layout/fragment_share" />
 
@@ -107,11 +107,6 @@
         android:id="@+id/navigation_project"
         android:name="com.example.myapplication.ui.bottom.project.ProjectFragment"
         android:label="@string/title_project" />
-    <fragment
-        android:id="@+id/searchFragment"
-        android:name="com.example.myapplication.ui.search.SearchFragment"
-        android:label="search_fragment"
-        tools:layout="@layout/search_fragment" />
 
 
 </navigation>

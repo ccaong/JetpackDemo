@@ -4,10 +4,10 @@ import android.view.View;
 
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
-import com.example.myapplication.base.ScrollToTop;
+import com.example.myapplication.navinterface.ScrollToTop;
 import com.example.myapplication.databinding.FragmentListBinding;
-import com.example.myapplication.http.bean.ArticleBean;
-import com.example.myapplication.http.bean.home.HomeData;
+import com.example.myapplication.bean.responsebean.ArticleBean;
+import com.example.myapplication.bean.responsebean.home.HomeData;
 import com.example.myapplication.ui.activity.web.DetailsActivity;
 import com.example.myapplication.ui.adapter.HomeAdapter;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;

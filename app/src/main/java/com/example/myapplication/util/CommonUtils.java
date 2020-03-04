@@ -1,6 +1,6 @@
 package com.example.myapplication.util;
 
-import com.example.myapplication.App;
+import com.example.myapplication.config.App;
 
 import java.util.List;
 

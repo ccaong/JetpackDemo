@@ -5,7 +5,7 @@
 
         <variable
             name="navigationChildren"
-            type="com.example.myapplication.http.bean.ArticleBean" />
+            type="com.example.myapplication.bean.responsebean.ArticleBean" />
     </data>
 
     <LinearLayout

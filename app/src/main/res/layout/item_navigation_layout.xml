@@ -6,7 +6,7 @@
 
         <variable
             name="navigationBean"
-            type="com.example.myapplication.http.bean.NavigationBean" />
+            type="com.example.myapplication.bean.responsebean.NavigationBean" />
     </data>
 
     <LinearLayout

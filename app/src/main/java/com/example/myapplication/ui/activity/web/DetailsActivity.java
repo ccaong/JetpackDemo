@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseActivity;
-import com.example.myapplication.common.Code;
+import com.example.myapplication.config.Constants;
 import com.example.myapplication.databinding.ActivityDetailsBinding;
 import com.example.myapplication.ui.activity.main.MainActivity;
 import com.just.agentweb.AgentWeb;
@@ -32,21 +32,21 @@ public class DetailsActivity extends BaseActivity<ActivityDetailsBinding, Detail
 
     public static void start(Context context, String url, boolean fromSplash) {
         Intent intent = new Intent(context, DetailsActivity.class);
-        intent.putExtra(Code.ParamCode.PARAM1, fromSplash);
-        intent.putExtra(Code.ParamCode.KEY_URL, url);
+        intent.putExtra(Constants.ParamCode.PARAM1, fromSplash);
+        intent.putExtra(Constants.ParamCode.KEY_URL, url);
         context.startActivity(intent);
     }
 
     public static void start(Context context, String url) {
         Intent intent = new Intent(context, DetailsActivity.class);
-        intent.putExtra(Code.ParamCode.KEY_URL, url);
+        intent.putExtra(Constants.ParamCode.KEY_URL, url);
         context.startActivity(intent);
     }
 
     @Override
     protected void handleIntent(Intent intent) {
-        mUrl = intent.getStringExtra(Code.ParamCode.KEY_URL);
-        mFromSplash = intent.getBooleanExtra(Code.ParamCode.PARAM1, false);
+        mUrl = intent.getStringExtra(Constants.ParamCode.KEY_URL);
+        mFromSplash = intent.getBooleanExtra(Constants.ParamCode.PARAM1, false);
     }
 
     @Override

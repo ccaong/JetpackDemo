@@ -5,7 +5,7 @@
 
         <variable
             name="systemChildren"
-            type="com.example.myapplication.http.bean.WeChatBean" />
+            type="com.example.myapplication.bean.responsebean.WeChatBean" />
     </data>
 
     <LinearLayout

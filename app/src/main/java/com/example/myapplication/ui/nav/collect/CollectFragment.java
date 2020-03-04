@@ -7,7 +7,7 @@ import com.example.myapplication.BR;
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
 import com.example.myapplication.databinding.FragmentListBinding;
-import com.example.myapplication.http.bean.CollectArticleBean;
+import com.example.myapplication.bean.responsebean.CollectArticleBean;
 import com.example.myapplication.ui.activity.web.DetailsActivity;
 import com.example.myapplication.ui.adapter.CommonAdapter;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;

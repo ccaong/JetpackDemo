@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.myapplication.ui.share.ShareViewModel" />
+            type="com.example.myapplication.ui.nav.mine.share.ShareViewModel" />
     </data>
 
 

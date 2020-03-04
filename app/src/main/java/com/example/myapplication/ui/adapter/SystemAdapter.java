@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import com.example.myapplication.BR;
 import com.example.myapplication.R;
-import com.example.myapplication.http.bean.WeChatBean;
+import com.example.myapplication.bean.responsebean.WeChatBean;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;

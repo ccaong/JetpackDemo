@@ -3,7 +3,7 @@ package com.example.myapplication.ui.nav.mine.coin;
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
 import com.example.myapplication.databinding.FragmentListBinding;
-import com.example.myapplication.http.bean.CoinBean;
+import com.example.myapplication.bean.responsebean.CoinBean;
 import com.example.myapplication.ui.adapter.CommonAdapter;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;

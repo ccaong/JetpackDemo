@@ -6,10 +6,10 @@ import android.view.View;
 import com.example.myapplication.BR;
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
-import com.example.myapplication.common.Code;
+import com.example.myapplication.config.Constants;
 import com.example.myapplication.databinding.FragmentListBinding;
-import com.example.myapplication.http.bean.ArticleBean;
-import com.example.myapplication.http.bean.ArticleListBean;
+import com.example.myapplication.bean.responsebean.ArticleBean;
+import com.example.myapplication.bean.responsebean.ArticleListBean;
 import com.example.myapplication.ui.activity.web.DetailsActivity;
 import com.example.myapplication.ui.adapter.CommonAdapter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
@@ -32,8 +32,8 @@ public class ArticleListFragment extends BaseFragment<FragmentListBinding, Artic
     public static ArticleListFragment newInstance(int type, int id) {
         ArticleListFragment articleListFragment = new ArticleListFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt(Code.ParamCode.PARAM1, type);
-        bundle.putInt(Code.ParamCode.PARAM2, id);
+        bundle.putInt(Constants.ParamCode.PARAM1, type);
+        bundle.putInt(Constants.ParamCode.PARAM2, id);
         articleListFragment.setArguments(bundle);
         return articleListFragment;
     }
@@ -41,8 +41,8 @@ public class ArticleListFragment extends BaseFragment<FragmentListBinding, Artic
     @Override
     protected void handleArguments(Bundle args) {
         super.handleArguments(args);
-        type = args.getInt(Code.ParamCode.PARAM1);
-        id = args.getInt(Code.ParamCode.PARAM2);
+        type = args.getInt(Constants.ParamCode.PARAM1);
+        id = args.getInt(Constants.ParamCode.PARAM2);
     }
 
     @Override

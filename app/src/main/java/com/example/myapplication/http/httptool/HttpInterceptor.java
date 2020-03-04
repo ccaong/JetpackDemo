@@ -2,9 +2,9 @@ package com.example.myapplication.http.httptool;
 
 import android.util.Log;
 
-import com.example.myapplication.App;
-import com.example.myapplication.common.Code;
-import com.example.myapplication.http.bean.LoginBean;
+import com.example.myapplication.config.Constants;
+import com.example.myapplication.bean.responsebean.LoginBean;
+
 import com.example.myapplication.util.NetworkUtils;
 import com.orhanobut.hawk.Hawk;
 
@@ -45,7 +45,7 @@ public class HttpInterceptor implements Interceptor {
             for (String header : originalResponse.headers("Set-Cookie")) {
                 cookies.add(header);
             }
-            Hawk.put(Code.HawkCode.COOKIE,cookies);
+            Hawk.put(Constants.HawkCode.COOKIE, cookies);
         }
 
 
@@ -61,14 +61,14 @@ public class HttpInterceptor implements Interceptor {
      * 添加header
      */
     public Request getHeaderRequest(Request request) {
-        LoginBean loginData = Hawk.get(Code.HawkCode.LOGIN_DATA);
+        LoginBean loginData = Hawk.get(Constants.HawkCode.LOGIN_DATA);
         Request headRequest;
         if (loginData != null) {
             headRequest = request
                     .newBuilder()
                     .addHeader("token", loginData.getToken())
-                    .addHeader("Cookie", "loginUserName="+loginData.getUsername())
-                    .addHeader("Cookie", "loginUserPassword="+loginData.getPassword())
+                    .addHeader("Cookie", "loginUserName=" + loginData.getUsername())
+                    .addHeader("Cookie", "loginUserPassword=" + loginData.getPassword())
                     .build();
         } else {
             headRequest = request

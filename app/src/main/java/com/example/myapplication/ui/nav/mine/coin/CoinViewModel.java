@@ -1,8 +1,8 @@
 package com.example.myapplication.ui.nav.mine.coin;
 
 import com.example.myapplication.base.viewmodel.BaseViewModel;
-import com.example.myapplication.enums.LoadState;
-import com.example.myapplication.http.bean.CoinBean;
+import com.example.myapplication.config.LoadState;
+import com.example.myapplication.bean.responsebean.CoinBean;
 import com.example.myapplication.http.data.HttpDisposable;
 import com.example.myapplication.http.request.HttpFactory;
 import com.example.myapplication.http.request.HttpRequest;

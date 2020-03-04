@@ -7,7 +7,7 @@
 
         <variable
             name="coinRank"
-            type="com.example.myapplication.http.bean.CoinRankBean.RankDataBean" />
+            type="com.example.myapplication.bean.responsebean.CoinRankBean.RankDataBean" />
     </data>
 
     <FrameLayout

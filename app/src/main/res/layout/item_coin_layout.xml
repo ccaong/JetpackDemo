@@ -7,7 +7,7 @@
 
         <variable
             name="coinData"
-            type="com.example.myapplication.http.bean.CoinBean.CoinDataBean" />
+            type="com.example.myapplication.bean.responsebean.CoinBean.CoinDataBean" />
 
     </data>
 

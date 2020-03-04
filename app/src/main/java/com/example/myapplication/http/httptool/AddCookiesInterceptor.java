@@ -2,7 +2,7 @@ package com.example.myapplication.http.httptool;
 
 import android.util.Log;
 
-import com.example.myapplication.common.Code;
+import com.example.myapplication.config.Constants;
 import com.example.myapplication.util.NetworkUtils;
 import com.orhanobut.hawk.Hawk;
 
@@ -22,7 +22,7 @@ public class AddCookiesInterceptor implements Interceptor {
             throw new HttpException("网络连接异常，请检查网络后重试");
         }
         Request.Builder builder = chain.request().newBuilder();
-        HashSet<String> preferences = Hawk.get(Code.HawkCode.COOKIE);
+        HashSet<String> preferences = Hawk.get(Constants.HawkCode.COOKIE);
         if (preferences != null) {
             for (String cookie : preferences) {
                 builder.addHeader("Cookie", cookie);

@@ -6,7 +6,7 @@
 
         <variable
             name="updatePlan"
-            type="com.example.myapplication.entity.UpdatePlan" />
+            type="com.example.myapplication.bean.UpdatePlan" />
     </data>
 
     <LinearLayout
