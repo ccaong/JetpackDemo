@@ -60,7 +60,7 @@ public interface ApiAddress {
      * @return
      */
     @GET("user/logout/json")
-    Observable<Object> logout();
+    Observable<Response<Void>> logout();
 
 
     /**

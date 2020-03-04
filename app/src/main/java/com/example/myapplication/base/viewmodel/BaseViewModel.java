@@ -89,7 +89,7 @@ public abstract class BaseViewModel extends ViewModel implements DefaultLifecycl
 
                     @Override
                     public void onError(Throwable e) {
-                        super.onError(e);
+                        collect.postValue(null);
                     }
                 });
     }

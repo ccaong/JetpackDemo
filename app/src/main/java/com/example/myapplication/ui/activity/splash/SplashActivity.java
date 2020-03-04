@@ -60,9 +60,11 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding, SplashVi
             @Override
             public void onChanged(ImageBean imageBean) {
 
-                String url = imageBean.getImages().get(0).getBaseUrl()
-                        + imageBean.getImages().get(0).getUrl();
+
                 if (imageBean != null) {
+                    String url = imageBean.getImages().get(0).getBaseUrl()
+                            + imageBean.getImages().get(0).getUrl();
+
                     Glide.with(SplashActivity.this)
                             .load(url)
                             .into(mDataBinding.ivSplash);

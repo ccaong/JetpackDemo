@@ -184,6 +184,7 @@ public abstract class BaseFragment<DB extends ViewDataBinding, VM extends BaseVi
         if (mViewModel != null) {
             getLifecycle().removeObserver(mViewModel);
         }
+        removeLoadView();
     }
 
 

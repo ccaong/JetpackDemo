@@ -16,11 +16,20 @@ public class HttpException extends RuntimeException {
         this.message = message;
     }
 
+    public HttpException(int code,String message) {
+        this.message = message;
+        this.code = code;
+    }
+
     @Override
     public String getMessage() {
         return TextUtils.isEmpty(message) ? "" : message;
     }
 
+
+    public int getCode() {
+        return code;
+    }
 
     private int code;
     private String message;

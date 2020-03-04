@@ -126,7 +126,7 @@ public class App extends MultiDexApplication {
 
                 HttpBaseResponse httpResponse = gson.fromJson(response, HttpBaseResponse.class);
                 if (httpResponse.errorCode != 0) {
-                    throw new HttpException(httpResponse.errorMsg);
+                    throw new HttpException(httpResponse.errorCode,httpResponse.errorMsg);
                 }
                 return gson.toJson(httpResponse.data);
             }

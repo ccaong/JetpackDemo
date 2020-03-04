@@ -190,6 +190,7 @@ public class ToDoViewModel extends BaseViewModel {
                     @Override
                     public void onError(Throwable e) {
                         loadState.postValue(LoadState.ERROR);
+                        errorMsg.postValue(e.getMessage());
                     }
                 });
     }

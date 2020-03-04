@@ -64,6 +64,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
                 if (bean != null) {
                     //登录成功，跳转到首页
                     MainActivity.start(LoginActivity.this, true);
+                    finish();
                 }
             }
         });

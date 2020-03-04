@@ -98,6 +98,7 @@ public class ToDoFragment extends BaseFragment<FragmentTodoListBinding, ToDoView
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_add) {
+            // TODO: 2020/3/4 先判断状态 
             //新增
             NavHostFragment.findNavController(ToDoFragment.this).navigate(R.id.addToDoFragment);
             return true;
@@ -113,7 +114,6 @@ public class ToDoFragment extends BaseFragment<FragmentTodoListBinding, ToDoView
                 root.findViewById(R.id.card_view).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        mViewModel.setToDoData(itemData);
                         Bundle bundle = new Bundle();
                         bundle.putSerializable(Constants.ParamCode.PARAM1, itemData);
                         NavHostFragment.findNavController(ToDoFragment.this).navigate(R.id.toDoContentFragment, bundle);

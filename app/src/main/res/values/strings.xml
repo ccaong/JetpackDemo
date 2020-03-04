@@ -54,9 +54,9 @@
 
 
     <string name="no_login">未登录</string>
-    <string name="click_login">点击登陆</string>
+    <string name="click_login">点击登录</string>
 
-    <string name="login">登陆</string>
+    <string name="login">登录</string>
     <string name="user_name">用户名</string>
     <string name="user_pwd">密码</string>
     <string name="re_user_pwd">确认密码</string>
