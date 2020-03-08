@@ -204,7 +204,7 @@ public interface ApiAddress {
      * @return
      */
     @POST("lg/collect/{id}/json")
-    Observable<Object> collectArticle(@Path("id") int id);
+    Observable<Response<Void>> collectArticle(@Path("id") int id);
 
     /**
      * 在文章界面取消收藏文章
@@ -307,12 +307,22 @@ public interface ApiAddress {
 
     /**
      * 查询积分详情排行榜
-     * 方法：POST
+     * 方法：GET
      *
      * @param page id
      * @return
      */
     @GET("coin/rank/{page}/json")
     Observable<CoinRankBean> queryCoinRank(@Path("page") int page);
+
+    /**
+     * 查询问答列表
+     * 方法：GET
+     *
+     * @param page id
+     * @return
+     */
+    @GET("wenda/list/{page}/json ")
+    Observable<ArticleListBean> queryQaArtistList(@Path("page") int page);
 
 }
