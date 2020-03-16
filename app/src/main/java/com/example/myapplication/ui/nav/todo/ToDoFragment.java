@@ -15,20 +15,16 @@ import com.ccj.poptabview.loader.PopEntityLoaderImp;
 import com.ccj.poptabview.loader.ResultLoaderImp;
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
-import com.example.myapplication.navinterface.ScrollToTop;
+import com.example.myapplication.bean.responsebean.ToDoListBean;
 import com.example.myapplication.config.Constants;
 import com.example.myapplication.databinding.FragmentTodoListBinding;
-import com.example.myapplication.bean.responsebean.ToDoListBean;
+import com.example.myapplication.navinterface.ScrollToTop;
 import com.example.myapplication.ui.adapter.CommonAdapter;
-import com.scwang.smart.refresh.layout.api.RefreshLayout;
-import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -75,18 +71,8 @@ public class ToDoFragment extends BaseFragment<FragmentTodoListBinding, ToDoView
     }
 
     private void initRefreshLayout() {
-        mDataBinding.refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(RefreshLayout refreshlayout) {
-                mViewModel.refreshData(true);
-            }
-        });
-        mDataBinding.refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore(RefreshLayout refreshlayout) {
-                mViewModel.refreshData(false);
-            }
-        });
+        mDataBinding.refreshLayout.setOnRefreshListener(refreshlayout -> mViewModel.refreshData(true));
+        mDataBinding.refreshLayout.setOnLoadMoreListener(refreshlayout -> mViewModel.refreshData(false));
     }
 
     @Override
@@ -111,42 +97,33 @@ public class ToDoFragment extends BaseFragment<FragmentTodoListBinding, ToDoView
             @Override
             public void addListener(View root, ToDoListBean.ToDoData itemData, int position) {
                 super.addListener(root, itemData, position);
-                root.findViewById(R.id.card_view).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable(Constants.ParamCode.PARAM1, itemData);
-                        NavHostFragment.findNavController(ToDoFragment.this).navigate(R.id.toDoContentFragment, bundle);
-                    }
+                root.findViewById(R.id.card_view).setOnClickListener(v -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(Constants.ParamCode.PARAM1, itemData);
+                    NavHostFragment.findNavController(ToDoFragment.this).navigate(R.id.toDoContentFragment, bundle);
                 });
 
-                root.findViewById(R.id.iv_priority).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (itemData.getPriority() == 0) {
-                            itemData.setPriority(1);
-                        } else {
-                            itemData.setPriority(0);
-                        }
-                        mViewModel.updateToDoData(itemData);
-                        commonAdapter.notifyDataSetChanged();
+                root.findViewById(R.id.iv_priority).setOnClickListener(v -> {
+                    if (itemData.getPriority() == 0) {
+                        itemData.setPriority(1);
+                    } else {
+                        itemData.setPriority(0);
                     }
+                    mViewModel.updateToDoData(itemData);
+                    commonAdapter.notifyDataSetChanged();
                 });
             }
         };
         mDataBinding.recycle.setAdapter(commonAdapter);
         mDataBinding.recycle.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mViewModel.getToDoListBean().observe(this, new Observer<ToDoListBean>() {
-            @Override
-            public void onChanged(ToDoListBean toDoListResponse) {
-                if (toDoListResponse.getCurPage() >= toDoListResponse.getPageCount()) {
-                    mDataBinding.refreshLayout.finishLoadMoreWithNoMoreData();
-                }
-                mDataBinding.refreshLayout.finishRefresh();
-                mDataBinding.refreshLayout.finishLoadMore();
-                commonAdapter.onItemDatasChanged(toDoListResponse.getDatas());
+        mViewModel.getToDoListBean().observe(this, toDoListResponse -> {
+            if (toDoListResponse.getCurPage() >= toDoListResponse.getPageCount()) {
+                mDataBinding.refreshLayout.finishLoadMoreWithNoMoreData();
             }
+            mDataBinding.refreshLayout.finishRefresh();
+            mDataBinding.refreshLayout.finishLoadMore();
+            commonAdapter.onItemDatasChanged(toDoListResponse.getDatas());
         });
     }
 
@@ -163,7 +140,7 @@ public class ToDoFragment extends BaseFragment<FragmentTodoListBinding, ToDoView
                 .addFilterItem(filterGroup3.getTab_group_name(), filterGroup3.getFilter_tab(), filterGroup3.getTab_group_type(), filterGroup3.getSingle_or_mutiply());
     }
 
-    public FilterGroup getStatusData(String groupName) {
+    private FilterGroup getStatusData(String groupName) {
 
         FilterGroup filterGroup = new FilterGroup();
 
@@ -203,7 +180,7 @@ public class ToDoFragment extends BaseFragment<FragmentTodoListBinding, ToDoView
 
     }
 
-    public FilterGroup getPriorityData(String groupName) {
+    private FilterGroup getPriorityData(String groupName) {
 
         FilterGroup filterGroup = new FilterGroup();
 

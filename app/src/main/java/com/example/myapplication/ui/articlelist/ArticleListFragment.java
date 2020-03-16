@@ -17,6 +17,7 @@ import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -84,18 +85,8 @@ public class ArticleListFragment extends BaseFragment<FragmentListBinding, Artic
     private void initRefreshLayout() {
         mDataBinding.refreshLayout.setPrimaryColorsId(android.R.color.white, R.color.colorPrimary);
         mDataBinding.refreshLayout.setRefreshHeader(new ClassicsHeader(getContext()));
-        mDataBinding.refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(RefreshLayout refreshlayout) {
-                mViewModel.refreshData(true);
-            }
-        });
-        mDataBinding.refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore(RefreshLayout refreshlayout) {
-                mViewModel.refreshData(false);
-            }
-        });
+        mDataBinding.refreshLayout.setOnRefreshListener(refreshlayout -> mViewModel.refreshData(true));
+        mDataBinding.refreshLayout.setOnLoadMoreListener(refreshlayout -> mViewModel.refreshData(false));
     }
 
 
@@ -105,37 +96,26 @@ public class ArticleListFragment extends BaseFragment<FragmentListBinding, Artic
             @Override
             public void addListener(View root, ArticleBean itemData, int position) {
                 super.addListener(root, itemData, position);
-                root.findViewById(R.id.card_view).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        DetailsActivity.start(getActivity(), itemData.getLink());
-                    }
-                });
+                root.findViewById(R.id.card_view).setOnClickListener(v -> DetailsActivity.start(getActivity(), itemData.getLink()));
 
-                root.findViewById(R.id.iv_collect).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        itemData.setCollect(!itemData.isCollect());
-                        notifyDataSetChanged();
-                        mViewModel.changeArticleCollect(itemData.isCollect(), itemData.getId());
-                    }
+                root.findViewById(R.id.iv_collect).setOnClickListener(v -> {
+                    itemData.setCollect(!itemData.isCollect());
+                    notifyDataSetChanged();
+                    mViewModel.changeArticleCollect(itemData.isCollect(), itemData.getId());
                 });
             }
         };
         mDataBinding.recycle.setAdapter(commonAdapter);
         mDataBinding.recycle.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mViewModel.getArticleList().observe(this, new Observer<ArticleListBean>() {
-            @Override
-            public void onChanged(ArticleListBean articleListBean) {
-                if (articleListBean.getCurPage() >= articleListBean.getPageCount()) {
-                    mDataBinding.refreshLayout.finishLoadMoreWithNoMoreData();
-                }
-                mDataBinding.refreshLayout.finishRefresh();
-                mDataBinding.refreshLayout.finishLoadMore();
-
-                commonAdapter.onItemDatasChanged(articleListBean.getDatas());
+        mViewModel.getArticleList().observe(this, articleListBean -> {
+            if (articleListBean.getCurPage() >= articleListBean.getPageCount()) {
+                mDataBinding.refreshLayout.finishLoadMoreWithNoMoreData();
             }
+            mDataBinding.refreshLayout.finishRefresh();
+            mDataBinding.refreshLayout.finishLoadMore();
+
+            commonAdapter.onItemDatasChanged(articleListBean.getDatas());
         });
     }
 
