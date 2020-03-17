@@ -10,15 +10,16 @@ JetPack系统组件中，使用了Navigation，ViewModel，DataBinding,LifeCycle
 
 ## 项目界面
 
+![闪屏页](https://github.com/ccaong/JetpackDemo/blob/master/image/wanandroid_splash.png)
+
+
 ## 用到的开源库
 
-
 - [JetPack](https://developer.android.google.cn/jetpack)
-
 Jetpack 是一套库、工具和指南，可帮助开发者更轻松地编写优质应用。
 
 - [RxJava](https://github.com/ReactiveX/RxJava)
- RxJava是Reactive Extensions的Java VM实现：该库用于通过使用可观察的序列来组成异步和基于事件的程序。
+RxJava是Reactive Extensions的Java VM实现：该库用于通过使用可观察的序列来组成异步和基于事件的程序。
 
 - [Retrofit](https://github.com/square/retrofit)
 Type-safe HTTP client for Android and Java by Square, Inc.
@@ -27,7 +28,6 @@ Type-safe HTTP client for Android and Java by Square, Inc.
 Glide是一个快速高效的Android图片加载库，注重于平滑的滚动。
 
 - [glide-transformations](https://github.com/wasabeef/glide-transformations)
-
 一个Android转换库，为Glide提供了各种图像转换。
 
 - [flexbox](https://github.com/google/flexbox-layout)
