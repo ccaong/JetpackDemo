@@ -11,6 +11,7 @@ JetPack系统组件中，使用了Navigation，ViewModel，DataBinding,LifeCycle
 ## 项目界面
 
 ![闪屏页](https://github.com/ccaong/JetpackDemo/blob/master/image/wanandroid_splash.png)
+![闪屏页](https://github.com/ccaong/JetpackDemo/blob/master/image/wanandroid_about.webp)
 
 
 ## 用到的开源库
