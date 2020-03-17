@@ -10,7 +10,7 @@ JetPack系统组件中，使用了Navigation，ViewModel，DataBinding,LifeCycle
 
 ## 项目界面
 
-![闪屏页](https://github.com/ccaong/JetpackDemo/blob/master/image/wanandroid_splash.png)
+![闪屏页](https://github.com/ccaong/JetpackDemo/blob/master/image/wanandroid_splash.webp)
 ![登录](https://github.com/ccaong/JetpackDemo/blob/master/image/wanandroid_login.png)
 ![主页](https://github.com/ccaong/JetpackDemo/blob/master/image/wanandroid_home.png)
 ![侧边栏](https://github.com/ccaong/JetpackDemo/blob/master/image/wanandroid_navagation.png)
@@ -20,7 +20,7 @@ JetPack系统组件中，使用了Navigation，ViewModel，DataBinding,LifeCycle
 ![项目](https://github.com/ccaong/JetpackDemo/blob/master/image/wanandroid_project.png)
 ![todo](https://github.com/ccaong/JetpackDemo/blob/master/image/wanandroid_todo.png)
 ![收藏](https://github.com/ccaong/JetpackDemo/blob/master/image/wanandroid_collect.png)
-![我的](https://github.com/ccaong/JetpackDemo/blob/master/image/wanandroid_mine.webp)
+![我的](https://github.com/ccaong/JetpackDemo/blob/master/image/wanandroid_mine.png)
 ![关于](https://github.com/ccaong/JetpackDemo/blob/master/image/wanandroid_about.png)
 ![更新](https://github.com/ccaong/JetpackDemo/blob/master/image/wanandroid_update.png)
 
