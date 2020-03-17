@@ -40,12 +40,7 @@ public class UpdateFragment extends BaseFragment<UpdateFragmentBinding, UpdateVi
         mDataBinding.recyclerViewPlan.setAdapter(updateAdapter);
         mDataBinding.recyclerViewPlan.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mViewModel.getUpdateList().observe(this, new Observer<List<UpdatePlan>>() {
-            @Override
-            public void onChanged(List<UpdatePlan> list) {
-                updateAdapter.onItemDatasChanged(list);
-            }
-        });
+        mViewModel.getUpdateList().observe(this, list -> updateAdapter.onItemDatasChanged(list));
     }
 
     /**
