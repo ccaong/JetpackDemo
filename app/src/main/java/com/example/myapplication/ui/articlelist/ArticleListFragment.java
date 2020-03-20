@@ -85,8 +85,8 @@ public class ArticleListFragment extends BaseFragment<FragmentListBinding, Artic
     private void initRefreshLayout() {
         mDataBinding.refreshLayout.setPrimaryColorsId(android.R.color.white, R.color.colorPrimary);
         mDataBinding.refreshLayout.setRefreshHeader(new ClassicsHeader(getContext()));
-        mDataBinding.refreshLayout.setOnRefreshListener(refreshlayout -> mViewModel.refreshData(true));
-        mDataBinding.refreshLayout.setOnLoadMoreListener(refreshlayout -> mViewModel.refreshData(false));
+        mDataBinding.refreshLayout.setOnRefreshListener(refresh -> mViewModel.refreshData(true));
+        mDataBinding.refreshLayout.setOnLoadMoreListener(refresh -> mViewModel.refreshData(false));
     }
 
 

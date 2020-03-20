@@ -56,46 +56,38 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding, SplashVi
     @Override
     protected void init() {
         //加载闪屏页图片
-        mViewModel.getImageData().observe(this, new Observer<ImageBean>() {
-            @Override
-            public void onChanged(ImageBean imageBean) {
+        mViewModel.getImageData().observe(this, imageBean -> {
+            if (imageBean != null) {
+                String url = imageBean.getImages().get(0).getBaseUrl()
+                        + imageBean.getImages().get(0).getUrl();
 
+                Glide.with(SplashActivity.this)
+                        .load(url)
+                        .into(mDataBinding.ivSplash);
 
-                if (imageBean != null) {
-                    String url = imageBean.getImages().get(0).getBaseUrl()
-                            + imageBean.getImages().get(0).getUrl();
-
-                    Glide.with(SplashActivity.this)
-                            .load(url)
-                            .into(mDataBinding.ivSplash);
-
-                    Hawk.put(Constants.HawkCode.SPLASH_IMAGE_URL, url);
-                } else {
-                    //从网络获取图片失败，加载本地默认图片
-                    Glide.with(SplashActivity.this)
-                            .load(R.mipmap.splash_bg)
-                            .into(mDataBinding.ivSplash);
-                }
+                Hawk.put(Constants.HawkCode.SPLASH_IMAGE_URL, url);
+            } else {
+                //从网络获取图片失败，加载本地默认图片
+                Glide.with(SplashActivity.this)
+                        .load(R.mipmap.splash_bg)
+                        .into(mDataBinding.ivSplash);
             }
         });
 
         //跳转到指定的界面
-        mViewModel.getActivitySkip().observe(this, new Observer<ActivitySkip>() {
-            @Override
-            public void onChanged(ActivitySkip activitySkip) {
-                if ("DetailsActivity".equals(activitySkip.getmActivity())) {
-                    if (!CommonUtils.isStringEmpty(activitySkip.getParam1())) {
-                        DetailsActivity.start(SplashActivity.this,
-                                activitySkip.getParam1(), true);
-                        finish();
-                    } else {
-                        MainActivity.start(SplashActivity.this, false);
-                        finish();
-                    }
-                } else if ("MainActivity".equals(activitySkip.getmActivity())) {
+        mViewModel.getActivitySkip().observe(this, activitySkip -> {
+            if ("DetailsActivity".equals(activitySkip.getmActivity())) {
+                if (!CommonUtils.isStringEmpty(activitySkip.getParam1())) {
+                    DetailsActivity.start(SplashActivity.this,
+                            activitySkip.getParam1(), true);
+                    finish();
+                } else {
                     MainActivity.start(SplashActivity.this, false);
                     finish();
                 }
+            } else if ("MainActivity".equals(activitySkip.getmActivity())) {
+                MainActivity.start(SplashActivity.this, false);
+                finish();
             }
         });
     }

@@ -3,15 +3,13 @@ package com.example.myapplication.ui.activity.main;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseActivity;
-import com.example.myapplication.navinterface.ScrollToTop;
 import com.example.myapplication.config.Constants;
 import com.example.myapplication.databinding.ActivityMainBinding;
-import com.example.myapplication.bean.responsebean.LoginBean;
+import com.example.myapplication.navinterface.ScrollToTop;
 import com.example.myapplication.ui.activity.login.LoginActivity;
 import com.example.myapplication.ui.view.CircleImageView;
 import com.example.myapplication.util.GlideUtil;
@@ -20,13 +18,46 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+//                                         ,s555SB@@&
+//                                      :9H####@@@@@Xi
+//                                     1@@@@@@@@@@@@@@8
+//                                   ,8@@@@@@@@@B@@@@@@8
+//                                  :B@@@@X3hi8Bs;B@@@@@Ah,
+//             ,8i                  r@@@B:     1S ,M@@@@@@#8;
+//            1AB35.i:               X@@8 .   SGhr ,A@@@@@@@@S
+//            1@h31MX8                18Hhh3i .i3r ,A@@@@@@@@@5
+//            ;@&i,58r5                 rGSS:     :B@@@@@@@@@@A
+//             1#i  . 9i                 hX.  .: .5@@@@@@@@@@@1
+//              sG1,  ,G53s.              9#Xi;hS5 3B@@@@@@@B1
+//               .h8h.,A@@@MXSs,           #@H1:    3ssSSX@1
+//               s ,@@@@@@@@@@@@Xhi,       r#@@X1s9M8    .GA981
+//               ,. rS8H#@@@@@@@@@@#HG51;.  .h31i;9@r    .8@@@@BS;i;
+//                .19AXXXAB@@@@@@@@@@@@@@#MHXG893hrX#XGGXM@@@@@@@@@@MS
+//                s@@MM@@@hsX#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&,
+//              :GB@#3G@@Brs ,1GM@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@B,
+//            .hM@@@#@@#MX 51  r;iSGAM@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@8
+//          :3B@@@@@@@@@@@&9@h :Gs   .;sSXH@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@:
+//      s&HA#@@@@@@@@@@@@@@M89A;.8S.       ,r3@@@@@@@@@@@@@@@@@@@@@@@@@@@r
+//   ,13B@@@@@@@@@@@@@@@@@@@5 5B3 ;.         ;@@@@@@@@@@@@@@@@@@@@@@@@@@@i
+//  5#@@#&@@@@@@@@@@@@@@@@@@9  .39:          ;@@@@@@@@@@@@@@@@@@@@@@@@@@@;
+//  9@@@X:MM@@@@@@@@@@@@@@@#;    ;31.         H@@@@@@@@@@@@@@@@@@@@@@@@@@:
+//   SH#@B9.rM@@@@@@@@@@@@@B       :.         3@@@@@@@@@@@@@@@@@@@@@@@@@@5
+//     ,:.   9@@@@@@@@@@@#HB5                 .M@@@@@@@@@@@@@@@@@@@@@@@@@B
+//           ,ssirhSM@&1;i19911i,.             s@@@@@@@@@@@@@@@@@@@@@@@@@@S
+//              ,,,rHAri1h1rh&@#353Sh:          8@@@@@@@@@@@@@@@@@@@@@@@@@#:
+//            .A3hH@#5S553&@@#h   i:i9S          #@@@@@@@@@@@@@@@@@@@@@@@@@A.
+//
+//
+//    又看代码，看你妹妹呀！
+/**
+ *
+ */
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel> {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -119,41 +150,30 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         CircleImageView ivHeader = mDataBinding.navView.getHeaderView(0).findViewById(R.id.imageView);
 
         //加载用户昵称和账号
-        mViewModel.getUserBean().observe(this, new Observer<LoginBean>() {
-            @Override
-            public void onChanged(LoginBean bean) {
-                if (bean != null) {
-                    tvName.setText(bean.getNickname());
-                    textView.setText(bean.getUsername());
-                } else {
-                    tvName.setText(getResources().getString(R.string.user_name));
-                    textView.setText(getResources().getString(R.string.click_login));
-                }
+        mViewModel.getUserBean().observe(this, bean -> {
+            if (bean != null) {
+                tvName.setText(bean.getNickname());
+                textView.setText(bean.getUsername());
+            } else {
+                tvName.setText(getResources().getString(R.string.user_name));
+                textView.setText(getResources().getString(R.string.click_login));
             }
         });
 
         //加载用户头像
-        mViewModel.getUserHeader().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                GlideUtil.loadImageWithDefault(ivHeader, s);
-            }
-        });
+        mViewModel.getUserHeader().observe(this, s -> GlideUtil.loadImageWithDefault(ivHeader, s));
 
 
         //点击头部个人信息
-        mDataBinding.navView.getHeaderView(0).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mViewModel.getUserBean().getValue() == null) {
-                    //跳转到登录界面
-                    LoginActivity.start(MainActivity.this);
-                    drawer.closeDrawer(GravityCompat.START);
-                } else {
-                    //跳转到mine界面
-                    Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment).navigate(R.id.mineFragment);
-                    drawer.closeDrawer(GravityCompat.START);
-                }
+        mDataBinding.navView.getHeaderView(0).setOnClickListener(v -> {
+            if (mViewModel.getUserBean().getValue() == null) {
+                //跳转到登录界面
+                LoginActivity.start(MainActivity.this);
+                drawer.closeDrawer(GravityCompat.START);
+            } else {
+                //跳转到mine界面
+                Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment).navigate(R.id.mineFragment);
+                drawer.closeDrawer(GravityCompat.START);
             }
         });
     }
@@ -163,13 +183,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
      * 回到顶部
      */
     private void initFloatingActionButton() {
-        mDataBinding.fabTop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment fragment = getFragment();
-                if (fragment != null) {
-                    ((ScrollToTop) fragment).scrollToTop();
-                }
+        mDataBinding.fabTop.setOnClickListener(v -> {
+            Fragment fragment = getFragment();
+            if (fragment != null) {
+                ((ScrollToTop) fragment).scrollToTop();
             }
         });
     }
