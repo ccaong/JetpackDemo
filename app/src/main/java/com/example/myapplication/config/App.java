@@ -99,14 +99,9 @@ public class App extends MultiDexApplication {
         setHttpConfig();
 
         Phoenix.config()
-                .imageLoader(new ImageLoader() {
-                    @Override
-                    public void loadImage(Context mContext, ImageView imageView, String imagePath, int type) {
-                        Glide.with(mContext)
-                                .load(imagePath)
-                                .into(imageView);
-                    }
-                });
+                .imageLoader((mContext, imageView, imagePath, type) -> Glide.with(mContext)
+                        .load(imagePath)
+                        .into(imageView));
     }
 
     /**
@@ -115,21 +110,18 @@ public class App extends MultiDexApplication {
     public static void setHttpConfig() {
 
         HttpFactory.HTTP_HOST_URL = ServerAddress.getApiDefaultHost();
-        HttpFactory.httpResponseInterface = new HttpResponseInterface() {
-            @Override
-            public String getResponseData(Gson gson, String response) {
+        HttpFactory.httpResponseInterface = (gson, response) -> {
 
-                if (firstOpen) {
-                    firstOpen = false;
-                    return response;
-                }
-
-                HttpBaseResponse httpResponse = gson.fromJson(response, HttpBaseResponse.class);
-                if (httpResponse.errorCode != 0) {
-                    throw new HttpException(httpResponse.errorCode,httpResponse.errorMsg);
-                }
-                return gson.toJson(httpResponse.data);
+            if (firstOpen) {
+                firstOpen = false;
+                return response;
             }
+
+            HttpBaseResponse httpResponse = gson.fromJson(response, HttpBaseResponse.class);
+            if (httpResponse.errorCode != 0) {
+                throw new HttpException(httpResponse.errorCode,httpResponse.errorMsg);
+            }
+            return gson.toJson(httpResponse.data);
         };
     }
 
@@ -138,29 +130,20 @@ public class App extends MultiDexApplication {
      */
     static {
         //设置全局的Header构建器
-        SmartRefreshLayout.setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
-            @Override
-            public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
-                //全局设置主题颜色
-                layout.setPrimaryColorsId(R.color.colorPrimary, android.R.color.white);
-                return new ClassicsHeader(context);
-            }
+        SmartRefreshLayout.setDefaultRefreshHeaderCreator((context, layout) -> {
+            //全局设置主题颜色
+            layout.setPrimaryColorsId(R.color.colorPrimary, android.R.color.white);
+            return new ClassicsHeader(context);
         });
         //设置全局的Footer构建器
-        SmartRefreshLayout.setDefaultRefreshFooterCreator(new DefaultRefreshFooterCreator() {
-            @Override
-            public RefreshFooter createRefreshFooter(Context context, RefreshLayout layout) {
-                //指定为经典Footer，默认是 BallPulseFooter
-                return new ClassicsFooter(context).setDrawableSize(20);
-            }
+        SmartRefreshLayout.setDefaultRefreshFooterCreator((context, layout) -> {
+            //指定为经典Footer，默认是 BallPulseFooter
+            return new ClassicsFooter(context).setDrawableSize(20);
         });
 
-        SmartRefreshLayout.setDefaultRefreshInitializer(new DefaultRefreshInitializer() {
-            @Override
-            public void initialize(@NonNull Context context, @NonNull RefreshLayout layout) {
-                layout.setEnableFooterFollowWhenLoadFinished(true);
-                layout.setEnableAutoLoadMore(false);
-            }
+        SmartRefreshLayout.setDefaultRefreshInitializer((context, layout) -> {
+            layout.setEnableFooterFollowWhenLoadFinished(true);
+            layout.setEnableAutoLoadMore(false);
         });
     }
 }

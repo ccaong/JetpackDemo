@@ -6,15 +6,11 @@ import android.widget.ImageView;
 import com.example.myapplication.BR;
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseFragment;
-import com.example.myapplication.databinding.FragmentListBinding;
 import com.example.myapplication.bean.responsebean.CollectArticleBean;
+import com.example.myapplication.databinding.FragmentListBinding;
 import com.example.myapplication.ui.activity.web.DetailsActivity;
 import com.example.myapplication.ui.adapter.CommonAdapter;
-import com.scwang.smart.refresh.layout.api.RefreshLayout;
-import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -23,7 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
  */
 public class CollectFragment extends BaseFragment<FragmentListBinding, CollectViewModel> {
 
-    private CommonAdapter commonAdapter;
+    private CommonAdapter<CollectArticleBean.CollectBean> commonAdapter;
 
     @Override
     protected boolean isSupportLoad() {
@@ -54,18 +50,8 @@ public class CollectFragment extends BaseFragment<FragmentListBinding, CollectVi
     }
 
     private void initRefreshLayout() {
-        mDataBinding.refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(RefreshLayout refreshlayout) {
-                mViewModel.refreshData(true);
-            }
-        });
-        mDataBinding.refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore(RefreshLayout refreshlayout) {
-                mViewModel.refreshData(false);
-            }
-        });
+        mDataBinding.refreshLayout.setOnRefreshListener(refreshlayout -> mViewModel.refreshData(true));
+        mDataBinding.refreshLayout.setOnLoadMoreListener(refreshlayout -> mViewModel.refreshData(false));
     }
 
     private void initRecyclerView() {
@@ -73,19 +59,11 @@ public class CollectFragment extends BaseFragment<FragmentListBinding, CollectVi
             @Override
             public void addListener(View root, CollectArticleBean.CollectBean itemData, int position) {
                 super.addListener(root, itemData, position);
-                root.findViewById(R.id.card_view).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        DetailsActivity.start(getActivity(), itemData.getLink());
-                    }
-                });
+                root.findViewById(R.id.card_view).setOnClickListener(v -> DetailsActivity.start(getActivity(), itemData.getLink()));
 
-                root.findViewById(R.id.iv_collect).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ((ImageView) root.findViewById(R.id.iv_collect)).setImageResource(R.mipmap.ic_collectbroken);
-                        mViewModel.collectCancel(itemData);
-                    }
+                root.findViewById(R.id.iv_collect).setOnClickListener(v -> {
+                    ((ImageView) root.findViewById(R.id.iv_collect)).setImageResource(R.mipmap.ic_collectbroken);
+                    mViewModel.collectCancel(itemData);
                 });
 
             }
@@ -95,19 +73,16 @@ public class CollectFragment extends BaseFragment<FragmentListBinding, CollectVi
     }
 
     private void initData() {
-        mViewModel.getArticleList().observe(this, new Observer<CollectArticleBean>() {
-            @Override
-            public void onChanged(CollectArticleBean collectArticleBean) {
+        mViewModel.getArticleList().observe(this, collectArticleBean -> {
 
-                if (collectArticleBean.getCurPage() >= collectArticleBean.getPageCount()) {
-                    mDataBinding.refreshLayout.finishLoadMoreWithNoMoreData();
-                }
-                mDataBinding.refreshLayout.finishRefresh();
-                mDataBinding.refreshLayout.finishLoadMore();
+            if (collectArticleBean.getCurPage() >= collectArticleBean.getPageCount()) {
+                mDataBinding.refreshLayout.finishLoadMoreWithNoMoreData();
+            }
+            mDataBinding.refreshLayout.finishRefresh();
+            mDataBinding.refreshLayout.finishLoadMore();
 
-                if (commonAdapter != null) {
-                    commonAdapter.onItemDatasChanged(collectArticleBean.getDatas());
-                }
+            if (commonAdapter != null) {
+                commonAdapter.onItemDatasChanged(collectArticleBean.getDatas());
             }
         });
     }
