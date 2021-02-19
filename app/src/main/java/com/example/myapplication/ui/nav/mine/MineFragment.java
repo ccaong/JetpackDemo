@@ -11,6 +11,7 @@ import com.example.myapplication.databinding.FragmentMineBinding;
 import com.example.myapplication.bean.responsebean.LoginBean;
 import com.example.myapplication.ui.activity.main.MainViewModel;
 import com.example.myapplication.util.ImageSelectUtil;
+import com.example.myapplication.util.ToastUtils;
 import com.guoxiaoxing.phoenix.core.model.MediaEntity;
 import com.guoxiaoxing.phoenix.picker.Phoenix;
 
@@ -117,6 +118,14 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MainViewMode
      */
     public void startCoinRankFragment() {
         NavHostFragment.findNavController(MineFragment.this).navigate(R.id.coinRankListFragment);
+    }
+
+    /**
+     * 跳转设置界面
+     */
+    public void startSettingFragment() {
+        ToastUtils.showToast(getContext(),"功能正在开发中");
+//        NavHostFragment.findNavController(MineFragment.this).navigate(R.id.coinRankListFragment);
     }
 
 }

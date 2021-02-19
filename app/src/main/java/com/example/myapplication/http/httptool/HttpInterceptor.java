@@ -38,23 +38,19 @@ public class HttpInterceptor implements Interceptor {
             throw new HttpException("网络连接异常，请检查网络后重试");
         }
 
-        Response originalResponse = chain.proceed(chain.request());
-        if (!originalResponse.headers("Set-Cookie").isEmpty()) {
-            HashSet<String> cookies = new HashSet<>();
-
-            for (String header : originalResponse.headers("Set-Cookie")) {
-                cookies.add(header);
-            }
-            Hawk.put(Constants.HawkCode.COOKIE, cookies);
-        }
-
-
         Request request = chain.request();
         request = getHeaderRequest(request);
         logRequest(request);
         Response response = chain.proceed(request);
+        if (!response.headers("Set-Cookie").isEmpty()) {
+            HashSet<String> cookies = new HashSet<>();
+            for (String header : response.headers("Set-Cookie")) {
+                cookies.add(header);
+            }
+            Hawk.put(Constants.HawkCode.COOKIE, cookies);
+        }
         logResponse(response);
-        return originalResponse;
+        return response;
     }
 
     /**

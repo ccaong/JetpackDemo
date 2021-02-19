@@ -25,6 +25,9 @@ public class TimeUtils {
         return millis2String(System.currentTimeMillis(), getOnlyDateFormat());
     }
 
+    public static String getTimestamp() {
+        return "" + System.currentTimeMillis();
+    }
 
     /**
      * Date to the milliseconds.

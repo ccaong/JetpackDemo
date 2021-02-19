@@ -2,8 +2,6 @@ package com.example.myapplication.http.httptool;
 
 import android.text.TextUtils;
 
-import com.example.myapplication.http.data.HttpBaseResponse;
-
 
 /**
  * 自定义异常抛出
@@ -16,7 +14,7 @@ public class HttpException extends RuntimeException {
         this.message = message;
     }
 
-    public HttpException(int code,String message) {
+    public HttpException(int code, String message) {
         this.message = message;
         this.code = code;
     }
@@ -33,6 +31,5 @@ public class HttpException extends RuntimeException {
 
     private int code;
     private String message;
-    private HttpBaseResponse response;
 
 }

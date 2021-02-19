@@ -195,7 +195,7 @@
                     android:layout_height="wrap_content"
                     android:drawableLeft="@mipmap/ic_mine_setting"
                     android:drawablePadding="@dimen/dimen_16"
-                    android:onClick="@{()->mineFragment.startCoinRankFragment()}"
+                    android:onClick="@{()->mineFragment.startSettingFragment()}"
                     android:text="@string/system_setting" />
 
                 <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton

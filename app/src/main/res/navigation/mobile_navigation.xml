@@ -84,13 +84,13 @@
     <fragment
         android:id="@+id/toDoFragment"
         android:name="com.example.myapplication.ui.nav.todo.ToDoFragment"
-        android:label="ToDoFragment" />
+        android:label="@string/my_todo" />
 
     <!--    待办清单详情-->
     <fragment
         android:id="@+id/toDoContentFragment"
         android:name="com.example.myapplication.ui.nav.todo.todocontent.ToDoContentFragment"
-        android:label="ToDoContentFragment" />
+        android:label="@string/my_todo" />
 
     <!--    新增待办事项-->
     <fragment
